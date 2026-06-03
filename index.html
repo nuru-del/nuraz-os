@@ -2427,9 +2427,21 @@ function signOut(){
 var _origSv=svUser;
 svUser=function(){_origSv();syncUp();};
 setTimeout(function(){
-  if(!_SB.session&&!sessionStorage.getItem('sb_skip'))showAuth();
-  else if(_SB.session){showSync('Loading...',0);loadCloud();}
-},1500);
+  if(_SB.session){
+    // Already signed in - load data and go straight to app
+    showSync('Loading your data...',0);
+    loadCloud();
+    // Show welcome back after data loads
+    setTimeout(function(){
+      var uid = getUid();
+      if(uid) showWelcome(_SB.username||'there', false);
+    }, 2000);
+  } else if(!sessionStorage.getItem('sb_skip')){
+    // Not signed in and not skipped - show auth
+    showAuth();
+  }
+  // If skipped, just go straight to app with no interruption
+},800);
 
 
 // ═══════════════════════════════════════════════
@@ -2781,11 +2793,6 @@ function showWelcome(username, isNew) {
 function closeWelcome() {
   var modal = ge('welcomeModal');
   if(modal) modal.classList.add('gone');
-  // Trigger onboarding if profile not set up
-  var p = D.profile || {};
-  if(!p.name && !sessionStorage.getItem('ob_done')) {
-    setTimeout(function(){ rerunOb(); }, 300);
-  }
 }
 
 // Patch doAuth to show welcome after login
