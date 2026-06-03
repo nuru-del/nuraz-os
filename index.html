@@ -391,6 +391,7 @@ select.inp option{background:var(--card);color:var(--text);}
     <button class="sb-btn" data-pg="training" onclick="nav('training',this)">💪 Training</button>
     <button class="sb-btn" data-pg="body" onclick="nav('body',this)">🧬 Body</button>
     <button class="sb-btn" data-pg="stats" onclick="nav('stats',this)">📊 Stats</button>
+    <button class="sb-btn" data-pg="planner" onclick="nav('planner',this)">📅 Plan</button>
     <button class="sb-btn" data-pg="scan" onclick="nav('scan',this)">📷 Scanner</button>
     <button class="sb-btn" data-pg="challenges" onclick="nav('challenges',this)">🏆 Battles</button>
     <button class="sb-btn" data-pg="news" onclick="nav('news',this)">🔬 Research</button>
@@ -554,6 +555,96 @@ select.inp option{background:var(--card);color:var(--text);}
       <div id="newsFilter" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>
       <div id="newsContent"></div>
     </div>
+    <!-- PLANNER -->
+    <div id="pg-planner" class="page">
+
+      <!-- SUPPLEMENT TRACKER -->
+      <div class="sl">Supplement Tracker 💊</div>
+      <div class="card">
+        <div class="f12 cs" style="margin-bottom:10px;">Track your daily supplements. Resets at midnight.</div>
+        <div id="suppList"></div>
+        <div class="flex mt10" style="gap:8px;">
+          <input class="inp" id="suppName" placeholder="Add supplement e.g. Creatine 5g" style="flex:1;">
+          <button class="btn btn-sm btn-o" onclick="addSupp()" style="white-space:nowrap;">+ Add</button>
+        </div>
+      </div>
+
+      <!-- MEAL PLANNER -->
+      <div class="sl">Meal Planner 🍽️</div>
+      <div class="card">
+        <div class="f12 cs" style="margin-bottom:10px;">Plan tomorrow's meals in advance. See your projected macros before the day starts.</div>
+        <div class="date-nav">
+          <button onclick="shiftPlanDay(-1)">&#8592;</button>
+          <div class="date-lbl" id="planDateLbl">Tomorrow</div>
+          <button onclick="shiftPlanDay(1)">&#8594;</button>
+        </div>
+        <div class="sw">
+          <input class="inp" id="planFoodInp" placeholder="🔍 Search food to plan..." autocomplete="off" oninput="searchPlanFood(this.value)">
+          <div class="sd" id="planDrop"></div>
+        </div>
+        <div id="planQtyArea" style="display:none;margin-top:10px;">
+          <div class="chips" id="planQtyChips"></div>
+          <button class="btn mt10" onclick="addToPlan()">+ Add to plan</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sl" style="margin-top:0;">Planned — <span id="planDayLbl2"></span></div>
+        <div id="planMacroBar"></div>
+        <div id="planList"><div class="empty">Nothing planned yet</div></div>
+      </div>
+
+      <!-- AI DIET PLAN -->
+      <div class="sl">AI Diet Plan Generator ✨</div>
+      <div class="card">
+        <div class="f12 cs" style="margin-bottom:12px;">Tell the AI what you have at home and it builds a full day meal plan hitting your exact macros.</div>
+        <div class="sl" style="margin-top:0;">Dietary preference</div>
+        <div class="chips" id="dietPrefChips" style="margin-bottom:12px;">
+          <div class="chip on" onclick="this.classList.toggle('on')">Halal</div>
+          <div class="chip" onclick="this.classList.toggle('on')">No fish</div>
+          <div class="chip" onclick="this.classList.toggle('on')">No beef</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Vegetarian</div>
+          <div class="chip" onclick="this.classList.toggle('on')">High protein</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Budget friendly</div>
+        </div>
+        <div class="sl">What do you have at home?</div>
+        <div class="chips" id="ingredientChips" style="margin-bottom:12px;">
+          <div class="chip" onclick="this.classList.toggle('on')">Eggs</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Rice</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Chicken</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Beef</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Fish</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Lentils/Dal</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Bread/Roti</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Potatoes</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Milk</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Oats</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Pasta/Noodles</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Vegetables</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Fruits</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Whey protein</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Peanut butter</div>
+          <div class="chip" onclick="this.classList.toggle('on')">Tuna</div>
+        </div>
+        <div class="sl">Anything else?</div>
+        <input class="inp" id="extraIngs" placeholder="e.g. leftover curry, bananas..." style="margin-bottom:10px;">
+        <button class="btn" id="dietPlanBtn" onclick="generateDietPlan()">✨ Generate My Plan</button>
+      </div>
+      <div class="card" id="dietPlanCard" style="display:none;">
+        <div class="sl" style="margin-top:0;">Your AI Diet Plan</div>
+        <div id="dietPlanContent"></div>
+      </div>
+
+      <!-- PROGRESS PHOTOS -->
+      <div class="sl">Progress Photos 📸</div>
+      <div class="card">
+        <div class="f12 cs" style="margin-bottom:10px;">Monthly check-in photos stored on your device.</div>
+        <button class="btn btn-o" onclick="ge('progPhotoInp').click()">📸 Add Progress Photo</button>
+        <input type="file" id="progPhotoInp" accept="image/*" capture="environment" style="display:none;" onchange="addProgPhoto(this)">
+        <div id="progPhotoGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;"></div>
+      </div>
+
+    </div>
+
     <!-- FOOD SCANNER -->
     <div id="pg-scan" class="page">
       <div class="sl">Food Photo Scanner</div>
@@ -654,9 +745,9 @@ select.inp option{background:var(--card);color:var(--text);}
   <button class="nb on" data-pg="home" onclick="nav('home',this)"><span class="ni">⚡</span><span>Home</span></button>
   <button class="nb" data-pg="nutrition" onclick="nav('nutrition',this)"><span class="ni">🍽️</span><span>Food</span></button>
   <button class="nb" data-pg="training" onclick="nav('training',this)"><span class="ni">💪</span><span>Train</span></button>
+  <button class="nb" data-pg="planner" onclick="nav('planner',this)"><span class="ni">📅</span><span>Plan</span></button>
   <button class="nb" data-pg="scan" onclick="nav('scan',this)"><span class="ni">📷</span><span>Scan</span></button>
   <button class="nb" data-pg="challenges" onclick="nav('challenges',this)"><span class="ni">🏆</span><span>Battles</span></button>
-  <button class="nb" data-pg="news" onclick="nav('news',this)"><span class="ni">🔬</span><span>Research</span></button>
   <button class="nb" data-pg="settings" onclick="nav('settings',this)"><span class="ni">⚙️</span><span>Settings</span></button>
 </nav>
 <script>
@@ -2848,6 +2939,218 @@ doAuth = function() {
     if(err){err.textContent='Connection error. Check your internet and try again.';err.style.display='block';}
   });
 };
+
+
+// ── SUPPLEMENT TRACKER ────────────────────────────────────────────────
+function addSupp(){
+  var inp=ge('suppName');if(!inp||!inp.value.trim())return;
+  D.supps=D.supps||[];
+  D.supps.push({name:inp.value.trim(),id:Date.now()});
+  inp.value='';svUser();renderSupps();
+}
+function toggleSupp(id){
+  var today=new Date().toDateString();
+  D.suppLogs=D.suppLogs||{};
+  var key=today+'_'+id;
+  D.suppLogs[key]=!D.suppLogs[key];
+  svUser();renderSupps();
+}
+function removeSupp(id){
+  D.supps=(D.supps||[]).filter(function(s){return s.id!==id;});
+  svUser();renderSupps();
+}
+function renderSupps(){
+  var el=ge('suppList');if(!el)return;
+  var supps=D.supps||[];
+  if(!supps.length){el.innerHTML='<div class="f12 cs">No supplements added. Add yours below.</div>';return;}
+  var today=new Date().toDateString();
+  D.suppLogs=D.suppLogs||{};
+  el.innerHTML='';
+  supps.forEach(function(s){
+    var done=D.suppLogs[today+'_'+s.id]||false;
+    var d=document.createElement('div');
+    d.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);';
+    d.innerHTML='<div style="display:flex;align-items:center;gap:10px;">'+
+      '<div onclick="toggleSupp('+s.id+')" style="width:26px;height:26px;border-radius:50%;border:2px solid '+(done?'var(--green)':'var(--border)')+';background:'+(done?'var(--green)':'transparent')+';cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;">'+(done?'✓':'')+'</div>'+
+      '<span class="f13 fw7" style="'+(done?'text-decoration:line-through;color:var(--sub)':'')+'">'+s.name+'</span></div>'+
+      '<button onclick="removeSupp('+s.id+')" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;">x</button>';
+    el.appendChild(d);
+  });
+  var done=supps.filter(function(s){return D.suppLogs[today+'_'+s.id];}).length;
+  var sum=document.createElement('div');
+  sum.style.cssText='text-align:center;padding:8px 0;font-size:11px;color:var(--sub);';
+  sum.textContent=done+'/'+supps.length+' taken today';
+  el.appendChild(sum);
+}
+
+// ── MEAL PLANNER ─────────────────────────────────────────────────────
+var planDate=(function(){var d=new Date();d.setDate(d.getDate()+1);return d;})();
+var planSelFood=null,planSelQty=null;
+
+function updatePlanLbl(){
+  var lbl=fmtDate(planDate);
+  set('planDateLbl',lbl);set('planDayLbl2',lbl);
+}
+function shiftPlanDay(d){
+  planDate=new Date(planDate);planDate.setDate(planDate.getDate()+d);
+  updatePlanLbl();renderPlanList();
+}
+function searchPlanFood(q){
+  var drop=ge('planDrop');ge('planQtyArea').style.display='none';planSelFood=null;
+  if(!q||q.length<2){drop.style.display='none';return;}
+  var hits=FN.filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>=0;}).slice(0,10);
+  if(!hits.length){drop.style.display='none';return;}
+  drop.style.display='block';drop.innerHTML='';
+  hits.forEach(function(n){
+    var d=document.createElement('div');d.className='si';d.textContent=n;
+    d.onclick=function(){pickPlanFood(n);};drop.appendChild(d);
+  });
+}
+function pickPlanFood(name){
+  planSelFood=name;ge('planFoodInp').value=name;ge('planDrop').style.display='none';
+  var food=F[name];if(!food)return;
+  var chips=ge('planQtyChips');chips.innerHTML='';
+  food.q.forEach(function(q){
+    var c=document.createElement('div');c.className='chip';c.textContent=q;
+    c.onclick=function(){
+      document.querySelectorAll('#planQtyChips .chip').forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on');planSelQty=q;
+    };
+    chips.appendChild(c);
+  });
+  ge('planQtyArea').style.display='block';
+}
+function addToPlan(){
+  if(!planSelFood||!planSelQty){alert('Select food and portion');return;}
+  var food=F[planSelFood];if(!food)return;
+  var num=parseFloat(planSelQty);var mult=num/food.base;if(isNaN(mult))return;
+  var item={name:planSelFood,qty:planSelQty,id:Date.now(),date:planDate.toISOString(),
+    cal:Math.round(food.cal*mult),pro:Math.round(food.pro*mult),
+    carb:Math.round(food.carb*mult),fat:Math.round(food.fat*mult)};
+  D.plan=D.plan||[];D.plan.push(item);svUser();
+  ge('planFoodInp').value='';ge('planQtyArea').style.display='none';
+  planSelFood=null;planSelQty=null;renderPlanList();
+}
+function planItems(){
+  var ds=planDate.toDateString();
+  return(D.plan||[]).filter(function(i){return new Date(i.date).toDateString()===ds;});
+}
+function renderPlanList(){
+  updatePlanLbl();
+  var items=planItems();var el=ge('planList');if(!el)return;
+  if(!items.length){el.innerHTML='<div class="empty">Nothing planned yet</div>';renderPlanMacros(0,0,0,0);return;}
+  var cal=items.reduce(function(s,i){return s+i.cal;},0);
+  var pro=items.reduce(function(s,i){return s+i.pro;},0);
+  var carb=items.reduce(function(s,i){return s+i.carb;},0);
+  var fat=items.reduce(function(s,i){return s+i.fat;},0);
+  renderPlanMacros(cal,pro,carb,fat);
+  el.innerHTML='';
+  items.forEach(function(item){
+    var d=document.createElement('div');
+    d.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);';
+    d.innerHTML='<div><div class="fw7 f13">'+item.name+'</div><div class="f11 cs">'+item.qty+' · '+item.cal+' kcal · '+item.pro+'g pro</div></div>'+
+      '<button onclick="removePlanItem('+item.id+')" style="background:none;border:none;color:var(--red);font-size:20px;cursor:pointer;">x</button>';
+    el.appendChild(d);
+  });
+}
+function removePlanItem(id){D.plan=(D.plan||[]).filter(function(i){return i.id!==id;});svUser();renderPlanList();}
+function renderPlanMacros(cal,pro,carb,fat){
+  var el=ge('planMacroBar');if(!el)return;
+  function bar(v,g,c){return '<div style="height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;margin:0 10px;flex:1;"><div style="height:100%;width:'+Math.min(v/g*100,100)+'%;background:'+c+';border-radius:2px;transition:width .6s;"></div></div>';}
+  el.innerHTML='<div style="font-size:26px;font-weight:900;color:var(--accent);margin-bottom:10px;">'+cal+' <span style="font-size:12px;color:var(--sub);font-weight:400;">/ '+(D.calGoal||2500)+' kcal planned</span></div>'+
+    '<div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:11px;color:var(--blue);width:70px;">Protein</span>'+bar(pro,D.proGoal||130,'var(--blue)')+'<span style="font-size:12px;font-weight:700;color:var(--blue);">'+pro+'g</span></div>'+
+    '<div style="display:flex;align-items:center;margin-bottom:6px;"><span style="font-size:11px;color:var(--accent2);width:70px;">Carbs</span>'+bar(carb,300,'var(--accent2)')+'<span style="font-size:12px;font-weight:700;color:var(--accent2);">'+carb+'g</span></div>'+
+    '<div style="display:flex;align-items:center;"><span style="font-size:11px;color:var(--red);width:70px;">Fat</span>'+bar(fat,80,'var(--red)')+'<span style="font-size:12px;font-weight:700;color:var(--red);">'+fat+'g</span></div>';
+}
+
+// ── AI DIET PLAN ──────────────────────────────────────────────────────
+function generateDietPlan(){
+  var btn=ge('dietPlanBtn');if(btn){btn.textContent='Generating...';btn.disabled=true;}
+  var prefs=[];document.querySelectorAll('#dietPrefChips .chip.on').forEach(function(c){prefs.push(c.textContent.trim());});
+  var ings=[];document.querySelectorAll('#ingredientChips .chip.on').forEach(function(c){ings.push(c.textContent.trim());});
+  var extra=ge('extraIngs')?ge('extraIngs').value.trim():'';
+  if(extra)ings.push(extra);
+  var p=D.profile||{};
+  var prompt='Create a full day meal plan for: '+(p.name||'User')+', goal: '+(p.goal||'bulk')+
+    ', calories: '+(D.calGoal||2500)+' kcal, protein: '+(D.proGoal||130)+'g. '+
+    'Dietary preferences: '+(prefs.join(', ')||'Halal')+'. '+
+    'Ingredients at home: '+(ings.length?ings.join(', '):'basic pantry items')+'. '+
+    'Include breakfast, lunch, dinner, snacks. Show cal/protein/carbs/fat for each meal. '+
+    'Be specific with portions. Make it practical for someone in Bangladesh.';
+  fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({system:'You are a practical nutrition coach. Give specific actionable meal plans with exact portions and macros.',messages:[{role:'user',content:prompt}]})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(btn){btn.textContent='✨ Generate My Plan';btn.disabled=false;}
+    var text=data.content&&data.content[0]?data.content[0].text:'Could not generate plan.';
+    var card=ge('dietPlanCard');var cont=ge('dietPlanContent');
+    if(card)card.style.display='block';
+    if(cont)cont.innerHTML='<div style="font-size:13px;line-height:1.8;">'+text.split('\n').join('<br>')+'</div>';
+  })
+  .catch(function(){
+    if(btn){btn.textContent='✨ Generate My Plan';btn.disabled=false;}
+    alert('Error generating plan. Check your connection.');
+  });
+}
+
+// ── PROGRESS PHOTOS ───────────────────────────────────────────────────
+function addProgPhoto(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var scale=Math.min(1,400/img.width);
+      canvas.width=img.width*scale;canvas.height=img.height*scale;
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      D.progressPhotos=D.progressPhotos||[];
+      D.progressPhotos.push({data:canvas.toDataURL('image/jpeg',0.7),date:new Date().toISOString(),id:Date.now()});
+      if(D.progressPhotos.length>12)D.progressPhotos.shift();
+      svUser();renderProgPhotos();
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function removeProgPhoto(id){
+  if(!window.confirm('Delete this photo?'))return;
+  D.progressPhotos=(D.progressPhotos||[]).filter(function(p){return p.id!==id;});
+  svUser();renderProgPhotos();
+}
+function renderProgPhotos(){
+  var el=ge('progPhotoGrid');if(!el)return;
+  var photos=D.progressPhotos||[];
+  if(!photos.length){el.innerHTML='<div style="grid-column:span 2;" class="empty">No photos yet. Add your first check-in.</div>';return;}
+  el.innerHTML='';
+  photos.slice().reverse().forEach(function(p){
+    var d=document.createElement('div');d.style.cssText='position:relative;';
+    d.innerHTML='<img src="'+p.data+'" style="width:100%;height:140px;object-fit:cover;border-radius:var(--r2);">'+
+      '<div style="position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;padding:2px 6px;border-radius:10px;">'+new Date(p.date).toLocaleDateString('en',{month:'short',day:'numeric',year:'2-digit'})+'</div>'+
+      '<button onclick="removeProgPhoto('+p.id+')" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);border:none;color:#fff;font-size:14px;cursor:pointer;border-radius:50%;width:22px;height:22px;">x</button>';
+    el.appendChild(d);
+  });
+}
+
+// ── PATCH NAV for planner ─────────────────────────────────────────────
+var _navBase3=nav;
+nav=function(name,btn){
+  _navBase3(name,btn);
+  if(name==='planner'){
+    updatePlanLbl();renderPlanList();renderSupps();renderProgPhotos();
+  }
+};
+
+// ── INIT DEFAULTS ─────────────────────────────────────────────────────
+if(!D.supps||!D.supps.length){
+  D.supps=[
+    {name:'Creatine 5g',id:1},
+    {name:'Whey Protein',id:2},
+    {name:'Vitamin D 2000IU',id:3},
+  ];
+  svUser();
+}
 
 </script>
 
