@@ -634,6 +634,12 @@ select.inp option{background:var(--card);color:var(--text);}
         <div class="tr"><span class="f13">Weight Goal</span><div class="flex"><input class="inp" type="number" id="gWt" style="width:80px;padding:8px;" step="0.1"><button class="btn btn-sm btn-o" onclick="saveGoal('wt')">Save</button></div></div>
         <div class="tr"><span class="f13">NoFap Start</span><div class="flex"><input class="inp" type="date" id="gNf" style="width:150px;padding:8px;"><button class="btn btn-sm btn-o" onclick="saveGoal('nf')">Save</button></div></div>
       </div>
+      <div class="sl">Account</div>
+      <div class="card">
+        <div class="tr"><span class="f13" id="accountStatus">Not signed in</span><button class="btn btn-sm btn-o" onclick="showAuth()">Sign In</button></div>
+        <div class="tr"><span class="f13">Sign out</span><button class="btn btn-sm" style="background:var(--bg2);color:var(--sub);border:1.5px solid var(--border);" onclick="signOut()">Sign Out</button></div>
+        <div class="tr"><span class="f13">Sync now</span><button class="btn btn-sm btn-o" onclick="syncUp()">Sync</button></div>
+      </div>
       <div class="sl">Themes</div>
       <div class="card"><div class="theme-grid" id="themeGrid"></div></div>
       <div class="sl">Data</div>
