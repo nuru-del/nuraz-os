@@ -255,28 +255,76 @@ select.inp option{background:var(--card);color:var(--text);}
 .welcome-feature-icon{font-size:18px;width:24px;text-align:center;}
 </style>
 <style id="hf-enhance">
+/* ── ANIMATIONS ── */
 @keyframes hfShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes hfFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-body{position:relative;}
+@keyframes hfFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes hfOrb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.15)}66%{transform:translate(-30px,50px) scale(.9)}}
+@keyframes hfOrb2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-80px,30px) scale(1.1)}66%{transform:translate(50px,-60px) scale(.85)}}
+@keyframes hfOrb3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,70px) scale(1.2)}}
+@keyframes hfPulse{0%,100%{opacity:.18}50%{opacity:.32}}
+@keyframes hfSpin{to{transform:rotate(360deg)}}
+@keyframes hfSlideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* ── BACKGROUND LAYER ── */
+body{position:relative;perspective:1200px;}
 body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
- background:radial-gradient(1200px 800px at 12% -10%,rgba(124,92,255,.18),transparent 60%),
-            radial-gradient(1000px 700px at 110% 10%,rgba(34,211,238,.14),transparent 55%),
-            radial-gradient(900px 900px at 50% 120%,rgba(168,85,247,.12),transparent 60%);}
-body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.5;
- background:linear-gradient(120deg,var(--bg),var(--bg2),var(--bg));background-size:300% 300%;animation:hfShift 18s ease infinite;}
-.card,[class*="card"],.tile,.panel,.box{backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1);
- border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
- transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s;}
-.card:hover,.tile:hover{transform:translateY(-3px);box-shadow:0 14px 48px rgba(124,92,255,.22),0 0 0 1px var(--accent);border-color:var(--accent);}
+ background:radial-gradient(1400px 900px at 5% -15%,rgba(124,92,255,.22),transparent 60%),
+            radial-gradient(1100px 800px at 115% 5%,rgba(34,211,238,.18),transparent 55%),
+            radial-gradient(1000px 1000px at 50% 130%,rgba(168,85,247,.16),transparent 60%),
+            radial-gradient(600px 600px at 80% 60%,rgba(56,189,248,.08),transparent 50%);}
+body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.6;
+ background:linear-gradient(135deg,var(--bg),var(--bg2),rgba(15,10,30,1),var(--bg));background-size:400% 400%;animation:hfShift 22s ease infinite;}
+/* ── FLOATING ORBS ── */
+#hf-orbs{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
+#hf-orbs span{position:absolute;border-radius:50%;filter:blur(80px);animation:hfPulse 6s ease infinite;}
+#hf-orbs span:nth-child(1){width:500px;height:500px;top:-100px;left:-100px;background:rgba(124,92,255,.12);animation-name:hfOrb1;animation-duration:20s;}
+#hf-orbs span:nth-child(2){width:400px;height:400px;top:20%;right:-80px;background:rgba(34,211,238,.10);animation-name:hfOrb2;animation-duration:25s;}
+#hf-orbs span:nth-child(3){width:350px;height:350px;bottom:-60px;left:40%;background:rgba(168,85,247,.10);animation-name:hfOrb3;animation-duration:18s;}
+/* ── PARTICLE CANVAS ── */
+#hf-particles{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.45;}
+/* ── 3D CARDS ── */
+.card,[class*="card"],.tile,.panel,.box{
+ backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
+ border:1px solid rgba(124,92,255,.25);
+ box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06),0 0 0 0 rgba(124,92,255,0);
+ transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
+ transform-style:preserve-3d;will-change:transform;}
+.card:hover,.tile:hover{
+ box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px rgba(124,92,255,.25),inset 0 1px 0 rgba(255,255,255,.08);
+ border-color:rgba(124,92,255,.55);}
+/* ── BUTTONS ── */
 button,.btn,[class*="btn"]{transition:transform .15s,box-shadow .2s,filter .2s;}
-button:hover,.btn:hover{filter:brightness(1.08);box-shadow:0 0 18px rgba(124,92,255,.45);}
-button:active,.btn:active{transform:scale(.97);}
-[class*="accent"],.accent,h1,.logo,.brand{text-shadow:0 0 22px rgba(124,92,255,.35);}
+button:hover,.btn:hover{filter:brightness(1.12);box-shadow:0 0 24px rgba(124,92,255,.55),0 0 8px rgba(34,211,238,.2);}
+button:active,.btn:active{transform:scale(.96);}
+/* ── TEXT GLOW ── */
+[class*="accent"],.accent,h1,.logo,.brand{text-shadow:0 0 28px rgba(124,92,255,.45),0 0 8px rgba(34,211,238,.2);}
+/* ── INPUTS ── */
 input,select,textarea{transition:border-color .2s,box-shadow .2s;}
-input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.4),0 0 18px rgba(34,211,238,.25);outline:none;}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.45),0 0 22px rgba(34,211,238,.3);outline:none;}
+/* ── SCROLLBAR ── */
 *{scrollbar-color:var(--accent) transparent;}
-::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:9px}
-::selection{background:rgba(124,92,255,.4);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px;box-shadow:0 0 6px rgba(124,92,255,.4);}
+::selection{background:rgba(124,92,255,.45);color:#fff}
+/* ── TOUR OVERLAY ── */
+#tour-overlay{position:fixed;inset:0;z-index:99998;pointer-events:none;}
+#tour-overlay.active{pointer-events:all;}
+#tour-spotlight{position:fixed;inset:0;z-index:99998;pointer-events:none;transition:all .4s cubic-bezier(.4,0,.2,1);}
+#tour-tip{position:fixed;z-index:99999;background:rgba(10,8,20,.95);border:1px solid rgba(124,92,255,.5);
+ border-radius:14px;padding:18px 22px;min-width:240px;max-width:300px;
+ box-shadow:0 0 40px rgba(124,92,255,.35),0 8px 32px rgba(0,0,0,.6);
+ backdrop-filter:blur(16px);animation:hfSlideUp .3s ease;display:none;}
+#tour-tip h4{margin:0 0 8px;font-size:15px;color:#c4b5fd;font-weight:700;}
+#tour-tip p{margin:0 0 14px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+#tour-tip .tour-btns{display:flex;gap:8px;justify-content:flex-end;}
+#tour-tip .tour-btns button{padding:7px 16px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:600;}
+#tour-tip .t-skip{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);}
+#tour-tip .t-next{background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;}
+#tour-tip .t-next:hover{box-shadow:0 0 16px rgba(124,92,255,.6);}
+#tour-arrow{position:fixed;z-index:99999;width:0;height:0;pointer-events:none;}
+#tour-prog{display:flex;gap:5px;margin-bottom:12px;}
+#tour-prog span{width:20px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s;}
+#tour-prog span.done{background:var(--accent,#7c5cff);}
+#tour-prog span.cur{background:linear-gradient(90deg,#7c5cff,#22d3ee);}
 </style></head>
 <body>
 <div class="stars" id="stars"></div>
@@ -3250,5 +3298,153 @@ if(!D.supps||!D.supps.length){
   </div>
 </div>
 
-<script>(function(){function go(){try{var K='_hfApplied_v1';if(!localStorage.getItem(K)){document.documentElement.setAttribute('data-theme','higgsfield');localStorage.setItem(K,'1');if(window.M){window.M.theme='higgsfield';try{svMeta();}catch(e){}}}}catch(e){}}window.addEventListener('load',function(){setTimeout(go,60);});})();</script></body>
+<script>(function(){function go(){try{var K='_hfApplied_v1';if(!localStorage.getItem(K)){document.documentElement.setAttribute('data-theme','higgsfield');localStorage.setItem(K,'1');if(window.M){window.M.theme='higgsfield';try{svMeta();}catch(e){}}}}catch(e){}}window.addEventListener('load',function(){setTimeout(go,60);});})();</script>
+
+<!-- 3D orbs -->
+<div id="hf-orbs"><span></span><span></span><span></span></div>
+<!-- particle canvas -->
+<canvas id="hf-particles"></canvas>
+<!-- tour tip -->
+<div id="tour-tip">
+  <div id="tour-prog"></div>
+  <h4 id="tour-title"></h4>
+  <p id="tour-body"></p>
+  <div class="tour-btns">
+    <button class="t-skip" onclick="tourEnd()">Skip</button>
+    <button class="t-next" id="tour-next-btn" onclick="tourNext()">Next →</button>
+  </div>
+</div>
+
+<script>
+// ── PARTICLE CANVAS ──
+(function(){
+  var c=document.getElementById('hf-particles');
+  if(!c)return;
+  var ctx=c.getContext('2d'),W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(var i=0;i<70;i++)pts.push({x:Math.random()*9999,y:Math.random()*9999,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.5,o:Math.random()*.5+.15});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(function(p){
+      p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);
+      ctx.fillStyle='rgba(124,92,255,'+p.o+')';ctx.fill();
+    });
+    // connect nearby
+    for(var i=0;i<pts.length;i++)for(var j=i+1;j<pts.length;j++){
+      var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle='rgba(124,92,255,'+((.12*(1-d/90)))+')';ctx.lineWidth=.5;ctx.stroke();}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── 3D CARD TILT ──
+(function(){
+  document.addEventListener('mousemove',function(e){
+    var els=document.querySelectorAll('.card,.tile');
+    els.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      var cx=r.left+r.width/2,cy=r.top+r.height/2;
+      var dx=e.clientX-cx,dy=e.clientY-cy;
+      var d=Math.sqrt(dx*dx+dy*dy);
+      if(d<320){
+        var rx=(-dy/r.height)*10,ry=(dx/r.width)*10;
+        el.style.transform='perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateZ(4px)';
+      } else {
+        el.style.transform='';
+      }
+    });
+  });
+  document.addEventListener('mouseleave',function(){
+    document.querySelectorAll('.card,.tile').forEach(function(el){el.style.transform='';});
+  });
+})();
+
+// ── GUIDED TOUR ──
+var _tourSteps=[
+  {sel:null,          title:'Welcome to NURAZ.OS 👋',     body:'Quick 30-sec tour. Tap Next to learn the key areas, or Skip anytime.'},
+  {sel:'[data-pg="home"],#nav-home,.nav-home,a[href="#home"]', title:'🏠 Home',    body:'Your daily dashboard — calories, macros ring, quick-log buttons, and today\'s summary at a glance.'},
+  {sel:'[data-pg="meals"],#nav-meals,.nav-meals,a[href="#meals"]',title:'🍽️ Meals', body:'Log every meal here. Tap the + button or search your food to add it. AI scan lets you photograph food to auto-log.'},
+  {sel:'[data-pg="gym"],#nav-gym,.nav-gym,a[href="#gym"]',      title:'💪 Gym',    body:'Track workouts, log sets/reps/weight, and view your strength progress over time.'},
+  {sel:'[data-pg="profile"],#nav-profile,.nav-profile,a[href="#profile"]',title:'👤 Profile', body:'Set your goals, weight, calories target, and sync your data across devices when signed in.'},
+  {sel:'#chatBtn,#chat-btn,.chat-fab,[onclick*="toggleChat"]',  title:'🤖 AI Coach',body:'Your personal AI fitness coach. Ask anything — meal plans, workout advice, progress analysis.'},
+  {sel:null,          title:'You\'re all set! 🚀',         body:'Explore freely. You can replay this tour anytime from Profile → Help.'},
+];
+var _tourIdx=0;
+
+function tourHighlight(sel){
+  var tip=document.getElementById('tour-tip');
+  if(!sel){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
+  var el=document.querySelector(sel);
+  if(!el){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.style.position='relative';
+  el.style.zIndex='99997';
+  el.style.boxShadow='0 0 0 4px rgba(124,92,255,.8),0 0 40px rgba(124,92,255,.5)';
+  el.style.borderRadius='10px';
+  var r=el.getBoundingClientRect();
+  var tw=300,th=160;
+  var left=r.left+r.width/2-tw/2;
+  var top=r.bottom+16;
+  if(top+th>window.innerHeight)top=r.top-th-16;
+  if(left<8)left=8;
+  if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
+  tip.style.left=left+'px';tip.style.top=top+'px';tip.style.transform='';
+}
+
+function tourClearHighlight(){
+  document.querySelectorAll('[style*="99997"]').forEach(function(el){
+    el.style.zIndex='';el.style.boxShadow='';el.style.borderRadius='';
+  });
+}
+
+function tourShow(){
+  var tip=document.getElementById('tour-tip');
+  var step=_tourSteps[_tourIdx];
+  // progress dots
+  var prog=document.getElementById('tour-prog');
+  prog.innerHTML='';
+  _tourSteps.forEach(function(_,i){
+    var s=document.createElement('span');
+    s.className=i<_tourIdx?'done':i===_tourIdx?'cur':'';
+    prog.appendChild(s);
+  });
+  document.getElementById('tour-title').textContent=step.title;
+  document.getElementById('tour-body').textContent=step.body;
+  var btn=document.getElementById('tour-next-btn');
+  btn.textContent=_tourIdx===_tourSteps.length-1?'Done ✓':'Next →';
+  tip.style.display='block';
+  tourHighlight(step.sel);
+}
+
+function tourNext(){
+  tourClearHighlight();
+  _tourIdx++;
+  if(_tourIdx>=_tourSteps.length){tourEnd();return;}
+  tourShow();
+}
+
+function tourEnd(){
+  tourClearHighlight();
+  document.getElementById('tour-tip').style.display='none';
+  localStorage.setItem('_tourDone_v1','1');
+}
+
+// start tour for users who haven't seen it (but have completed onboarding)
+window.addEventListener('load',function(){
+  setTimeout(function(){
+    var done=localStorage.getItem('_tourDone_v1');
+    var hasData=(function(){for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('nuraz_')===0)return true;}return false;})();
+    if(!done&&hasData){_tourIdx=0;tourShow();}
+  },1800);
+});
+
+// expose for "replay tour" button in settings
+window.startTour=function(){_tourIdx=0;tourShow();};
+</script>
+</body>
 </html>
