@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* THEMES */
-:root{--bg:#FBF8F3;--bg2:#F0EBE1;--card:#fff;--border:#E4DAD0;--text:#2C2010;--sub:#A08060;--accent:#C8893A;--accent2:#E8A84E;--green:#4A9B6F;--blue:#3A7BD5;--red:#D94F4F;--purple:#7C5CBF;--shadow:0 2px 20px rgba(44,32,16,.08);--r:16px;--r2:10px;--font:'DM Sans',sans-serif;}[data-theme="higgsfield"]{--bg:#05060A;--bg2:#0A0C14;--card:#0E111C;--border:#1C2233;--text:#EAF0FF;--sub:#7C8AA8;--accent:#7C5CFF;--accent2:#22D3EE;--green:#2DE5A0;--blue:#4D8DFF;--red:#FF5470;--purple:#A855F7;--shadow:0 8px 40px rgba(0,0,0,.6);--r:18px;--r2:12px;--font:'DM Sans',sans-serif;}
+:root{--bg:#FBF8F3;--bg2:#F0EBE1;--card:#fff;--border:#E4DAD0;--text:#2C2010;--sub:#A08060;--accent:#C8893A;--accent2:#E8A84E;--green:#4A9B6F;--blue:#3A7BD5;--red:#D94F4F;--purple:#7C5CBF;--shadow:0 2px 20px rgba(44,32,16,.08);--r:16px;--r2:10px;--font:'DM Sans',sans-serif;}[data-theme="higgsfield"]{--bg:#0A0918;--bg2:#120F2A;--card:rgba(23,20,48,.60);--border:rgba(132,112,255,.16);--text:#ECE9FF;--sub:#9990C4;--accent:#8B7CFF;--accent2:#3DD8E8;--green:#34E5B0;--blue:#5B9CFF;--red:#FF6B8A;--purple:#B57CFF;--shadow:0 14px 50px rgba(5,3,20,.55);--r:20px;--r2:14px;--font:'DM Sans',sans-serif;}
 [data-theme="dark-ocean"]{--bg:#060D16;--bg2:#0A1628;--card:#0E1F35;--border:#16304A;--text:#B8D4F0;--sub:#4A6A8A;--accent:#00D4FF;--accent2:#00AACC;--green:#00FF9F;--blue:#4488FF;--red:#FF4466;--purple:#CC88FF;--shadow:0 2px 24px rgba(0,0,0,.5);}
 [data-theme="dark-cyber"]{--bg:#0A0A0A;--bg2:#111;--card:#141414;--border:#1E1E1E;--text:#00FF41;--sub:#006B1B;--accent:#00FF41;--accent2:#00CC33;--green:#00FF41;--blue:#09F;--red:#FF0040;--purple:#F0F;--shadow:0 2px 24px rgba(0,255,65,.1);}
 [data-theme="dark-galaxy"]{--bg:#080412;--bg2:#100820;--card:#150D28;--border:#2A1850;--text:#E0D0FF;--sub:#6040A0;--accent:#A855F7;--accent2:#C084FC;--green:#34D399;--blue:#60A5FA;--red:#F87171;--purple:#A855F7;--shadow:0 2px 24px rgba(168,85,247,.15);}
@@ -324,7 +324,36 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.45
 #tour-prog{display:flex;gap:5px;margin-bottom:12px;}
 #tour-prog span{width:20px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s;}
 #tour-prog span.done{background:var(--accent,#7c5cff);}
-#tour-prog span.cur{background:linear-gradient(90deg,#7c5cff,#22d3ee);}
+#tour-prog span.cur{background:linear-gradient(90deg,#8b7cff,#3dd8e8);}
+/* ── SMOOTH PAGE TRANSITION ── */
+.page{opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1);pointer-events:none;}
+.page.on{opacity:1;transform:translateY(0);pointer-events:all;}
+.page:not(.on){display:none;}
+/* sidebar buttons smoother */
+.sb-btn{transition:background .25s,color .25s,box-shadow .25s,transform .15s;border-radius:12px;}
+.sb-btn:hover{transform:translateX(3px);}
+.sb-btn.on{box-shadow:inset 3px 0 0 var(--accent),0 0 20px rgba(139,124,255,.15);}
+/* softer rounded everything */
+.card,.tile,.panel{border-radius:var(--r);}
+.inp,input,select,textarea,.btn,button{border-radius:var(--r2);}
+/* ── ANIMATED FOOD DEMO (inside tour) ── */
+#tour-demo{margin:4px 0 14px;background:rgba(0,0,0,.25);border:1px solid rgba(139,124,255,.2);border-radius:12px;padding:12px;font-size:12px;}
+#td-searchbox{display:flex;align-items:center;gap:6px;background:rgba(139,124,255,.08);border:1px solid rgba(139,124,255,.3);border-radius:8px;padding:8px 10px;color:#fff;}
+#td-typed{color:#ECE9FF;}
+.td-cursor{display:inline-block;width:1px;background:#8b7cff;animation:hfBlink 1s steps(1) infinite;}
+@keyframes hfBlink{50%{opacity:0}}
+#td-result{margin-top:6px;padding:7px 10px;border-radius:7px;background:rgba(139,124,255,.16);color:#c4b5fd;font-weight:600;opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s,background .2s;}
+#td-result.show{opacity:1;transform:translateY(0);}
+#td-result.picked{background:linear-gradient(135deg,rgba(139,124,255,.3),rgba(61,216,232,.25));}
+.td-row{display:flex;align-items:center;gap:8px;margin-top:8px;opacity:0;transform:translateX(-6px);transition:opacity .4s,transform .4s;}
+.td-row.show{opacity:1;transform:translateX(0);}
+.td-row .td-lbl{width:52px;color:var(--sub,#9990c4);font-size:10px;}
+.td-track{flex:1;height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;}
+.td-track i{display:block;height:100%;width:0;border-radius:6px;transition:width .9s cubic-bezier(.2,.8,.2,1);}
+.td-row .td-val{width:46px;text-align:right;font-weight:700;font-size:11px;color:#ECE9FF;}
+#td-micros{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;opacity:0;transition:opacity .5s;}
+#td-micros.show{opacity:1;}
+#td-micros span{font-size:9px;padding:3px 7px;border-radius:20px;background:rgba(61,216,232,.12);border:1px solid rgba(61,216,232,.25);color:#9fe8f2;}
 </style></head>
 <body>
 <div class="stars" id="stars"></div>
@@ -768,6 +797,8 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.45
 
     <!-- SETTINGS -->
     <div id="pg-settings" class="page">
+      <div class="sl">Help</div>
+      <div class="card"><button class="btn btn-o" onclick="startTour()">🎬 Replay Tutorial</button></div>
       <div class="sl">Users</div><div class="card" id="userMgr"></div>
       <div class="sl">Routine Builder</div>
       <div class="card">
@@ -3343,107 +3374,111 @@ if(!D.supps||!D.supps.length){
 })();
 
 // ── 3D CARD TILT ──
-(function(){
-  document.addEventListener('mousemove',function(e){
-    var els=document.querySelectorAll('.card,.tile');
-    els.forEach(function(el){
-      var r=el.getBoundingClientRect();
-      var cx=r.left+r.width/2,cy=r.top+r.height/2;
-      var dx=e.clientX-cx,dy=e.clientY-cy;
-      var d=Math.sqrt(dx*dx+dy*dy);
-      if(d<320){
-        var rx=(-dy/r.height)*10,ry=(dx/r.width)*10;
-        el.style.transform='perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateZ(4px)';
-      } else {
-        el.style.transform='';
-      }
-    });
-  });
-  document.addEventListener('mouseleave',function(){
-    document.querySelectorAll('.card,.tile').forEach(function(el){el.style.transform='';});
-  });
-})();
+// (heavy 3D tilt removed — CSS handles a gentle, smooth hover lift; far lighter)
 
 // ── GUIDED TOUR ──
+function _navTo(pg){try{var b=document.querySelector('[data-pg="'+pg+'"]');if(typeof nav==='function')nav(pg,b);}catch(e){}}
 var _tourSteps=[
-  {sel:null,          title:'Welcome to NURAZ.OS 👋',     body:'Quick 30-sec tour. Tap Next to learn the key areas, or Skip anytime.'},
-  {sel:'[data-pg="home"],#nav-home,.nav-home,a[href="#home"]', title:'🏠 Home',    body:'Your daily dashboard — calories, macros ring, quick-log buttons, and today\'s summary at a glance.'},
-  {sel:'[data-pg="meals"],#nav-meals,.nav-meals,a[href="#meals"]',title:'🍽️ Meals', body:'Log every meal here. Tap the + button or search your food to add it. AI scan lets you photograph food to auto-log.'},
-  {sel:'[data-pg="gym"],#nav-gym,.nav-gym,a[href="#gym"]',      title:'💪 Gym',    body:'Track workouts, log sets/reps/weight, and view your strength progress over time.'},
-  {sel:'[data-pg="profile"],#nav-profile,.nav-profile,a[href="#profile"]',title:'👤 Profile', body:'Set your goals, weight, calories target, and sync your data across devices when signed in.'},
-  {sel:'#chatBtn,#chat-btn,.chat-fab,[onclick*="toggleChat"]',  title:'🤖 AI Coach',body:'Your personal AI fitness coach. Ask anything — meal plans, workout advice, progress analysis.'},
-  {sel:null,          title:'You\'re all set! 🚀',         body:'Explore freely. You can replay this tour anytime from Profile → Help.'},
+  {page:null,        sel:null,                   title:'Welcome to NURAZ.OS 👋', body:'A quick guided tour of the key areas. Tap Next, or Skip anytime.'},
+  {page:'home',      sel:'[data-pg="home"]',     title:'⚡ Home',      body:'Your daily dashboard — calories, streaks, workouts and today\'s summary at a glance.'},
+  {page:'nutrition', sel:'#foodInp',             title:'🍽️ Nutrition', body:'Search any food — it auto-fills calories, macros AND micronutrients. Watch:', demo:'food'},
+  {page:'training',  sel:'[data-pg="training"]', title:'💪 Training',  body:'Load a routine, log sets · reps · weight, and track your strength over time.'},
+  {page:'scan',      sel:'[data-pg="scan"]',     title:'📷 Scanner',   body:'Snap a photo of your meal — AI identifies it and logs the nutrition automatically.'},
+  {page:null,        sel:'#chatBtn,.chat-fab,[onclick*="toggleChat"]', title:'🤖 AI Coach', body:'Tap the chat bubble anytime for meal plans, workout advice and progress analysis.'},
+  {page:null,        sel:null,                   title:'You\'re all set! 🚀', body:'Explore freely. Replay this tour anytime from ⚙️ Settings.'},
 ];
-var _tourIdx=0;
-
-function tourHighlight(sel){
-  var tip=document.getElementById('tour-tip');
-  if(!sel){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
-  var el=document.querySelector(sel);
-  if(!el){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
-  el.scrollIntoView({behavior:'smooth',block:'center'});
-  el.style.position='relative';
-  el.style.zIndex='99997';
-  el.style.boxShadow='0 0 0 4px rgba(124,92,255,.8),0 0 40px rgba(124,92,255,.5)';
-  el.style.borderRadius='10px';
-  var r=el.getBoundingClientRect();
-  var tw=300,th=160;
-  var left=r.left+r.width/2-tw/2;
-  var top=r.bottom+16;
-  if(top+th>window.innerHeight)top=r.top-th-16;
-  if(left<8)left=8;
-  if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
-  tip.style.left=left+'px';tip.style.top=top+'px';tip.style.transform='';
-}
+var _tourIdx=0,_demoTimers=[];
 
 function tourClearHighlight(){
-  document.querySelectorAll('[style*="99997"]').forEach(function(el){
-    el.style.zIndex='';el.style.boxShadow='';el.style.borderRadius='';
+  document.querySelectorAll('.tour-hl').forEach(function(el){
+    el.classList.remove('tour-hl');el.style.boxShadow='';el.style.borderRadius='';el.style.zIndex='';el.style.position='';
   });
 }
-
+function tourPlaceTip(sel){
+  var tip=document.getElementById('tour-tip');
+  var el=sel?document.querySelector(sel):null;
+  if(!el){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  el.classList.add('tour-hl');
+  el.style.position=el.style.position||'relative';
+  el.style.zIndex='99997';
+  el.style.boxShadow='0 0 0 3px rgba(139,124,255,.9),0 0 32px rgba(139,124,255,.5)';
+  el.style.borderRadius='12px';
+  setTimeout(function(){
+    var r=el.getBoundingClientRect();
+    var tw=300,th=tip.offsetHeight||200;
+    var left=r.left+r.width/2-tw/2, top=r.bottom+16;
+    if(top+th>window.innerHeight-10)top=Math.max(10,r.top-th-16);
+    if(left<8)left=8;
+    if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
+    tip.style.left=left+'px';tip.style.top=top+'px';tip.style.transform='';
+  },360);
+}
 function tourShow(){
+  _demoTimers.forEach(clearTimeout);_demoTimers=[];
+  tourClearHighlight();
+  var old=document.getElementById('tour-demo');if(old)old.remove();
   var tip=document.getElementById('tour-tip');
   var step=_tourSteps[_tourIdx];
-  // progress dots
-  var prog=document.getElementById('tour-prog');
-  prog.innerHTML='';
-  _tourSteps.forEach(function(_,i){
-    var s=document.createElement('span');
-    s.className=i<_tourIdx?'done':i===_tourIdx?'cur':'';
-    prog.appendChild(s);
-  });
+  if(step.page)_navTo(step.page);
+  var prog=document.getElementById('tour-prog');prog.innerHTML='';
+  _tourSteps.forEach(function(_,i){var s=document.createElement('span');s.className=i<_tourIdx?'done':i===_tourIdx?'cur':'';prog.appendChild(s);});
   document.getElementById('tour-title').textContent=step.title;
   document.getElementById('tour-body').textContent=step.body;
-  var btn=document.getElementById('tour-next-btn');
-  btn.textContent=_tourIdx===_tourSteps.length-1?'Done ✓':'Next →';
+  document.getElementById('tour-next-btn').textContent=_tourIdx===_tourSteps.length-1?'Done ✓':'Next →';
   tip.style.display='block';
-  tourHighlight(step.sel);
+  setTimeout(function(){tourPlaceTip(step.sel);},step.page?300:0);
+  if(step.demo==='food')_demoTimers.push(setTimeout(playFoodDemo,550));
+}
+function tourNext(){_tourIdx++;if(_tourIdx>=_tourSteps.length){tourEnd();return;}tourShow();}
+function tourEnd(){_demoTimers.forEach(clearTimeout);tourClearHighlight();var d=document.getElementById('tour-demo');if(d)d.remove();document.getElementById('tour-tip').style.display='none';localStorage.setItem('_tourDone_v1','1');}
+
+// ── animated food-logging demo (mini auto-playing clip) ──
+function playFoodDemo(){
+  var body=document.getElementById('tour-body');if(!body)return;
+  var demo=document.createElement('div');demo.id='tour-demo';
+  demo.innerHTML='<div id="td-searchbox">🔍 <span id="td-typed"></span><span class="td-cursor">&nbsp;</span></div>'+
+    '<div id="td-result">Chicken Biryani</div>'+
+    '<div class="td-row" data-m="cal"><span class="td-lbl">Calories</span><div class="td-track"><i style="background:linear-gradient(90deg,#8b7cff,#3dd8e8)"></i></div><span class="td-val" data-to="612">0</span></div>'+
+    '<div class="td-row" data-m="pro"><span class="td-lbl">Protein</span><div class="td-track"><i style="background:#5B9CFF"></i></div><span class="td-val" data-to="34">0</span></div>'+
+    '<div class="td-row" data-m="carb"><span class="td-lbl">Carbs</span><div class="td-track"><i style="background:#3dd8e8"></i></div><span class="td-val" data-to="68">0</span></div>'+
+    '<div class="td-row" data-m="fat"><span class="td-lbl">Fat</span><div class="td-track"><i style="background:#FF6B8A"></i></div><span class="td-val" data-to="22">0</span></div>'+
+    '<div id="td-micros"><span>Iron 18%</span><span>Vit C 12%</span><span>Calcium 9%</span><span>Zinc 22%</span><span>B12 30%</span><span>Folate 15%</span></div>';
+  body.parentNode.insertBefore(demo,body.nextSibling);
+  var word='Chicken Biryani',typed=document.getElementById('td-typed'),i=0;
+  function type(){if(i<=word.length){typed.textContent=word.slice(0,i);i++;_demoTimers.push(setTimeout(type,70));}else{afterType();}}
+  function afterType(){
+    var res=document.getElementById('td-result');
+    _demoTimers.push(setTimeout(function(){res.classList.add('show');},150));
+    _demoTimers.push(setTimeout(function(){res.classList.add('picked');res.textContent='✓ Chicken Biryani';},700));
+    var widths={cal:'82%',pro:'62%',carb:'70%',fat:'48%'};
+    _demoTimers.push(setTimeout(function(){
+      document.querySelectorAll('#tour-demo .td-row').forEach(function(row,idx){
+        _demoTimers.push(setTimeout(function(){
+          row.classList.add('show');
+          row.querySelector('i').style.width=widths[row.dataset.m];
+          var val=row.querySelector('.td-val'),to=+val.dataset.to,t0=Date.now();
+          (function count(){var p=Math.min((Date.now()-t0)/800,1);val.textContent=Math.round(to*p);if(p<1)requestAnimationFrame(count);})();
+        },idx*180));
+      });
+    },900));
+    _demoTimers.push(setTimeout(function(){var m=document.getElementById('td-micros');if(m)m.classList.add('show');},1900));
+    // loop the clip while still on this step
+    _demoTimers.push(setTimeout(function(){
+      if(_tourSteps[_tourIdx]&&_tourSteps[_tourIdx].demo==='food'){var d=document.getElementById('tour-demo');if(d)d.remove();playFoodDemo();}
+    },5400));
+  }
+  type();
 }
 
-function tourNext(){
-  tourClearHighlight();
-  _tourIdx++;
-  if(_tourIdx>=_tourSteps.length){tourEnd();return;}
-  tourShow();
-}
-
-function tourEnd(){
-  tourClearHighlight();
-  document.getElementById('tour-tip').style.display='none';
-  localStorage.setItem('_tourDone_v1','1');
-}
-
-// start tour for users who haven't seen it (but have completed onboarding)
+// auto-start for users who finished onboarding but haven't seen the tour
 window.addEventListener('load',function(){
   setTimeout(function(){
     var done=localStorage.getItem('_tourDone_v1');
     var hasData=(function(){for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('nuraz_')===0)return true;}return false;})();
     if(!done&&hasData){_tourIdx=0;tourShow();}
-  },1800);
+  },1600);
 });
-
-// expose for "replay tour" button in settings
 window.startTour=function(){_tourIdx=0;tourShow();};
 </script>
 </body>
