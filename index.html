@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* THEMES */
-:root{--bg:#FBF8F3;--bg2:#F0EBE1;--card:#fff;--border:#E4DAD0;--text:#2C2010;--sub:#A08060;--accent:#C8893A;--accent2:#E8A84E;--green:#4A9B6F;--blue:#3A7BD5;--red:#D94F4F;--purple:#7C5CBF;--shadow:0 2px 20px rgba(44,32,16,.08);--r:16px;--r2:10px;--font:'DM Sans',sans-serif;}[data-theme="higgsfield"]{--bg:#0A0918;--bg2:#120F2A;--card:rgba(23,20,48,.60);--border:rgba(132,112,255,.16);--text:#ECE9FF;--sub:#9990C4;--accent:#8B7CFF;--accent2:#3DD8E8;--green:#34E5B0;--blue:#5B9CFF;--red:#FF6B8A;--purple:#B57CFF;--shadow:0 14px 50px rgba(5,3,20,.55);--r:20px;--r2:14px;--font:'DM Sans',sans-serif;}
+:root{--bg:#FBF8F3;--bg2:#F0EBE1;--card:#fff;--border:#E4DAD0;--text:#2C2010;--sub:#A08060;--accent:#C8893A;--accent2:#E8A84E;--green:#4A9B6F;--blue:#3A7BD5;--red:#D94F4F;--purple:#7C5CBF;--shadow:0 2px 20px rgba(44,32,16,.08);--r:16px;--r2:10px;--font:'DM Sans',sans-serif;}[data-theme="higgsfield"]{--bg:#05060A;--bg2:#0A0C14;--card:#0E111C;--border:#1C2233;--text:#EAF0FF;--sub:#7C8AA8;--accent:#7C5CFF;--accent2:#22D3EE;--green:#2DE5A0;--blue:#4D8DFF;--red:#FF5470;--purple:#A855F7;--shadow:0 8px 40px rgba(0,0,0,.6);--r:18px;--r2:12px;--font:'DM Sans',sans-serif;}
 [data-theme="dark-ocean"]{--bg:#060D16;--bg2:#0A1628;--card:#0E1F35;--border:#16304A;--text:#B8D4F0;--sub:#4A6A8A;--accent:#00D4FF;--accent2:#00AACC;--green:#00FF9F;--blue:#4488FF;--red:#FF4466;--purple:#CC88FF;--shadow:0 2px 24px rgba(0,0,0,.5);}
 [data-theme="dark-cyber"]{--bg:#0A0A0A;--bg2:#111;--card:#141414;--border:#1E1E1E;--text:#00FF41;--sub:#006B1B;--accent:#00FF41;--accent2:#00CC33;--green:#00FF41;--blue:#09F;--red:#FF0040;--purple:#F0F;--shadow:0 2px 24px rgba(0,255,65,.1);}
 [data-theme="dark-galaxy"]{--bg:#080412;--bg2:#100820;--card:#150D28;--border:#2A1850;--text:#E0D0FF;--sub:#6040A0;--accent:#A855F7;--accent2:#C084FC;--green:#34D399;--blue:#60A5FA;--red:#F87171;--purple:#A855F7;--shadow:0 2px 24px rgba(168,85,247,.15);}
@@ -29,9 +29,22 @@
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.7}}
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.au{animation:fadeUp .35s ease both}
+@keyframes float3d{0%,100%{transform:translateY(0) rotateX(0deg)}50%{transform:translateY(-8px) rotateX(3deg)}}
+@keyframes card3dIn{from{opacity:0;transform:perspective(800px) rotateX(-20deg) translateY(30px) scale(.95)}to{opacity:1;transform:perspective(800px) rotateX(0deg) translateY(0) scale(1)}}
+@keyframes slide3dIn{from{opacity:0;transform:perspective(800px) rotateY(-25deg) translateX(-30px)}to{opacity:1;transform:perspective(800px) rotateY(0deg) translateX(0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 15px color-mix(in srgb,var(--accent) 30%,transparent),0 4px 30px rgba(0,0,0,.4)}50%{box-shadow:0 0 40px color-mix(in srgb,var(--accent) 60%,transparent),0 8px 50px rgba(0,0,0,.6)}}
+@keyframes neonGlow{0%,100%{text-shadow:0 0 4px var(--accent),0 0 20px var(--accent)}50%{text-shadow:0 0 10px var(--accent),0 0 40px var(--accent),0 0 70px var(--accent2)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ripple{from{transform:scale(0);opacity:.5}to{transform:scale(4);opacity:0}}
+@keyframes gradientFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes pressDown{0%{transform:perspective(400px) translateZ(0) scale(1)}50%{transform:perspective(400px) translateZ(-12px) scale(.97)}100%{transform:perspective(400px) translateZ(0) scale(1)}}
+@keyframes navPop{0%{transform:translateY(0) scale(1)}30%{transform:translateY(-6px) scale(1.15)}60%{transform:translateY(-3px) scale(1.08)}100%{transform:translateY(0) scale(1)}}
+@keyframes borderGlow{0%,100%{border-color:var(--border)}50%{border-color:var(--accent)}}
+.au{animation:card3dIn .45s cubic-bezier(.23,1,.32,1) both}
 .as{animation:scaleIn .3s ease both}
 .ai{animation:fadeIn .3s ease both}
+.a3d{animation:card3dIn .5s cubic-bezier(.23,1,.32,1) both}
+.asl{animation:slide3dIn .45s cubic-bezier(.23,1,.32,1) both}
 
 /* STARS */
 .stars{display:none;position:fixed;inset:0;pointer-events:none;z-index:0;}
@@ -46,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 #ob{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .4s;}
 #ob.gone{display:none;}
 .ob-wrap{width:100%;max-width:400px;}
-.ob-logo{font-size:34px;font-weight:900;color:var(--accent);text-align:center;letter-spacing:-1px;animation:pulse 2s infinite;}
+.ob-logo{font-size:34px;font-weight:900;color:var(--accent);text-align:center;letter-spacing:-1px;animation:neonGlow 2.5s ease-in-out infinite,float3d 4s ease-in-out infinite;}
 .ob-tagline{font-size:10px;color:var(--sub);text-align:center;letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;}
 .ob-dots{display:flex;gap:6px;justify-content:center;margin-bottom:24px;}
 .ob-dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:all .3s;}
@@ -64,8 +77,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .ob-input:focus{border-color:var(--accent);}
 .ob-row{display:flex;gap:8px;margin-bottom:12px;}
 .ob-row .ob-input{margin-bottom:0;}
-.ob-btn{background:var(--accent);color:#fff;border:none;border-radius:var(--r2);padding:14px;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:var(--font);transition:all .2s;}
-.ob-btn:active{transform:scale(.98);}
+.ob-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--r2);padding:14px;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:var(--font);transition:all .25s cubic-bezier(.23,1,.32,1);position:relative;overflow:hidden;box-shadow:0 6px 20px color-mix(in srgb,var(--accent) 45%,transparent),0 2px 4px rgba(0,0,0,.3);transform-style:preserve-3d;}
+.ob-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);pointer-events:none;}
+.ob-btn:hover{transform:perspective(600px) translateZ(8px) translateY(-3px);box-shadow:0 10px 35px color-mix(in srgb,var(--accent) 65%,transparent),0 4px 8px rgba(0,0,0,.4);}
+.ob-btn:active{animation:pressDown .25s ease;}
 .ob-skip{background:none;border:none;color:var(--sub);font-size:12px;cursor:pointer;width:100%;margin-top:10px;font-family:var(--font);padding:4px;}
 .ob-summary{background:var(--bg2);border-radius:var(--r2);padding:14px;font-size:13px;line-height:2.2;color:var(--sub);margin:14px 0;}
 
@@ -80,11 +95,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .sb-logo{padding:0 16px 18px;border-bottom:1px solid var(--border);margin-bottom:6px;}
 .sb-title{font-size:17px;font-weight:900;color:var(--accent);}
 .sb-v{font-size:9px;color:var(--sub);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
-.sb-btn{display:flex;align-items:center;gap:10px;padding:11px 16px;border:none;background:none;color:var(--sub);font-size:13px;cursor:pointer;width:100%;text-align:left;transition:all .2s;font-family:var(--font);font-weight:500;}
+.sb-btn{display:flex;align-items:center;gap:10px;padding:11px 16px;border:none;background:none;color:var(--sub);font-size:13px;cursor:pointer;width:100%;text-align:left;transition:all .25s cubic-bezier(.23,1,.32,1);font-family:var(--font);font-weight:500;border-radius:var(--r2);transform-style:preserve-3d;}
+.sb-btn:hover{background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);transform:perspective(600px) translateX(8px) translateZ(4px);box-shadow:inset 3px 0 0 var(--accent);}
 .sb-btn.on{color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);}
 .botnav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:100;backdrop-filter:blur(20px);}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--sub);font-size:9px;cursor:pointer;padding:4px 0;transition:color .2s;font-family:var(--font);}
-.nb.on{color:var(--accent);}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--sub);font-size:9px;cursor:pointer;padding:4px 0;transition:color .2s,transform .2s cubic-bezier(.23,1,.32,1);font-family:var(--font);transform-style:preserve-3d;}
+.nb:hover{transform:perspective(400px) rotateX(-8deg) translateY(-3px);color:var(--accent);}
+.nb:active{animation:navPop .3s cubic-bezier(.23,1,.32,1);}
+.nb.on{color:var(--accent);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--accent) 70%,transparent));}
 .ni{font-size:19px;line-height:1;}
 .main{flex:1;max-width:560px;margin:0 auto;}
 .hdr{padding:18px 16px 0;display:flex;justify-content:space-between;align-items:center;}
@@ -101,32 +119,39 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 
 /* COMPONENTS */
 .sl{font-size:10px;color:var(--sub);letter-spacing:2px;text-transform:uppercase;margin:16px 0 8px;font-weight:600;}
-.card{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:background .3s,border .3s;}
-.card-sm{background:var(--bg2);border-radius:var(--r2);padding:13px;margin-bottom:8px;border:1px solid var(--border);}
+.card{background:var(--card);border-radius:var(--r);padding:18px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid var(--border);transition:background .3s,border .3s,transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s;transform-style:preserve-3d;will-change:transform;}
+.card:hover{transform:perspective(1000px) rotateX(2deg) translateY(-4px) scale(1.01);box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 20px color-mix(in srgb,var(--accent) 15%,transparent);}
+.card-sm{background:var(--bg2);border-radius:var(--r2);padding:13px;margin-bottom:8px;border:1px solid var(--border);transition:transform .25s cubic-bezier(.23,1,.32,1),box-shadow .25s,border-color .25s;transform-style:preserve-3d;animation:card3dIn .4s cubic-bezier(.23,1,.32,1) both;}
+.card-sm:hover{transform:perspective(800px) rotateX(1.5deg) translateY(-3px) scale(1.01);box-shadow:0 8px 25px rgba(0,0,0,.25),0 0 15px color-mix(in srgb,var(--accent) 12%,transparent);border-color:color-mix(in srgb,var(--accent) 40%,var(--border));}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .sc{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1px solid var(--border);}
 .sc-lbl{font-size:9px;color:var(--sub);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:600;}
 .sc-val{font-size:28px;font-weight:900;line-height:1;}
 .sc-sub{font-size:11px;color:var(--sub);margin-top:3px;}
 .pb{height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;margin-top:7px;}
-.pf{height:100%;border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.pf{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.23,1,.32,1);box-shadow:0 0 8px color-mix(in srgb,var(--accent) 50%,transparent);background:linear-gradient(90deg,var(--accent),var(--accent2));}
 .inp{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r2);padding:11px 13px;color:var(--text);font-size:14px;width:100%;outline:none;font-family:var(--font);transition:border .2s;}
 .inp:focus{border-color:var(--accent);}
 select.inp option{background:var(--card);color:var(--text);}
-.btn{background:var(--accent);color:#fff;border:none;border-radius:var(--r2);padding:12px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:var(--font);transition:all .2s;}
-.btn:active{transform:scale(.98);}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--r2);padding:12px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:var(--font);transition:all .25s cubic-bezier(.23,1,.32,1);position:relative;overflow:hidden;transform-style:preserve-3d;box-shadow:0 4px 15px color-mix(in srgb,var(--accent) 40%,transparent),0 2px 4px rgba(0,0,0,.3);}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);border-radius:inherit;pointer-events:none;}
+.btn:hover{transform:perspective(600px) translateZ(6px) translateY(-2px);box-shadow:0 8px 30px color-mix(in srgb,var(--accent) 60%,transparent),0 4px 8px rgba(0,0,0,.4);}
+.btn:active{animation:pressDown .25s ease;box-shadow:0 2px 8px color-mix(in srgb,var(--accent) 30%,transparent);}
 .btn-o{background:transparent;border:1.5px solid var(--accent);color:var(--accent);}
 .btn-sm{padding:7px 13px;width:auto;font-size:12px;}
 .btn-red{background:var(--red);color:#fff;}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;}
-.chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--sub);font-size:12px;cursor:pointer;transition:all .2s;font-family:var(--font);font-weight:500;}
+.chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--sub);font-size:12px;cursor:pointer;transition:all .25s cubic-bezier(.23,1,.32,1);font-family:var(--font);font-weight:500;transform-style:preserve-3d;}
+.chip:hover{transform:perspective(400px) translateZ(4px) translateY(-2px);border-color:var(--accent);color:var(--accent);box-shadow:0 4px 15px color-mix(in srgb,var(--accent) 25%,transparent);}
+.chip.on{background:color-mix(in srgb,var(--accent) 15%,transparent);border-color:var(--accent);color:var(--accent);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 30%,transparent);}
 .chip.on,.chip:hover{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);}
 .sw{position:relative;}
 .sd{position:absolute;left:0;right:0;top:calc(100% + 5px);background:var(--card);border:1px solid var(--border);border-radius:var(--r2);z-index:50;max-height:210px;overflow-y:auto;box-shadow:0 6px 32px rgba(0,0,0,.15);display:none;}
-.si{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:background .15s;}
+.si{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;font-weight:500;transition:background .2s,transform .2s cubic-bezier(.23,1,.32,1);transform-origin:left center;}
+.si:hover{background:color-mix(in srgb,var(--accent) 8%,transparent);transform:perspective(600px) translateX(6px) translateZ(4px);border-left:3px solid var(--accent);padding-left:11px;}
 .si:hover{background:var(--bg2);}
 .si:last-child{border-bottom:none;}
-.mr{padding:12px 0;border-bottom:1px solid var(--border);animation:fadeUp .3s ease both;}
+.mr{padding:12px 0;border-bottom:1px solid var(--border);animation:slide3dIn .4s cubic-bezier(.23,1,.32,1) both;}
 .mr:last-child{border-bottom:none;}
 .mr-row{display:flex;justify-content:space-between;align-items:flex-start;}
 .mn{font-size:14px;font-weight:700;}
@@ -143,17 +168,21 @@ select.inp option{background:var(--card);color:var(--text);}
 .utab{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--sub);font-size:12px;cursor:pointer;font-family:var(--font);font-weight:500;transition:all .2s;}
 .utab.on{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);}
 .date-nav{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.date-nav button{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:8px 13px;cursor:pointer;font-size:16px;color:var(--text);transition:all .2s;}
+.date-nav button{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:8px 13px;cursor:pointer;font-size:16px;color:var(--text);transition:all .25s cubic-bezier(.23,1,.32,1);transform-style:preserve-3d;}
+.date-nav button:hover{transform:perspective(400px) translateZ(6px) translateY(-2px);border-color:var(--accent);box-shadow:0 4px 15px rgba(0,0,0,.2);}
+.date-nav button:active{animation:pressDown .2s ease;}
 .date-nav button:hover{border-color:var(--accent);color:var(--accent);}
 .date-lbl{flex:1;text-align:center;font-weight:700;font-size:14px;}
 .rw{display:flex;justify-content:center;padding:14px 0;}
 .ro{position:relative;width:170px;height:170px;}
 .rs{transform:rotate(-90deg);}
 .rb{fill:none;stroke:var(--border);stroke-width:10;}
-.rp{fill:none;stroke:var(--purple);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s;}
+.rp{fill:none;stroke:var(--purple);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.23,1,.32,1);filter:drop-shadow(0 0 6px color-mix(in srgb,var(--purple) 60%,transparent));}
 .rc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
 .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
-.pt{padding:9px;border:1.5px solid var(--border);border-radius:var(--r2);text-align:center;cursor:pointer;font-size:12px;transition:all .2s;font-weight:500;}
+.pt{padding:9px;border:1.5px solid var(--border);border-radius:var(--r2);text-align:center;cursor:pointer;font-size:12px;transition:all .25s cubic-bezier(.23,1,.32,1);font-weight:500;transform-style:preserve-3d;}
+.pt:hover{transform:perspective(400px) rotateX(-5deg) translateZ(6px) translateY(-2px);border-color:var(--accent);box-shadow:0 6px 20px color-mix(in srgb,var(--accent) 25%,transparent);}
+.pt.on{background:color-mix(in srgb,var(--accent) 15%,transparent);border-color:var(--accent);color:var(--accent);box-shadow:0 0 16px color-mix(in srgb,var(--accent) 35%,transparent),inset 0 0 10px color-mix(in srgb,var(--accent) 10%,transparent);animation:glowPulse 2s ease-in-out infinite;}
 .pt.on{border-color:var(--accent2);color:var(--accent2);background:color-mix(in srgb,var(--accent2) 10%,transparent);}
 .al{background:color-mix(in srgb,var(--red) 8%,transparent);border:1px solid color-mix(in srgb,var(--red) 20%,transparent);border-radius:var(--r2);padding:12px 14px;margin-bottom:10px;animation:fadeUp .3s ease both;}
 .alt{font-size:9px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;font-weight:700;}
@@ -166,7 +195,9 @@ select.inp option{background:var(--card);color:var(--text);}
 .tr{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
 .tr:last-child{border-bottom:none;}
 .theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
-.tc{padding:12px;border-radius:var(--r2);border:2px solid var(--border);cursor:pointer;transition:all .2s;text-align:center;}
+.tc{padding:12px;border-radius:var(--r2);border:2px solid var(--border);cursor:pointer;transition:all .3s cubic-bezier(.23,1,.32,1);text-align:center;transform-style:preserve-3d;}
+.tc:hover{transform:perspective(600px) rotateY(5deg) rotateX(-3deg) translateZ(8px);border-color:var(--accent);box-shadow:0 10px 30px rgba(0,0,0,.3),0 0 20px color-mix(in srgb,var(--accent) 20%,transparent);}
+.tc.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);box-shadow:0 0 20px color-mix(in srgb,var(--accent) 35%,transparent);animation:glowPulse 2s ease-in-out infinite;}
 .tc.on{border-color:var(--accent);}
 .tp{width:100%;height:34px;border-radius:6px;margin-bottom:6px;}
 .news-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;}
@@ -228,6 +259,20 @@ select.inp option{background:var(--card);color:var(--text);}
 .auth-tab.on{color:var(--accent);border-bottom-color:var(--accent);}
 .auth-err{background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--red);border-radius:var(--r2);padding:10px;font-size:12px;margin-bottom:12px;display:none;}
 .sync-bar{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:11px;font-weight:600;z-index:500;display:none;white-space:nowrap;box-shadow:var(--shadow);}
+/* PR CELEBRATION */
+@keyframes prSlam{0%{transform:scale(0) rotate(-10deg);opacity:0}60%{transform:scale(1.15) rotate(2deg)}80%{transform:scale(.95) rotate(-1deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes prConfetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(120px) rotate(720deg);opacity:0}}
+@keyframes prBurst{0%{transform:scale(0);opacity:1}100%{transform:scale(3);opacity:0}}
+#prOverlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9998;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+#prOverlay.show{display:flex;}
+#prBox{background:var(--card);border-radius:24px;padding:32px 28px;width:calc(100% - 48px);max-width:360px;text-align:center;animation:prSlam .5s cubic-bezier(.23,1,.32,1) both;position:relative;overflow:hidden;border:2px solid color-mix(in srgb,var(--accent) 40%,transparent);box-shadow:0 0 60px color-mix(in srgb,var(--accent) 40%,transparent);}
+#prBox::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 70%);pointer-events:none;}
+.pr-confetti{position:absolute;width:8px;height:8px;border-radius:2px;animation:prConfetti .8s ease-out both;pointer-events:none;}
+/* WEEKLY REPORT */
+@keyframes reportIn{from{opacity:0;transform:perspective(800px) rotateX(-12deg) translateY(20px)}to{opacity:1;transform:perspective(800px) rotateX(0) translateY(0)}}
+#reportOverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9997;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px;backdrop-filter:blur(6px);}
+#reportOverlay.show{display:flex;}
+#reportBox{background:var(--card);border-radius:var(--r);width:100%;max-width:420px;padding:24px;animation:reportIn .45s cubic-bezier(.23,1,.32,1) both;margin:auto;}
 .sync-bar.show{display:block;}
 
 /* ── CHALLENGES ── */
@@ -255,152 +300,28 @@ select.inp option{background:var(--card);color:var(--text);}
 .welcome-feature-icon{font-size:18px;width:24px;text-align:center;}
 </style>
 <style id="hf-enhance">
-/* ── ANIMATIONS ── */
 @keyframes hfShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes hfFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes hfOrb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.15)}66%{transform:translate(-30px,50px) scale(.9)}}
-@keyframes hfOrb2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-80px,30px) scale(1.1)}66%{transform:translate(50px,-60px) scale(.85)}}
-@keyframes hfOrb3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,70px) scale(1.2)}}
-@keyframes hfPulse{0%,100%{opacity:.18}50%{opacity:.32}}
-@keyframes hfSpin{to{transform:rotate(360deg)}}
-@keyframes hfSlideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-/* ── BACKGROUND LAYER ── */
-body{position:relative;perspective:1200px;}
+@keyframes hfFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+body{position:relative;}
 body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
- background:radial-gradient(1400px 900px at 5% -15%,rgba(124,92,255,.22),transparent 60%),
-            radial-gradient(1100px 800px at 115% 5%,rgba(34,211,238,.18),transparent 55%),
-            radial-gradient(1000px 1000px at 50% 130%,rgba(168,85,247,.16),transparent 60%),
-            radial-gradient(600px 600px at 80% 60%,rgba(56,189,248,.08),transparent 50%);}
-body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.6;
- background:linear-gradient(135deg,var(--bg),var(--bg2),rgba(15,10,30,1),var(--bg));background-size:400% 400%;animation:hfShift 22s ease infinite;}
-/* ── FLOATING ORBS ── */
-#hf-orbs{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
-#hf-orbs span{position:absolute;border-radius:50%;filter:blur(80px);animation:hfPulse 6s ease infinite;}
-#hf-orbs span:nth-child(1){width:500px;height:500px;top:-100px;left:-100px;background:rgba(124,92,255,.12);animation-name:hfOrb1;animation-duration:20s;}
-#hf-orbs span:nth-child(2){width:400px;height:400px;top:20%;right:-80px;background:rgba(34,211,238,.10);animation-name:hfOrb2;animation-duration:25s;}
-#hf-orbs span:nth-child(3){width:350px;height:350px;bottom:-60px;left:40%;background:rgba(168,85,247,.10);animation-name:hfOrb3;animation-duration:18s;}
-/* ── PARTICLE CANVAS ── */
-#hf-particles{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.45;}
-/* ── 3D CARDS ── */
-.card,[class*="card"],.tile,.panel,.box{
- backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
- border:1px solid rgba(124,92,255,.25);
- box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06),0 0 0 0 rgba(124,92,255,0);
- transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
- transform-style:preserve-3d;will-change:transform;}
-.card:hover,.tile:hover{
- box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 30px rgba(124,92,255,.25),inset 0 1px 0 rgba(255,255,255,.08);
- border-color:rgba(124,92,255,.55);}
-/* ── BUTTONS ── */
+ background:radial-gradient(1200px 800px at 12% -10%,rgba(124,92,255,.18),transparent 60%),
+            radial-gradient(1000px 700px at 110% 10%,rgba(34,211,238,.14),transparent 55%),
+            radial-gradient(900px 900px at 50% 120%,rgba(168,85,247,.12),transparent 60%);}
+body::after{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.5;
+ background:linear-gradient(120deg,var(--bg),var(--bg2),var(--bg));background-size:300% 300%;animation:hfShift 18s ease infinite;}
+.card,[class*="card"],.tile,.panel,.box{backdrop-filter:blur(10px) saturate(1.1);-webkit-backdrop-filter:blur(10px) saturate(1.1);
+ border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+ transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s;}
+.card:hover,.tile:hover{transform:translateY(-3px);box-shadow:0 14px 48px rgba(124,92,255,.22),0 0 0 1px var(--accent);border-color:var(--accent);}
 button,.btn,[class*="btn"]{transition:transform .15s,box-shadow .2s,filter .2s;}
-button:hover,.btn:hover{filter:brightness(1.12);box-shadow:0 0 24px rgba(124,92,255,.55),0 0 8px rgba(34,211,238,.2);}
-button:active,.btn:active{transform:scale(.96);}
-/* ── TEXT GLOW ── */
-[class*="accent"],.accent,h1,.logo,.brand{text-shadow:0 0 28px rgba(124,92,255,.45),0 0 8px rgba(34,211,238,.2);}
-/* ── INPUTS ── */
+button:hover,.btn:hover{filter:brightness(1.08);box-shadow:0 0 18px rgba(124,92,255,.45);}
+button:active,.btn:active{transform:scale(.97);}
+[class*="accent"],.accent,h1,.logo,.brand{text-shadow:0 0 22px rgba(124,92,255,.35);}
 input,select,textarea{transition:border-color .2s,box-shadow .2s;}
-input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.45),0 0 22px rgba(34,211,238,.3);outline:none;}
-/* ── SCROLLBAR ── */
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.4),0 0 18px rgba(34,211,238,.25);outline:none;}
 *{scrollbar-color:var(--accent) transparent;}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:6px;box-shadow:0 0 6px rgba(124,92,255,.4);}
-::selection{background:rgba(124,92,255,.45);color:#fff}
-/* ── TOUR OVERLAY ── */
-#tour-overlay{position:fixed;inset:0;z-index:99998;pointer-events:none;}
-#tour-overlay.active{pointer-events:all;}
-#tour-spotlight{position:fixed;inset:0;z-index:99998;pointer-events:none;transition:all .4s cubic-bezier(.4,0,.2,1);}
-#tour-tip{position:fixed;z-index:99999;background:rgba(10,8,20,.95);border:1px solid rgba(124,92,255,.5);
- border-radius:14px;padding:18px 22px;min-width:240px;max-width:300px;
- box-shadow:0 0 40px rgba(124,92,255,.35),0 8px 32px rgba(0,0,0,.6);
- backdrop-filter:blur(16px);animation:hfSlideUp .3s ease;display:none;}
-#tour-tip h4{margin:0 0 8px;font-size:15px;color:#c4b5fd;font-weight:700;}
-#tour-tip p{margin:0 0 14px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
-#tour-tip .tour-btns{display:flex;gap:8px;justify-content:flex-end;}
-#tour-tip .tour-btns button{padding:7px 16px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:600;}
-#tour-tip .t-skip{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);}
-#tour-tip .t-next{background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;}
-#tour-tip .t-next:hover{box-shadow:0 0 16px rgba(124,92,255,.6);}
-#tour-arrow{position:fixed;z-index:99999;width:0;height:0;pointer-events:none;}
-#tour-prog{display:flex;gap:5px;margin-bottom:12px;}
-#tour-prog span{width:20px;height:3px;border-radius:3px;background:rgba(255,255,255,.15);transition:background .3s;}
-#tour-prog span.done{background:var(--accent,#7c5cff);}
-#tour-prog span.cur{background:linear-gradient(90deg,#8b7cff,#3dd8e8);}
-/* ── SMOOTH PAGE TRANSITION ── */
-.page{opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s cubic-bezier(.2,.8,.2,1);pointer-events:none;}
-.page.on{opacity:1;transform:translateY(0);pointer-events:all;}
-.page:not(.on){display:none;}
-/* sidebar buttons smoother */
-.sb-btn{transition:background .25s,color .25s,box-shadow .25s,transform .15s;border-radius:12px;}
-.sb-btn:hover{transform:translateX(3px);}
-.sb-btn.on{box-shadow:inset 3px 0 0 var(--accent),0 0 20px rgba(139,124,255,.15);}
-/* softer rounded everything */
-.card,.tile,.panel{border-radius:var(--r);}
-.inp,input,select,textarea,.btn,button{border-radius:var(--r2);}
-/* ── ANIMATED FOOD DEMO (inside tour) ── */
-#tour-demo{margin:4px 0 14px;background:rgba(0,0,0,.25);border:1px solid rgba(139,124,255,.2);border-radius:12px;padding:12px;font-size:12px;}
-#td-searchbox{display:flex;align-items:center;gap:6px;background:rgba(139,124,255,.08);border:1px solid rgba(139,124,255,.3);border-radius:8px;padding:8px 10px;color:#fff;}
-#td-typed{color:#ECE9FF;}
-.td-cursor{display:inline-block;width:1px;background:#8b7cff;animation:hfBlink 1s steps(1) infinite;}
-@keyframes hfBlink{50%{opacity:0}}
-#td-result{margin-top:6px;padding:7px 10px;border-radius:7px;background:rgba(139,124,255,.16);color:#c4b5fd;font-weight:600;opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s,background .2s;}
-#td-result.show{opacity:1;transform:translateY(0);}
-#td-result.picked{background:linear-gradient(135deg,rgba(139,124,255,.3),rgba(61,216,232,.25));}
-.td-row{display:flex;align-items:center;gap:8px;margin-top:8px;opacity:0;transform:translateX(-6px);transition:opacity .4s,transform .4s;}
-.td-row.show{opacity:1;transform:translateX(0);}
-.td-row .td-lbl{width:52px;color:var(--sub,#9990c4);font-size:10px;}
-.td-track{flex:1;height:6px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;}
-.td-track i{display:block;height:100%;width:0;border-radius:6px;transition:width .9s cubic-bezier(.2,.8,.2,1);}
-.td-row .td-val{width:46px;text-align:right;font-weight:700;font-size:11px;color:#ECE9FF;}
-#td-micros{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;opacity:0;transition:opacity .5s;}
-#td-micros.show{opacity:1;}
-#td-micros span{font-size:9px;padding:3px 7px;border-radius:20px;background:rgba(61,216,232,.12);border:1px solid rgba(61,216,232,.25);color:#9fe8f2;}
-/* ── BOUNCE / ALIVE UI ── */
-@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes popSel{0%{transform:scale(1)}55%{transform:scale(1.14)}100%{transform:scale(1)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.mbf{transform-origin:left;animation:growX .7s cubic-bezier(.2,.8,.2,1);}
-.chip,.utab,.pill,.si,.sb-btn,.btn{transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s,filter .2s,background .2s;}
-.chip:hover,.utab:hover,.pill:hover,.si:hover{transform:scale(1.07);}
-.chip:active,.utab:active,.pill:active{transform:scale(.93);}
-.chip.on,.utab.on{animation:popSel .35s cubic-bezier(.34,1.56,.64,1);}
-.btn:hover{transform:translateY(-2px) scale(1.02);}
-.btn:active{transform:scale(.95);}
-.page.on .card{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both;}
-.page.on .card:nth-child(2){animation-delay:.05s}.page.on .card:nth-child(3){animation-delay:.1s}.page.on .card:nth-child(4){animation-delay:.15s}.page.on .card:nth-child(5){animation-delay:.2s}.page.on .card:nth-child(6){animation-delay:.25s}
-.si{border-radius:8px;cursor:pointer;}
-#qtyArea{animation:fadeUp .35s cubic-bezier(.34,1.56,.64,1);}
-/* ── SEARCH DROPDOWN Z-FIX (cards create stacking contexts via backdrop-filter) ── */
-#pg-nutrition .card:has(.sw){position:relative;z-index:80;overflow:visible;}
-.sd{z-index:90;background:var(--bg2);backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);box-shadow:0 18px 60px rgba(0,0,0,.55),0 0 0 1px color-mix(in srgb,var(--accent) 25%,transparent);}
-/* ── LIVE FOOD PREVIEW (demo-style, real tab) ── */
-#foodPreview{display:none;margin-top:14px;animation:fadeUp .4s cubic-bezier(.34,1.56,.64,1);}
-.fp-name{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:12px;font-weight:700;font-size:14px;color:var(--text);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 28%,transparent),color-mix(in srgb,var(--accent2) 22%,transparent));border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);box-shadow:0 0 24px color-mix(in srgb,var(--accent) 25%,transparent);animation:popSel .4s cubic-bezier(.34,1.56,.64,1);}
-.fp-row{display:flex;align-items:center;gap:10px;margin-top:10px;opacity:0;transform:translateX(-10px);transition:opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1);}
-.fp-row.show{opacity:1;transform:none;}
-.fp-lbl{width:62px;font-size:11px;font-weight:600;color:var(--sub);}
-.fp-track{flex:1;height:7px;border-radius:7px;background:color-mix(in srgb,var(--text) 8%,transparent);overflow:hidden;}
-.fp-track i{display:block;height:100%;width:0;border-radius:7px;transition:width .9s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 10px color-mix(in srgb,var(--accent) 50%,transparent);}
-.fp-val{width:56px;text-align:right;font-weight:800;font-size:13px;color:var(--text);}
-.fp-chips{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;opacity:0;transition:opacity .6s;}
-.fp-chips.show{opacity:1;}
-.fp-chips span{font-size:10px;padding:4px 10px;border-radius:20px;background:color-mix(in srgb,var(--accent2) 13%,transparent);border:1px solid color-mix(in srgb,var(--accent2) 30%,transparent);color:var(--accent2);font-weight:700;animation:popSel .35s cubic-bezier(.34,1.56,.64,1);}
-/* ── ARTICLE ZOOM MODAL ── */
-@keyframes zoomIn{from{opacity:0;transform:scale(.86) translateY(24px)}to{opacity:1;transform:none}}
-#artModal{position:fixed;inset:0;z-index:99990;display:none;align-items:center;justify-content:center;background:rgba(4,2,14,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:22px;}
-#artModal.open{display:flex;}
-#artModal .am-card{max-width:620px;width:100%;max-height:82vh;overflow-y:auto;background:var(--bg2);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:24px;padding:30px;animation:zoomIn .4s cubic-bezier(.2,.8,.2,1);box-shadow:0 34px 100px rgba(0,0,0,.65),0 0 70px color-mix(in srgb,var(--accent) 18%,transparent);}
-#artModal .am-title{font-size:23px;font-weight:800;line-height:1.35;margin:12px 0 16px;}
-#artModal .am-body{font-size:15.5px;line-height:1.9;color:var(--text);}
-#artModal .am-src{margin-top:18px;font-size:12px;color:var(--sub);font-style:italic;}
-#newsContent .card{cursor:pointer;}
-/* ── 3D HIGGSFIELD DEPTH ── */
-.ht{background:linear-gradient(95deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--accent) 35%,transparent));}
-.card:hover{transform:perspective(900px) rotateX(1.3deg) translateY(-4px) translateZ(6px);}
-.card{transform-style:preserve-3d;}
-.sg>div:hover,.tile:hover{transform:perspective(800px) rotateX(2deg) translateY(-3px);}
-input[type="color"]{-webkit-appearance:none;appearance:none;border:1px solid var(--border);border-radius:12px;padding:3px;background:var(--bg2);cursor:pointer;height:44px;width:100%;}
-input[type="color"]::-webkit-color-swatch{border:none;border-radius:9px;}
-input[type="color"]::-webkit-color-swatch-wrapper{padding:2px;}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--accent2));border-radius:9px}
+::selection{background:rgba(124,92,255,.4);color:#fff}
 </style></head>
 <body>
 <div class="stars" id="stars"></div>
@@ -580,7 +501,6 @@ input[type="color"]::-webkit-color-swatch-wrapper{padding:2px;}
           <input class="inp" id="foodInp" placeholder="🔍  Search food..." autocomplete="off" oninput="searchFood(this.value)">
           <div class="sd" id="searchDrop"></div>
         </div>
-        <div id="foodPreview"></div>
         <div id="qtyArea" style="display:none;">
           <div class="sl" style="margin-top:12px;">Portion</div>
           <div class="chips" id="qtyChips"></div>
@@ -595,6 +515,7 @@ input[type="color"]::-webkit-color-swatch-wrapper{padding:2px;}
         <div class="fb"><div class="sl" style="margin-top:0;">Micronutrients</div><button class="pill" id="microBtn" onclick="toggleMicro()">Show</button></div>
         <div id="microDisplay" style="display:none;"></div>
       </div>
+      <div id="smartSuggest" style="margin-bottom:8px;display:flex;flex-direction:column;gap:8px;"></div>
       <div class="sl">Log — <span id="dayLblLog"></span></div>
       <div class="card" id="mealLog"></div>
     </div>
@@ -687,6 +608,7 @@ input[type="color"]::-webkit-color-swatch-wrapper{padding:2px;}
     </div>
     <!-- STATS -->
     <div id="pg-stats" class="page">
+      <button class="btn btn-o" onclick="showWeeklyReport()" style="margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;">📊 Weekly Report Card</button>
       <div class="sl">Weekly Calories</div><div class="card"><div class="cw"><canvas id="calChart"></canvas></div></div>
       <div class="sl">Weekly Protein</div><div class="card"><div class="cw"><canvas id="proChart"></canvas></div></div>
       <div class="sl">Today's macros</div><div class="card"><div class="cw"><canvas id="pieChart"></canvas></div></div>
@@ -845,22 +767,6 @@ input[type="color"]::-webkit-color-swatch-wrapper{padding:2px;}
 
     <!-- SETTINGS -->
     <div id="pg-settings" class="page">
-      <div class="sl">Help</div>
-      <div class="card"><button class="btn btn-o" onclick="startTour()">🎬 Replay Tutorial</button></div>
-      <div class="sl">Appearance Studio</div>
-      <div class="card">
-        <div class="f12 cs" style="margin-bottom:12px;">Make NURAZ.OS yours — your colors, your vibe.</div>
-        <div class="flex" style="gap:12px;margin-bottom:12px;">
-          <label class="f12 cs" style="flex:1;">Primary<input type="color" id="custPrimary" value="#8B7CFF" style="margin-top:6px;display:block;"></label>
-          <label class="f12 cs" style="flex:1;">Secondary<input type="color" id="custSecondary" value="#3DD8E8" style="margin-top:6px;display:block;"></label>
-        </div>
-        <div class="sl" style="margin-top:4px;">Background animation</div>
-        <div class="chips" id="custBgChips"></div>
-        <div class="flex" style="gap:8px;margin-top:14px;">
-          <button class="btn" style="flex:1;" onclick="saveCustomTheme()">✨ Apply</button>
-          <button class="btn btn-o" style="flex:1;" onclick="resetCustomTheme()">Reset</button>
-        </div>
-      </div>
       <div class="sl">Users</div><div class="card" id="userMgr"></div>
       <div class="sl">Routine Builder</div>
       <div class="card">
@@ -960,12 +866,13 @@ var THEMES=['higgsfield',
 ];
 var tIdx=0;
 
+function refreshCharts(){setTimeout(function(){renderWtChart();if(charts.ex)renderExChart();renderStats();},50);}
 function applyTheme(id){
   if(id==='light')document.documentElement.removeAttribute('data-theme');
   else document.documentElement.setAttribute('data-theme',id);
   M.theme=id;svMeta();
   tIdx=THEMES.findIndex(function(t){return t.id===id;});if(tIdx<0)tIdx=0;
-  renderThemeGrid();
+  renderThemeGrid();refreshCharts();
 }
 function cycleTheme(){tIdx=(tIdx+1)%THEMES.length;applyTheme(THEMES[tIdx].id);}
 function renderThemeGrid(){
@@ -1568,36 +1475,61 @@ var FN = Object.keys(F);
 var EXL={
   Chest:{icon:'🫁',ex:[
     {n:'Barbell Bench Press',eq:'Barbell',f:'Arch slightly, feet flat. Grip outside shoulder width. Lower bar to nipple line, elbows 45-60 degrees. Drive through chest.'},
+    {n:'Incline Barbell Press',eq:'Barbell',f:'30-45 degree incline. Retract scapula. Bar to upper chest. Elbows 60-70 degrees. Drive up and squeeze upper pec.'},
     {n:'Incline Dumbbell Press',eq:'Dumbbell',f:'30-45 degree incline. Retract scapula. Lower to chest, elbows 60-70 degrees. Drive up and in, squeeze at top.'},
     {n:'Decline Bench Press',eq:'Barbell',f:'Feet secured. Lower to lower chest. Targets lower pec. Full range.'},
+    {n:'Decline Dumbbell Press',eq:'Dumbbell',f:'Feet secured, decline angle. Press up and in. Lower pec dominant. Full stretch at bottom.'},
     {n:'Dumbbell Flyes',eq:'Dumbbell',f:'Slight elbow bend throughout. Open wide at bottom, squeeze at top. Think hugging a barrel.'},
+    {n:'Incline Dumbbell Flyes',eq:'Dumbbell',f:'30-45 degree incline. Wide arc. Stretch upper pec deep at bottom. Squeeze hard at top.'},
     {n:'Cable Flyes High to Low',eq:'Cable',f:'Cables high. Pull down and across. Squeeze lower chest at bottom. Control return.'},
     {n:'Cable Flyes Low to High',eq:'Cable',f:'Cables low. Pull up and across. Targets upper chest. Squeeze hard at top.'},
+    {n:'Cable Chest Press',eq:'Cable',f:'Cables at chest height. Step forward. Press out and together. Constant tension throughout. Best for pump.'},
+    {n:'Machine Chest Press',eq:'Machine',f:'Seat adjusted so handles at nipple line. Drive through chest not shoulders. Full lockout. Slow eccentric 3-4 sec.'},
+    {n:'Smith Machine Bench Press',eq:'Machine',f:'Bar path is fixed — position body so bar touches nipple line. Good for learning movement. Use full range.'},
+    {n:'Landmine Press',eq:'Barbell',f:'One end of bar in corner. Press at 45 degree angle. Shoulder-friendly pressing. Great for upper chest.'},
+    {n:'Dumbbell Pullover',eq:'Dumbbell',f:'Across bench, hips low. Arc arms back overhead — full chest and lat stretch. Pull back over with chest leading.'},
+    {n:'Svend Press',eq:'Equipment',f:'Hold two plates together at chest. Press out squeezing plates. Incredible medial pec activation. Light weight.'},
     {n:'Push Ups',eq:'Bodyweight',f:'Straight plank. Hands slightly wider than shoulders. Chest to floor. Full lockout at top.'},
+    {n:'Weighted Push Ups',eq:'Bodyweight',f:'Plate on back or weight vest. Full chest-to-floor range. Slow eccentric 3 sec. Better than it looks.'},
     {n:'Dips Chest Focus',eq:'Bodyweight',f:'Lean forward for chest. Full depth until upper arm parallel to floor. Squeeze chest at top.'},
     {n:'Pec Deck',eq:'Machine',f:'Elbows at shoulder height. Bring pads together, squeeze hard. Full stretch at back.'},
   ]},
   Back:{icon:'🔙',ex:[
     {n:'Pull Ups',eq:'Bodyweight',f:'Dead hang every rep. Depress scapula first. Pull chest to bar, elbows drive down. Full extension at bottom.'},
+    {n:'Chin Ups',eq:'Bodyweight',f:'Supinated grip. Elbows drive down to hips. More bicep involvement. Full dead hang at bottom. Pull to chin over bar.'},
+    {n:'Weighted Pull Ups',eq:'Bodyweight',f:'Belt or dumbbell between knees. Same form as bodyweight. Add weight when you can do 10+ clean reps.'},
     {n:'Lat Pulldowns',eq:'Cable',f:'Wide grip. Lean back 20-30 degrees, chest up. Pull bar to upper chest. Lead with elbows. Full stretch at top.'},
+    {n:'Close Grip Lat Pulldowns',eq:'Cable',f:'V-handle or neutral grip. Lean back slightly. Pull to lower chest. Elbows drive to hips. Full overhead stretch.'},
     {n:'Chest Supported DB Rows',eq:'Dumbbell',f:'Chest on incline bench. Shoulders DOWN throughout — no shrugging. Pull elbows back. Full stretch at bottom.'},
     {n:'Barbell Rows',eq:'Barbell',f:'Hip hinge, back parallel. Pull to navel. Retract scapula at top. Controlled descent.'},
+    {n:'Pendlay Row',eq:'Barbell',f:'Bar on floor each rep. Explosive pull from dead stop. Back parallel to floor. Builds raw thickness.'},
+    {n:'T-Bar Row',eq:'Barbell',f:'Barbell in landmine or T-bar machine. Pull to chest. Neutral spine. Great for mid-back thickness.'},
     {n:'Seated Cable Rows',eq:'Cable',f:'Neutral spine. Pull to lower chest. Retract scapula. Full stretch forward between reps.'},
+    {n:'Cable High Row',eq:'Cable',f:'Cables above head height. Pull elbows down and back. Targets upper lats and mid back. Lean back slightly.'},
     {n:'Single Arm DB Row',eq:'Dumbbell',f:'Support on bench. Pull elbow to hip. Full stretch at bottom.'},
     {n:'Straight Arm Pulldowns',eq:'Cable',f:'Arms almost straight. Pull to thighs using only lats. Zero bicep involvement. Best lat isolation.'},
     {n:'Face Pulls',eq:'Cable',f:'Rope at face height. Pull to face, elbows high and wide. External rotation at end.'},
     {n:'Meadows Row',eq:'Barbell',f:'Straddle barbell end. Pull to hip. Incredible lat and mid back stretch.'},
+    {n:'Rack Pulls',eq:'Barbell',f:'Bar at knee height in rack. Heavy partial deadlift. Trains upper back and traps under extreme load.'},
+    {n:'Seal Row',eq:'Barbell',f:'Lie face down on elevated bench. Row to sternum. Chest is braced — pure back, zero momentum.'},
   ]},
   Shoulders:{icon:'🏋️',ex:[
     {n:'Overhead Press Barbell',eq:'Barbell',f:'Bar at chin before pressing. Press straight up. Lock out. Brace core throughout.'},
+    {n:'Seated Overhead Press',eq:'Barbell',f:'Back supported. Strict press — no leg drive. Isolates shoulders better. Control descent to chin.'},
     {n:'Dumbbell Shoulder Press',eq:'Dumbbell',f:'Press up and together at top. Full extension. Control descent to ear level.'},
     {n:'Arnold Press',eq:'Dumbbell',f:'Start palms facing you, rotate outward as you press. Hits all three delt heads.'},
     {n:'Lateral Raises Dumbbell',eq:'Dumbbell',f:'Lead with elbow not hand. Raise to shoulder level. Slow eccentric 3-4 seconds. Slight forward lean.'},
     {n:'Cable Lateral Raises',eq:'Cable',f:'Cable at hip height. Lead with elbow. Slow controlled. Better constant tension than dumbbells.'},
     {n:'Machine Lateral Raises',eq:'Machine',f:'Elbow pad correct height. Lead with elbow. Feel the lateral delt throughout.'},
+    {n:'Landmine Lateral Raises',eq:'Barbell',f:'Hold end of landmine bar. Arc out to side. Shoulder-friendly lateral variation. Unique strength curve.'},
+    {n:'Cable Front Raises',eq:'Cable',f:'Cable at floor. Raise arm to eye level. Constant tension. Better than dumbbell front raises for front delt.'},
+    {n:'Plate Front Raises',eq:'Equipment',f:'Hold plate with both hands. Raise to eye level. Control descent fully. Front delt isolation.'},
     {n:'Reverse Flyes',eq:'Dumbbell',f:'Hinge forward. Arms slightly bent. Raise out squeezing rear delts. Control descent.'},
+    {n:'Reverse Pec Deck',eq:'Machine',f:'Face the machine. Arms out. Pull back squeezing rear delts. Better than dumbbell reverse flyes for isolation.'},
+    {n:'Upright Rows',eq:'Barbell',f:'Narrow grip. Pull bar straight up to chin. Elbows flare high. Traps and lateral delts. Watch shoulder impingement.'},
     {n:'Face Pulls',eq:'Cable',f:'Rope at face height. Pull to face, elbows high. External rotation. Critical for shoulder health.'},
     {n:'Shrugs',eq:'Dumbbell',f:'Straight up and down only. Hold 1-2 sec at top. No rolling.'},
+    {n:'Barbell Shrugs',eq:'Barbell',f:'Heavy load. Straight up. Hold at top 2 sec. Full depression at bottom for full range trap development.'},
   ]},
   Biceps:{icon:'💪',ex:[
     {n:'Barbell Curls',eq:'Barbell',f:'Elbows pinned. Full extension at bottom. Curl to chin. No swinging. Squeeze at top.'},
@@ -1606,43 +1538,73 @@ var EXL={
     {n:'Hammer Curls',eq:'Dumbbell',f:'Neutral grip thumbs up throughout. Elbows pinned. Targets brachialis and brachioradialis.'},
     {n:'Incline Dumbbell Curls',eq:'Dumbbell',f:'45-60 degree incline. Arms hang behind body. Full stretch at bottom — long head focus. Very slow.'},
     {n:'Preacher Curls',eq:'Barbell',f:'Upper arm locked against pad. Full extension at bottom. Curl to chin. Short head focus.'},
+    {n:'Machine Preacher Curls',eq:'Machine',f:'Chest pad locks arm in. Constant tension throughout. Great for short head pump and isolation.'},
     {n:'Cable Curls',eq:'Cable',f:'Constant tension. Great for pump. Supinate at top. Control descent.'},
+    {n:'Cable Hammer Curls',eq:'Cable',f:'Rope attachment. Neutral grip. Pull to shoulders. Constant tension on brachialis. Better than dumbbell version.'},
     {n:'Concentration Curls',eq:'Dumbbell',f:'Elbow on inner knee. Full range. Squeeze 2 sec at top. Best for peak isolation.'},
     {n:'Spider Curls',eq:'Barbell',f:'Face down on incline. Arms hang straight. Curl up. Constant tension.'},
     {n:'Cross Body Hammer Curls',eq:'Dumbbell',f:'Curl across to opposite shoulder. Targets long head and brachialis differently.'},
+    {n:'Reverse Curls',eq:'Barbell',f:'Overhand grip. Curl up keeping wrists neutral. Targets brachioradialis and brachialis. Builds forearm thickness.'},
+    {n:'Zottman Curls',eq:'Dumbbell',f:'Curl up supinated, rotate to overhand at top, lower overhand. Works bicep up, brachioradialis down. Genius exercise.'},
+    {n:'21s',eq:'Barbell',f:'7 reps bottom half, 7 reps top half, 7 full reps. Extreme time under tension. Great as a finisher.'},
   ]},
   Triceps:{icon:'🔱',ex:[
     {n:'Close Grip Bench Press',eq:'Barbell',f:'Shoulder width grip. Elbows tucked. Lower to chest. Best heavy tricep compound.'},
     {n:'Skull Crushers',eq:'Barbell',f:'Lower to forehead or behind head. Elbows stay up. Full extension at top.'},
+    {n:'EZ Bar Skull Crushers',eq:'Barbell',f:'EZ bar reduces wrist strain. Lower to forehead or slightly behind. Elbows vertical. Full extension.'},
+    {n:'JM Press',eq:'Barbell',f:'Hybrid between close grip press and skull crusher. Lower bar toward throat as elbows drop forward. Brutally effective.'},
     {n:'Overhead Tricep Extension Cable',eq:'Cable',f:'Lean forward. Elbows beside ears — DO NOT FLARE. Lower until full long head stretch. Extend fully.'},
-    {n:'Straight Bar Pushdowns',eq:'Cable',f:'Elbows pinned. Push down and lock out fully, hold 1 sec. Slow return. Lateral head.'},
-    {n:'Rope Pushdowns',eq:'Cable',f:'Rope attachment. Spread at bottom for extra contraction.'},
-    {n:'Dips Tricep Focus',eq:'Bodyweight',f:'Upright torso. Elbows tucked close. Full depth. Lock out at top.'},
     {n:'Overhead DB Extension',eq:'Dumbbell',f:'Both hands one dumbbell overhead. Lower behind head. Elbows in. Long head focus.'},
+    {n:'Straight Bar Pushdowns',eq:'Cable',f:'Elbows pinned. Push down and lock out fully, hold 1 sec. Slow return. Lateral head.'},
+    {n:'Rope Pushdowns',eq:'Cable',f:'Rope attachment. Spread at bottom for extra contraction. Lateral and medial head.'},
+    {n:'Reverse Grip Pushdowns',eq:'Cable',f:'Underhand grip. Elbows pinned. Full lockout. Hits medial head and long head differently.'},
+    {n:'Dips Tricep Focus',eq:'Bodyweight',f:'Upright torso. Elbows tucked close. Full depth. Lock out at top.'},
+    {n:'Bench Dips',eq:'Bodyweight',f:'Hands on bench behind you. Lower until upper arms parallel. Elbows back not flared. Add plate on lap for load.'},
+    {n:'Tate Press',eq:'Dumbbell',f:'Dumbbells above chest, elbows flared. Lower dumbbells to chest by bending elbows outward. Lateral head crush.'},
     {n:'Kickbacks',eq:'Dumbbell',f:'Upper arm parallel to floor. Extend fully back. Squeeze at lockout. Light weight.'},
+    {n:'Cable Kickbacks',eq:'Cable',f:'Cable at ankle height. Hinge forward. Extend arm fully back. Better constant tension than dumbbell version.'},
     {n:'Diamond Push Ups',eq:'Bodyweight',f:'Hands form diamond. Elbows close to body. Full range.'},
+    {n:'Machine Tricep Extension',eq:'Machine',f:'Overhead or pushdown machine. Full lockout at bottom. Slow eccentric. Great for joints.'},
   ]},
   Legs:{icon:'🦵',ex:[
     {n:'Barbell Squats',eq:'Barbell',f:'Bar on upper traps. Feet shoulder width. Full depth — hip crease below knee. Drive through heels.'},
+    {n:'Front Squats',eq:'Barbell',f:'Bar on front delts. Elbows high. More upright torso. Quad dominant. Requires good mobility.'},
+    {n:'Goblet Squats',eq:'Dumbbell',f:'Hold dumbbell at chest. Squat to full depth. Elbows track knees. Great for quad development and mobility.'},
+    {n:'Sumo Deadlift',eq:'Barbell',f:'Wide stance, toes pointed out. Grip inside knees. Drive floor apart. More glute and adductor than conventional.'},
     {n:'Hack Squats',eq:'Machine',f:'Feet shoulder width, toes out slightly. Full depth. Drive through heels. Quad dominant.'},
     {n:'Leg Press',eq:'Machine',f:'Feet hip width. Full range without lower back lifting. High feet = more hamstring, low feet = more quad.'},
     {n:'Leg Extensions',eq:'Machine',f:'Full extension and HOLD 1-2 sec at top. Slow eccentric 3-4 sec. Do not hyperextend.'},
     {n:'Bulgarian Split Squats',eq:'Dumbbell',f:'Rear foot elevated. Drop knee straight down. Front knee tracks toes. Best unilateral quad exercise.'},
     {n:'Romanian Deadlifts',eq:'Barbell',f:'Hip hinge, soft knees. Feel hamstring stretch. Drive hips forward to stand. Do not round.'},
+    {n:'Dumbbell RDLs',eq:'Dumbbell',f:'Same as barbell RDL. Dumbbells track down legs. Better range of motion. Great for beginners.'},
+    {n:'Good Mornings',eq:'Barbell',f:'Bar on upper traps. Hinge at hips, slight knee bend. Keep back neutral. Loads hamstrings and lower back heavily.'},
+    {n:'Nordic Hamstring Curls',eq:'Bodyweight',f:'Feet anchored. Lower body toward floor SLOWLY. Catch yourself. Pull back up. Elite hamstring strength exercise.'},
     {n:'Seated Leg Curls',eq:'Machine',f:'Full range. Full contraction, hold 1 sec. Slow eccentric. Best hamstring isolation.'},
     {n:'Lying Leg Curls',eq:'Machine',f:'Hips pressed down. Full contraction. Control descent.'},
     {n:'Standing Calf Raises',eq:'Machine',f:'FULL STRETCH at bottom every rep. Hold at top 1 sec. Do not bounce.'},
     {n:'Seated Calf Raises',eq:'Machine',f:'Targets soleus. Full stretch at bottom. Slow tempo.'},
+    {n:'Leg Press Calf Raises',eq:'Machine',f:'Feet at bottom of leg press plate. Full stretch. Toes in = medial, toes out = lateral head.'},
     {n:'Hip Thrusts',eq:'Barbell',f:'Shoulders on bench. Bar across hips with pad. Drive hips up. Squeeze glutes HARD at top.'},
+    {n:'Dumbbell Hip Thrusts',eq:'Dumbbell',f:'Dumbbell on hips. Same movement. Easier to set up. Great for beginners or when barbell is busy.'},
     {n:'Walking Lunges',eq:'Dumbbell',f:'Long stride. Front knee tracks toes. Back knee almost touches floor. Upright torso.'},
+    {n:'Reverse Lunges',eq:'Dumbbell',f:'Step back instead of forward. Easier on knees. Front leg stays planted. More glute activation.'},
+    {n:'Step Ups',eq:'Dumbbell',f:'Full step onto box. Drive through heel. Full hip extension at top. Control descent. Unilateral quad builder.'},
   ]},
   Core:{icon:'⬜',ex:[
     {n:'Plank',eq:'Bodyweight',f:'Body straight. Brace core as hard as possible. Breathe. No raised hips no sagging.'},
+    {n:'Side Plank',eq:'Bodyweight',f:'On forearm, feet stacked. Body straight. Hips up. 30-60 sec each side. Oblique isometric.'},
     {n:'Cable Crunches',eq:'Cable',f:'Kneel, rope at head. Pull elbows to knees ROUNDING spine fully. Hold at bottom.'},
     {n:'Hanging Leg Raises',eq:'Bodyweight',f:'Dead hang. Raise legs to parallel or beyond. Control descent. No swinging.'},
+    {n:'Hanging Knee Raises',eq:'Bodyweight',f:'Dead hang. Pull knees to chest. Control descent. Good regression from hanging leg raises.'},
     {n:'Ab Wheel Rollout',eq:'Equipment',f:'Start on knees. Roll out fully. Pull back with abs only. Very advanced.'},
     {n:'Russian Twists',eq:'Dumbbell',f:'Feet raised. Rotate side to side touching floor. Core braced. Targets obliques.'},
     {n:'Dead Bug',eq:'Bodyweight',f:'On back. Opposite arm and leg extend together. Lower back stays flat throughout.'},
+    {n:'Hollow Body Hold',eq:'Bodyweight',f:'On back. Arms overhead, legs straight, lower back pressed to floor. Hold. Gymnastics core staple.'},
+    {n:'Bicycle Crunches',eq:'Bodyweight',f:'Opposite elbow to knee. Full rotation. Slow and controlled, no neck pulling. Oblique and rectus both.'},
+    {n:'Landmine Rotations',eq:'Barbell',f:'Hold barbell end with both hands. Rotate arc across body. Power and oblique development together.'},
+    {n:'Dragon Flag',eq:'Bodyweight',f:'On bench, grip behind head. Raise body to vertical, lower STRAIGHT. Elite core exercise. Very advanced.'},
+    {n:'Pallof Press',eq:'Cable',f:'Cable at chest height. Stand side-on. Press out and hold. Anti-rotation — core stability not flexion.'},
+    {n:'V-Ups',eq:'Bodyweight',f:'Lie flat. Raise arms and legs simultaneously to touch. Full range. Control descent. Lower abs dominant.'},
   ]},
 };
 
@@ -1742,37 +1704,93 @@ function addEx(day,name,eq){if(!D.customR)D.customR={};if(!D.customR[day])D.cust
 function rmEx(day,idx){if(D.customR&&D.customR[day]){D.customR[day].splice(parseInt(idx),1);svUser();editDay(day);}}
 function saveBuilder(){svUser();alert('Routine saved!');populateSel();ge('builderArea').innerHTML='';var de=ge('dayEdit');if(de)de.innerHTML='';}
 // ── FOOD SEARCH ──
-// ── FOOD EMOJI MAP (must live in this tag — boot-time renderMeals/renderCM call it) ──
-function foodEmoji(n){n=(n||'').toLowerCase();
-  var map=[['biryani|tehari|pulao|polao|khichuri|fried rice|risotto','🍛'],['rice|bhat|vat','🍚'],['chicken|murgi|murog','🍗'],['beef|gorur|steak|mutton|lamb|khasi|goat|meat','🥩'],['hilsa|ilish|rui|katla|pangash|fish|salmon|tuna|maach|mach|tilapia','🐟'],['shrimp|prawn|chingri|lobster','🦐'],['egg|dim|omelet','🥚'],['dal|daal|lentil|moong|mosur','🍲'],['roti|ruti|naan|paratha|porota|luchi|chapati|bread|toast|bun','🫓'],['milk|dudh|yogurt|doi|lassi|borhani','🥛'],['banana|kola','🍌'],['mango|aam','🥭'],['apple|apel','🍎'],['orange|malta|kamala','🍊'],['grape|angur','🍇'],['watermelon|tarmuj','🍉'],['guava|peyara','🫒'],['potato|aloo|alu','🥔'],['spinach|lau|begun|kumra|shak|vegetable|sabzi|bhaji|torkari|okra|dhundul','🥬'],['samosa|singara|piyaju|pakora|chop|beguni|fry|cutlet','🧆'],['mishti|rasgulla|rosgolla|jilapi|jalebi|halwa|payesh|sandesh|sweet|dessert|cake|kheer','🍰'],['tea|cha|coffee','☕'],['oil|ghee|butter|makhon','🧈'],['cheese|paneer','🧀'],['almond|cashew|peanut|badam|nut|walnut|kaju','🥜'],['soup|shorba','🍜'],['korma|bhuna|masala|curry|jhol|kalia','🍛'],['salad|salat','🥗'],['chocolate','🍫'],['ice cream','🍦'],['burger','🍔'],['pizza','🍕'],['kebab|kabab|tikka|seekh|shami','🍢'],['noodle|chowmein|chow|pasta','🍝'],['honey|modhu','🍯'],['date|khejur','🫐'],['coconut|narikel|dab','🥥'],['carrot|gajor','🥕'],['tomato','🍅'],['onion|peyaj','🧅'],['biscuit|cookie|cracker','🍪'],['juice|sharbat|drink|cola|soda','🥤']];
-  for(var i=0;i<map.length;i++){if(new RegExp(map[i][0]).test(n))return map[i][1];}
-  return '🍽️';
-}
-function countUp(el,to,dur){if(!el)return;var t0=Date.now();to=+to||0;dur=dur||650;(function s(){var p=Math.min((Date.now()-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)setTimeout(s,16);})();}
-function estMicros(name,food,mult){
-  var n=(name||'').toLowerCase(),na=40;
-  if(/pickle|achar|sauce|soy|chips|crisp|sausage|salami|canned|instant|noodle|ramen|processed|salt|papad|namkeen|cured|bacon|ham|stock/.test(n))na=650;
-  else if(/bread|cheese|biryani|tehari|fried|curry|restaurant|burger|pizza|kebab|kabab|roll|samosa|singara|chop|fast|sandwich|masala/.test(n))na=320;
-  else if(/fish|hilsa|ilish|shrimp|prawn|egg|meat|beef|mutton|chicken|dal|lentil/.test(n))na=90;
-  var p=(food&&food.pro||0)*11,se=(food&&food.pro||0)*0.5;
-  return {na:Math.round(na*mult),p:Math.round(p*mult),se:Math.round(se*mult*10)/10};
-}
 function searchFood(q){
   var drop=ge('searchDrop');ge('qtyArea').style.display='none';selFood=null;
   if(!q||q.length<2){drop.style.display='none';return;}
   var hits=FN.filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>=0;}).slice(0,10);
   if(!hits.length){drop.style.display='none';return;}
   drop.style.display='block';drop.innerHTML='';
-  hits.forEach(function(n){var d=document.createElement('div');d.className='si';d.textContent=foodEmoji(n)+'  '+n;d.onclick=function(){pickFood(n);};drop.appendChild(d);});
+  hits.forEach(function(n){var d=document.createElement('div');d.className='si';d.textContent=n;d.onclick=function(){pickFood(n);};drop.appendChild(d);});
+}
+function getFoodEmoji(n){n=n.toLowerCase();if(n.includes('chicken')||n.includes('kebab'))return '🍗';if(n.includes('beef')||n.includes('steak')||n.includes('meat'))return '🥩';if(n.includes('egg'))return '🥚';if(n.includes('fish')||n.includes('salmon')||n.includes('tuna')||n.includes('hilsa'))return '🐟';if(n.includes('shrimp')||n.includes('prawn'))return '🦐';if(n.includes('biryani')||n.includes('polao')||n.includes('tehari'))return '🍛';if(n.includes('rice')||n.includes('bhat'))return '🍚';if(n.includes('bread')||n.includes('roti')||n.includes('toast'))return '🍞';if(n.includes('pasta')||n.includes('noodle'))return '🍝';if(n.includes('banana'))return '🍌';if(n.includes('mango'))return '🥭';if(n.includes('apple'))return '🍎';if(n.includes('orange'))return '🍊';if(n.includes('potato'))return '🥔';if(n.includes('milk'))return '🥛';if(n.includes('yogurt')||n.includes('curd'))return '🫙';if(n.includes('oat'))return '🥣';if(n.includes('butter'))return '🧈';if(n.includes('oil'))return '🫗';if(n.includes('coffee'))return '☕';if(n.includes('tea'))return '🍵';if(n.includes('cola')||n.includes('drink')||n.includes('juice'))return '🥤';if(n.includes('salad'))return '🥗';if(n.includes('almond')||n.includes('nut'))return '🌰';return '🍽️';}
+function updateFoodPreview(name,qty){
+  var food=F[name];if(!food)return;
+  var num=parseFloat(qty);var mult=num/food.base;if(isNaN(mult))return;
+  var cal=Math.round(food.cal*mult),pro=Math.round(food.pro*mult),carb=Math.round(food.carb*mult),fat=Math.round(food.fat*mult);
+  var macroEl=ge('fdMacros');
+  if(macroEl){
+    var maxCal=800,maxPro=80,maxCarb=120,maxFat=50;
+    macroEl.innerHTML=
+      ['Calories','Protein','Carbs','Fat'].map(function(l,i){
+        var v=[cal,pro,carb,fat][i],max=[maxCal,maxPro,maxCarb,maxFat][i];
+        var c=['var(--accent)','var(--blue)','var(--red)','#FF9500'][i];
+        return '<div style="display:flex;align-items:center;margin-bottom:9px;animation:slide3dIn .4s cubic-bezier(.23,1,.32,1) '+(i*0.07)+'s both;">'+
+          '<span style="font-size:11px;color:var(--sub);width:68px;font-weight:500;">'+l+'</span>'+
+          '<div style="flex:1;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;margin:0 10px;">'+
+            '<div class="mbf fdbar-'+i+'" style="width:0%;height:100%;border-radius:3px;background:'+c+';box-shadow:0 0 6px color-mix(in srgb,'+c+' 50%,transparent);transition:width .7s cubic-bezier(.23,1,.32,1) '+(i*0.08)+'s;"></div>'+
+          '</div>'+
+          '<span style="font-size:12px;font-weight:700;color:'+c+';min-width:28px;text-align:right;">'+v+'</span>'+
+        '</div>';
+      }).join('');
+    setTimeout(function(){
+      var vals=[Math.min(cal/maxCal*100,100),Math.min(pro/maxPro*100,100),Math.min(carb/maxCarb*100,100),Math.min(fat/maxFat*100,100)];
+      vals.forEach(function(p,i){var b=macroEl.querySelector('.fdbar-'+i);if(b)b.style.width=p+'%';});
+    },40);
+  }
+  var micros=ge('fdMicros');
+  if(micros){
+    var items=[
+      {k:'fe',l:'Iron',c:'var(--red)',dv:18},
+      {k:'ca',l:'Calcium',c:'var(--blue)',dv:1000},
+      {k:'vc',l:'Vit C',c:'var(--green)',dv:90},
+      {k:'va',l:'Vit A',c:'var(--accent2)',dv:900},
+      {k:'vd',l:'Vit D',c:'var(--accent)',dv:15},
+      {k:'ve',l:'Vit E',c:'var(--purple)',dv:15},
+      {k:'vk',l:'Vit K',c:'var(--green)',dv:120},
+      {k:'b6',l:'B6',c:'var(--blue)',dv:1.3},
+      {k:'b12',l:'B12',c:'var(--purple)',dv:2.4},
+      {k:'folate',l:'Folate',c:'var(--green)',dv:400},
+      {k:'zn',l:'Zinc',c:'var(--accent)',dv:11},
+      {k:'mg',l:'Magnesium',c:'var(--blue)',dv:400},
+      {k:'k',l:'Potassium',c:'var(--accent2)',dv:3500},
+      {k:'omega3',l:'Omega-3',c:'var(--blue)',dv:1.6},
+      {k:'fiber',l:'Fiber',c:'var(--green)',dv:25},
+    ];
+    micros.innerHTML=items.map(function(m,i){
+      var raw=food[m.k]||0;var v=Math.round(raw*mult*100)/100;var p=Math.round(v/m.dv*100);
+      if(p<1)return '';
+      var bar=p>=100?'✓ ':'';
+      return '<span style="display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:color-mix(in srgb,'+m.c+' 12%,transparent);color:'+m.c+';border:1px solid color-mix(in srgb,'+m.c+' 30%,transparent);animation:fadeUp .3s ease '+(i*0.04)+'s both;cursor:default;" title="'+v+(m.k==='fiber'?'g':m.k==='omega3'?'g':m.k==='b6'?'mg':m.k==='va'||m.k==='vd'||m.k==='b12'||m.k==='folate'?'mcg':'mg')+'">'+bar+m.l+' '+Math.min(p,999)+'%</span>';
+    }).join('');
+  }
+  var chip=ge('fdChip');if(chip)chip.textContent=qty;
 }
 function pickFood(name){
   selFood=name;selQty=null;ge('foodInp').value=name;ge('searchDrop').style.display='none';
   var food=F[name];if(!food)return;
-  var chips=ge('qtyChips');chips.innerHTML='';
-  food.q.forEach(function(q){var c=document.createElement('div');c.className='chip';c.textContent=q;c.onclick=function(){pickQty(c,q);};chips.appendChild(c);});
-  ge('qtyArea').style.display='block';
+  var firstQty=food.q[0];
+  var emoji=getFoodEmoji(name);
+  var area=ge('qtyArea');area.style.display='block';
+  area.innerHTML=
+    '<div style="animation:card3dIn .35s cubic-bezier(.23,1,.32,1) both;">'+
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">'+
+      '<div style="display:inline-flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--accent) 12%,transparent);border:1.5px solid var(--accent);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;color:var(--accent);">✓ '+emoji+' '+name+' <span id="fdChip" style="color:var(--sub);font-weight:400;font-size:12px;">'+firstQty+'</span></div>'+
+    '</div>'+
+    '<div id="fdMacros" style="margin-bottom:12px;"></div>'+
+    '<div id="fdMicros" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>'+
+    '<div class="sl" style="margin-top:0;">PORTION</div>'+
+    '<div id="qtyChips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>'+
+    '<button class="btn" onclick="logMeal()">+ Add to log</button>'+
+    '</div>';
+  var chips=ge('qtyChips');
+  food.q.forEach(function(q){
+    var c=document.createElement('div');c.className='chip';c.textContent=q;
+    if(q===firstQty){c.classList.add('on');selQty=firstQty;}
+    c.onclick=function(){pickQty(c,q);};chips.appendChild(c);
+  });
+  updateFoodPreview(name,firstQty);
 }
-function pickQty(el,qty){document.querySelectorAll('#qtyChips .chip').forEach(function(c){c.classList.remove('on');});el.classList.add('on');selQty=qty;}
+function pickQty(el,qty){document.querySelectorAll('#qtyChips .chip').forEach(function(c){c.classList.remove('on');});el.classList.add('on');selQty=qty;updateFoodPreview(selFood,qty);}
 function logMeal(){
   if(!selFood||!selQty){alert('Select food and portion');return;}
   var food=F[selFood];if(!food)return;
@@ -1785,11 +1803,35 @@ function logMeal(){
     ve:Math.round((food.ve||0)*mult*10)/10,vk:Math.round((food.vk||0)*mult*10)/10,zn:Math.round((food.zn||0)*mult*10)/10,
     mg:Math.round((food.mg||0)*mult),k:Math.round((food.k||0)*mult),b12:Math.round((food.b12||0)*mult*10)/10,
     b6:Math.round((food.b6||0)*mult*100)/100,folate:Math.round((food.folate||0)*mult),omega3:Math.round((food.omega3||0)*mult*10)/10};
-  var _em=estMicros(selFood,food,mult);m.na=_em.na;m.p=_em.p;m.se=_em.se;
-  window._animMacros=true;
   D.meals=D.meals||[];D.meals.push(m);svUser();
   ge('foodInp').value='';ge('qtyArea').style.display='none';selFood=null;selQty=null;
   renderMacros();renderMeals();renderCM();
+}
+function renderSmartSuggestions(cal,pro,carb,fat,calGoal,proGoal,carbGoal,fatGoal){
+  var el=ge('smartSuggest');if(!el)return;
+  var remPro=proGoal-pro,remCal=calGoal-cal;
+  if(remPro<=0&&remCal<=0){el.innerHTML='<div style="text-align:center;padding:10px 0;font-size:13px;color:var(--green);font-weight:700;animation:fadeUp .3s ease both;">✅ All macros on track — great work today!</div>';return;}
+  var suggestions=[];
+  if(remPro>15){
+    var proFoods=[
+      {n:'Chicken breast 200g',pro:48,cal:220},{n:'Greek yogurt 200g',pro:20,cal:110},
+      {n:'Eggs ×3',pro:18,cal:210},{n:'Canned tuna 100g',pro:24,cal:110},
+      {n:'Whey shake',pro:25,cal:130},{n:'Beef mince 150g',pro:30,cal:270},
+      {n:'Cottage cheese 150g',pro:18,cal:120},{n:'Salmon 150g',pro:33,cal:250}
+    ];
+    var best=proFoods.filter(function(f){return f.pro<=remPro*1.5;}).slice(0,3);
+    if(best.length)suggestions.push({title:'Need '+Math.round(remPro)+'g more protein',color:'var(--blue)',items:best.map(function(f){return f.n+' → +'+f.pro+'g pro';})});
+  }
+  if(remCal>200&&remPro<=15){
+    suggestions.push({title:Math.round(remCal)+' kcal remaining',color:'var(--accent)',items:['Add a meal or snack to hit your calorie target']});
+  }
+  if(!suggestions.length){el.innerHTML='';return;}
+  el.innerHTML=suggestions.map(function(s,si){
+    return '<div style="background:color-mix(in srgb,'+s.color+' 8%,transparent);border:1px solid color-mix(in srgb,'+s.color+' 20%,transparent);border-radius:var(--r2);padding:12px;animation:slide3dIn .4s cubic-bezier(.23,1,.32,1) '+(si*0.1)+'s both;">'+
+      '<div style="font-size:10px;font-weight:700;color:'+s.color+';letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">💡 '+s.title+'</div>'+
+      s.items.map(function(item){return '<div style="font-size:12px;color:var(--text);padding:3px 0;display:flex;align-items:center;gap:6px;"><span style="color:'+s.color+';">→</span>'+item+'</div>';}).join('')+
+    '</div>';
+  }).join('');
 }
 function delMeal(id){D.meals=(D.meals||[]).filter(function(m){return m.id!==id;});svUser();renderMacros();renderMeals();}
 function toggleMD(id){var el=ge('md'+id);if(el)el.style.display=el.style.display==='none'?'block':'none';}
@@ -1806,30 +1848,73 @@ function renderCM(){
   var counts={};(D.meals||[]).forEach(function(m){counts[m.name]=(counts[m.name]||0)+1;});
   var top=Object.entries(counts).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
   el.innerHTML='';
-  top.forEach(function(e){var c=document.createElement('div');c.className='chip';c.textContent=foodEmoji(e[0])+' '+e[0];c.onclick=function(){pickFood(e[0]);};el.appendChild(c);});
+  top.forEach(function(e){var c=document.createElement('div');c.className='chip';c.textContent=e[0];c.onclick=function(){pickFood(e[0]);};el.appendChild(c);});
 }
 function renderMacros(){
   var meals=todayMeals();
-  var cal=meals.reduce(function(s,m){return s+m.cal;},0),pro=meals.reduce(function(s,m){return s+m.pro;},0),carb=meals.reduce(function(s,m){return s+m.carb;},0),fat=meals.reduce(function(s,m){return s+m.fat;},0);
   var el=ge('macroDisplay');if(!el)return;
-  function bar(v,g,c){return '<div class="mbb"><div class="mbf" style="width:'+Math.min(v/g*100,100)+'%;background:'+c+';"></div></div>';}
-  el.innerHTML='<div style="font-size:32px;font-weight:900;color:var(--accent);margin-bottom:12px;"><span id="macroCalNum">'+cal+'</span> <span style="font-size:13px;color:var(--sub);font-weight:400;">/ '+(D.calGoal||2500)+' kcal</span></div>'+
-    '<div class="mbr"><span class="mbn cb">Protein</span>'+bar(pro,D.proGoal||130,'var(--blue)')+'<span class="mbv cb">'+pro+'g</span></div>'+
-    '<div class="mbr"><span class="mbn" style="color:var(--accent2);">Carbs</span>'+bar(carb,300,'var(--accent2)')+'<span class="mbv" style="color:var(--accent2);">'+carb+'g</span></div>'+
-    '<div class="mbr"><span class="mbn cr">Fat</span>'+bar(fat,80,'var(--red)')+'<span class="mbv cr">'+fat+'g</span></div>';
-  renderMicro(meals);
-  if(window._animMacros){window._animMacros=false;countUp(ge('macroCalNum'),cal,650);}
+  var cal=meals.reduce(function(s,m){return s+m.cal;},0);
+  var pro=meals.reduce(function(s,m){return s+m.pro;},0);
+  var carb=meals.reduce(function(s,m){return s+m.carb;},0);
+  var fat=meals.reduce(function(s,m){return s+m.fat;},0);
+  function tv(k){return meals.reduce(function(s,m){return s+(m[k]||0);},0);}
+  function rv(k){return Math.round(tv(k)*10)/10;}
+  var calGoal=D.calGoal||2500,proGoal=D.proGoal||130,carbGoal=300,fatGoal=80;
+  var calPct=Math.min(cal/calGoal*100,100);
+  var remaining=Math.max(0,calGoal-cal);
+  var calColor=calPct>=100?'var(--green)':calPct>=70?'var(--accent)':'var(--red)';
+  var macros=[
+    {l:'Calories',v:cal,g:calGoal,c:'var(--accent)',u:'kcal',id:'mb0'},
+    {l:'Protein',v:pro,g:proGoal,c:'var(--blue)',u:'g',id:'mb1'},
+    {l:'Carbs',v:carb,g:carbGoal,c:'var(--accent2)',u:'g',id:'mb2'},
+    {l:'Fat',v:fat,g:fatGoal,c:'var(--red)',u:'g',id:'mb3'}
+  ];
+  var microDefs=[
+    {k:'fe',l:'Iron',c:'var(--red)',dv:18},{k:'ca',l:'Calcium',c:'var(--blue)',dv:1000},
+    {k:'vc',l:'Vit C',c:'var(--green)',dv:90},{k:'va',l:'Vit A',c:'var(--accent2)',dv:900},
+    {k:'vd',l:'Vit D',c:'var(--accent)',dv:15},{k:'ve',l:'Vit E',c:'var(--purple)',dv:15},
+    {k:'vk',l:'Vit K',c:'var(--green)',dv:120},{k:'b6',l:'B6',c:'var(--blue)',dv:1.3},
+    {k:'b12',l:'B12',c:'var(--purple)',dv:2.4},{k:'folate',l:'Folate',c:'var(--green)',dv:400},
+    {k:'zn',l:'Zinc',c:'var(--accent)',dv:11},{k:'mg',l:'Magnesium',c:'var(--blue)',dv:400},
+    {k:'k',l:'Potassium',c:'var(--accent2)',dv:3500},{k:'omega3',l:'Omega-3',c:'var(--blue)',dv:1.6},
+    {k:'fiber',l:'Fiber',c:'var(--green)',dv:25}
+  ];
+  var microPills=microDefs.map(function(m,i){
+    var v=rv(m.k);var p=Math.round(v/m.dv*100);if(p<2)return '';
+    var done=p>=100;
+    return '<span style="display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;'+
+      'background:color-mix(in srgb,'+m.c+' '+(done?'20%':'10%')+',transparent);color:'+m.c+';'+
+      'border:1px solid color-mix(in srgb,'+m.c+' '+(done?'40%':'20%')+',transparent);'+
+      'animation:fadeUp .3s ease '+(i*0.03)+'s both;cursor:default;" title="'+v+'">'+
+      (done?'✓ ':'')+m.l+' '+Math.min(p,999)+'%</span>';
+  }).join('');
+  el.innerHTML=
+    '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;animation:card3dIn .4s cubic-bezier(.23,1,.32,1) both;">'+
+      '<div style="font-size:38px;font-weight:900;color:'+calColor+';line-height:1;">'+cal+'</div>'+
+      '<div style="font-size:12px;color:var(--sub);line-height:1.4;">kcal<br><span style="color:var(--text);font-weight:600;">/ '+calGoal+'</span></div>'+
+      '<div style="margin-left:auto;text-align:right;font-size:11px;color:var(--sub);">'+
+        (remaining>0?'<span style="color:var(--accent);font-weight:700;">'+remaining+' left</span>':'<span style="color:var(--green);font-weight:700;">✓ Goal hit</span>')+
+      '</div>'+
+    '</div>'+
+    macros.slice(1).map(function(m,i){
+      return '<div style="display:flex;align-items:center;margin-bottom:11px;animation:slide3dIn .4s cubic-bezier(.23,1,.32,1) '+(i*0.07)+'s both;">'+
+        '<span style="font-size:11px;color:var(--sub);width:68px;font-weight:500;">'+m.l+'</span>'+
+        '<div style="flex:1;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin:0 10px;">'+
+          '<div id="'+m.id+'" style="width:0%;height:100%;border-radius:3px;background:'+m.c+
+          ';box-shadow:0 0 8px color-mix(in srgb,'+m.c+' 50%,transparent);'+
+          'transition:width .8s cubic-bezier(.23,1,.32,1) '+(i*0.08)+'s;"></div>'+
+        '</div>'+
+        '<span style="font-size:12px;font-weight:700;color:'+m.c+';min-width:45px;text-align:right;">'+m.v+'<span style="font-size:10px;color:var(--sub);font-weight:400;">'+m.u+'</span></span>'+
+      '</div>';
+    }).join('')+
+    (microPills?'<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">'+microPills+'</div>':'');
+  setTimeout(function(){
+    macros.slice(1).forEach(function(m){var b=ge(m.id);if(b)b.style.width=Math.min(m.v/m.g*100,100)+'%';});
+  },40);
+  renderSmartSuggestions(cal,pro,carb,fat,calGoal,proGoal,carbGoal,fatGoal);
 }
-function toggleMicro(){microOn=!microOn;ge('microDisplay').style.display=microOn?'block':'none';ge('microBtn').textContent=microOn?'Hide':'Show';}
-function renderMicro(meals){
-  var el=ge('microDisplay');if(!el)return;
-  if(!meals)meals=todayMeals();
-  function t(k){return meals.reduce(function(s,m){return s+(m[k]||0);},0);}
-  function r(k){return Math.round(t(k)*10)/10;}
-  function bar(v,g,c){var p=Math.min(v/g*100,100);var bg=p>=100?'var(--green)':p>=70?c:'var(--red)';return '<div class="mbb"><div class="mbf" style="width:'+p+'%;background:'+bg+';"></div></div>';}
-  function row(lbl,val,u,g,c){var p=Math.round(val/g*100);return '<div class="mbr"><span class="mbn cs" style="font-size:10px;width:85px;">'+lbl+'</span>'+bar(val,g,c)+'<span class="mbv" style="color:'+c+';font-size:11px;">'+val+u+' <span style="color:var(--sub);font-size:9px;">'+p+'%</span></span></div>';}
-  el.innerHTML=row('Vit A',r('va'),'mcg',900,'#FF9500')+row('Vit C',r('vc'),'mg',90,'var(--green)')+row('Vit D',r('vd'),'mcg',15,'var(--accent2)')+row('Vit E',r('ve'),'mg',15,'var(--accent)')+row('Vit K',r('vk'),'mcg',120,'var(--blue)')+row('B6',r('b6'),'mg',1.3,'var(--purple)')+row('B12',r('b12'),'mcg',2.4,'var(--red)')+row('Folate',r('folate'),'mcg',400,'var(--green)')+row('Calcium',r('ca'),'mg',1000,'var(--blue)')+row('Iron',r('fe'),'mg',18,'var(--red)')+row('Magnesium',r('mg'),'mg',400,'var(--green)')+row('Zinc',r('zn'),'mg',11,'var(--accent)')+row('Sodium',r('na'),'mg',2300,'#FF9F45')+row('Potassium',r('k'),'mg',3500,'var(--purple)')+row('Phosphorus',r('p'),'mg',700,'var(--blue)')+row('Selenium',r('se'),'mcg',55,'var(--purple)')+row('Omega-3',r('omega3'),'g',1.6,'var(--blue)')+row('Fiber',r('fiber'),'g',25,'var(--green)');
-}
+function toggleMicro(){var d=ge('microDisplay');if(d){d.style.display=d.style.display==='block'?'none':'block';ge('microBtn').textContent=d.style.display==='block'?'Hide':'Show';}}
+function renderMicro(meals){}
 function renderMeals(){
   var meals=todayMeals();var el=ge('mealLog');if(!el)return;
   if(!meals.length){el.innerHTML='<div class="empty">Nothing logged for '+fmtDate(nutDate)+'</div>';return;}
@@ -1837,7 +1922,7 @@ function renderMeals(){
   meals.forEach(function(m,i){
     var qs=mealScore(m);
     var div=document.createElement('div');div.className='mr';div.style.animationDelay=(i*0.04)+'s';
-    div.innerHTML='<div class="mr-row"><div><div class="mn">'+foodEmoji(m.name)+' '+m.name+' <span class="f11 cs">'+m.qty+'</span></div><div class="mm">'+m.cal+' kcal · '+m.pro+'g pro · '+m.carb+'g carb · '+m.fat+'g fat</div></div><button class="del" onclick="delMeal('+m.id+')">x</button></div>'+
+    div.innerHTML='<div class="mr-row"><div><div class="mn">'+m.name+' <span class="f11 cs">'+m.qty+'</span></div><div class="mm">'+m.cal+' kcal · '+m.pro+'g pro · '+m.carb+'g carb · '+m.fat+'g fat</div></div><button class="del" onclick="delMeal('+m.id+')">x</button></div>'+
       '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;"><button onclick="toggleMD('+m.id+')" style="background:none;border:none;font-size:10px;color:var(--accent);cursor:pointer;font-family:var(--font);font-weight:700;letter-spacing:1px;padding:0;">DETAILS ▼</button><span class="meal-score" style="background:color-mix(in srgb,'+qs.color+' 15%,transparent);color:'+qs.color+';">'+qs.label+' '+qs.score+'/100</span></div>'+
       '<div id="md'+m.id+'" class="meal-detail">'+
       '<strong>📊 Macros:</strong> '+m.cal+' kcal · '+m.pro+'g protein · '+m.carb+'g carbs · '+m.fat+'g fat · '+m.fiber+'g fiber<br>'+
@@ -1856,7 +1941,7 @@ function renderWt(){var last=(D.wt||[]).slice(-1)[0];set('wtCur',last?last.kg:'-
 function renderWtChart(){
   var logs=(D.wt||[]).slice(-14);if(!logs.length)return;
   var ctx=ge('wtChart');if(!ctx)return;if(charts.wt)charts.wt.destroy();
-  charts.wt=new Chart(ctx,{type:'line',data:{labels:logs.map(function(l){return new Date(l.date).toLocaleDateString('en',{month:'short',day:'numeric'});}),datasets:[{data:logs.map(function(l){return l.kg;}),borderColor:'var(--accent)',backgroundColor:'rgba(200,137,58,0.08)',tension:0.4,pointBackgroundColor:'var(--accent)',fill:true,pointRadius:4}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'var(--sub)',font:{size:10}},grid:{display:false}},y:{ticks:{color:'var(--sub)',font:{size:10}},grid:{color:'rgba(128,128,128,0.06)'}}},responsive:true,maintainAspectRatio:false}});
+  charts.wt=new Chart(ctx,{type:'line',data:{labels:logs.map(function(l){return new Date(l.date).toLocaleDateString('en',{month:'short',day:'numeric'});}),datasets:[{data:logs.map(function(l){return l.kg;}),borderColor:tcv('--accent'),backgroundColor:tcva('--accent',isDarkTheme()?.15:.08),tension:0.4,pointBackgroundColor:tcv('--accent'),fill:true,pointRadius:4}]},options:mkChartOpts()});
 }
 
 // ── SLEEP ──
@@ -1953,11 +2038,128 @@ function loadSession(){
       var sets=[];for(var s=0;s<numSets;s++){var wEl=ge('w'+i+'_'+s);var rEl=ge('r'+i+'_'+s);sets.push({w:wEl?wEl.value:'',r:rEl?rEl.value:''});}
       session.exercises.push({name:ex.n,preset:preset,sets:sets});
     });
-    D.gym=D.gym||[];D.gym.push(session);svUser();alert('Session saved for '+fmtDate(gymDate));ge('routineArea').innerHTML='';renderGymHist();
+    D.gym=D.gym||[];D.gym.push(session);svUser();
+    var prs=checkPRs(session);
+    ge('routineArea').innerHTML='';renderGymHist();
+    if(prs.length){setTimeout(function(){triggerPRs(prs);},400);}
+    else{showSync('Session saved for '+fmtDate(gymDate),2500);}
   };})(type,exs);
   wrap.appendChild(saveBtn);area.appendChild(wrap);
 }
 function delSession(date){if(!window.confirm('Delete this session?'))return;D.gym=(D.gym||[]).filter(function(s){return s.date!==date;});svUser();renderGymHist();}
+
+// ── PR DETECTION ──────────────────────────────────────────────────────
+function getExPR(name){
+  var best=0;
+  (D.gym||[]).forEach(function(s){
+    s.exercises.forEach(function(e){
+      if(e.name===name&&e.sets){e.sets.forEach(function(st){var w=parseFloat(st.w)||0;if(w>best)best=w;});}
+    });
+  });
+  return best;
+}
+function checkPRs(session){
+  var newPRs=[];
+  session.exercises.forEach(function(ex){
+    var prevBest=0;
+    (D.gym||[]).slice(0,-1).forEach(function(s){
+      s.exercises.forEach(function(e){
+        if(e.name===ex.name&&e.sets){e.sets.forEach(function(st){var w=parseFloat(st.w)||0;if(w>prevBest)prevBest=w;});}
+      });
+    });
+    var newBest=0;
+    (ex.sets||[]).forEach(function(st){var w=parseFloat(st.w)||0;if(w>newBest)newBest=w;});
+    if(newBest>0&&newBest>prevBest)newPRs.push({name:ex.name,weight:newBest,prev:prevBest});
+  });
+  return newPRs;
+}
+function showPR(pr){
+  ge('prExName').textContent=pr.name;
+  ge('prWeight').textContent=pr.weight+'kg';
+  ge('prPrev').textContent=pr.prev>0?'Previous best: '+pr.prev+'kg':'First time logging this lift!';
+  var emojis=['🏆','💪','🔥','⚡','👑'];
+  ge('prEmoji').textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  var box=ge('prBox');box.innerHTML='';
+  var confColors=['var(--accent)','var(--blue)','var(--green)','var(--red)','var(--purple)','var(--accent2)'];
+  for(var i=0;i<18;i++){
+    var c=document.createElement('div');c.className='pr-confetti';
+    c.style.cssText='left:'+(5+Math.random()*90)+'%;top:'+(10+Math.random()*30)+'%;background:'+confColors[i%confColors.length]+';animation-delay:'+(Math.random()*0.4)+'s;animation-duration:'+(0.6+Math.random()*0.6)+'s;transform:rotate('+(Math.random()*360)+'deg);';
+    box.appendChild(c);
+  }
+  box.innerHTML+='<div style="font-size:56px;margin-bottom:8px;">'+ge('prEmoji').textContent+'</div>'+
+    '<div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px;">NEW PERSONAL RECORD</div>'+
+    '<div style="font-size:20px;font-weight:900;color:var(--text);margin-bottom:4px;">'+pr.name+'</div>'+
+    '<div style="font-size:44px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:4px;">'+pr.weight+'<span style="font-size:16px;">kg</span></div>'+
+    '<div style="font-size:12px;color:var(--sub);margin-bottom:24px;">'+(pr.prev>0?'Previous best: '+pr.prev+'kg ↑'+(pr.weight-pr.prev).toFixed(1)+'kg':'First time logging this lift!')+'</div>'+
+    '<button class="btn" onclick="closePR()" style="max-width:200px;margin:0 auto;display:block;">Let\'s go! 💪</button>';
+  ge('prOverlay').classList.add('show');
+}
+var _prQueue=[];
+function closePR(){
+  ge('prOverlay').classList.remove('show');
+  setTimeout(function(){if(_prQueue.length)showPR(_prQueue.shift());},300);
+}
+function triggerPRs(prs){
+  if(!prs.length)return;
+  _prQueue=prs.slice(1);
+  showPR(prs[0]);
+}
+
+// ── WEEKLY REPORT ─────────────────────────────────────────────────────
+function closeReport(){ge('reportOverlay').classList.remove('show');}
+function showWeeklyReport(){
+  var el=ge('reportContent');if(!el)return;
+  var now=new Date(),days=[];
+  for(var i=6;i>=0;i--){var d=new Date(now);d.setDate(d.getDate()-i);days.push(d);}
+  var gymDays=0,logDays=0,totalCal=0,totalPro=0,calDays=0;
+  days.forEach(function(d){
+    var ds=d.toDateString();
+    var meals=(D.meals||[]).filter(function(m){return new Date(m.date).toDateString()===ds;});
+    var sessions=(D.gym||[]).filter(function(s){return new Date(s.date).toDateString()===ds&&s.type!=='Rest Day';});
+    if(sessions.length)gymDays++;
+    if(meals.length){logDays++;totalCal+=meals.reduce(function(s,m){return s+m.cal;},0);totalPro+=meals.reduce(function(s,m){return s+m.pro;},0);calDays++;}
+  });
+  var avgCal=calDays?Math.round(totalCal/calDays):0;
+  var avgPro=calDays?Math.round(totalPro/calDays):0;
+  var calGoal=D.calGoal||2500,proGoal=D.proGoal||130;
+  function grade(pct){return pct>=90?{g:'A',c:'var(--green)'}:pct>=75?{g:'B',c:'var(--accent)'}:pct>=55?{g:'C',c:'var(--accent2)'}:{g:'D',c:'var(--red)'};}
+  var gymGr=grade(gymDays/5*100),calGr=grade(avgCal/calGoal*100),proGr=grade(avgPro/proGoal*100),logGr=grade(logDays/7*100);
+  var overall=Math.round((gymDays/5*100+avgCal/calGoal*100+avgPro/proGoal*100+logDays/7*100)/4);
+  var overallGr=grade(overall);
+  var streak=getStreaks();
+  var insights=[];
+  if(gymDays>=5)insights.push('🔥 Crushed training — '+gymDays+'/7 days in the gym');
+  else if(gymDays>=3)insights.push('💪 Solid week — '+gymDays+' sessions logged');
+  else insights.push('📅 Only '+gymDays+' sessions — aim for 4+ next week');
+  if(avgPro>=proGoal*0.9)insights.push('✅ Protein on point — averaging '+avgPro+'g/day');
+  else insights.push('⚠️ Protein low at avg '+avgPro+'g — need '+(proGoal-avgPro)+'g more per day');
+  if(avgCal>calGoal*1.2)insights.push('📊 Calories above target — check portion sizes');
+  else if(avgCal<calGoal*0.7&&calDays>0)insights.push('⚠️ Under-eating — '+avgCal+' avg kcal vs '+calGoal+' goal');
+  else if(calDays>0)insights.push('✅ Calories consistent at avg '+avgCal+' kcal/day');
+  if(logDays<4)insights.push('📝 Only tracked food '+logDays+' days — consistency is key');
+  el.innerHTML=
+    '<div style="text-align:center;margin-bottom:20px;animation:card3dIn .4s both;">'+
+      '<div style="font-size:64px;font-weight:900;color:'+overallGr.c+';">'+overallGr.g+'</div>'+
+      '<div style="font-size:11px;color:var(--sub);letter-spacing:2px;">OVERALL WEEK</div>'+
+    '</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">'+
+      [['Training',gymDays+'/7 days',gymGr],['Nutrition',avgCal+' avg kcal',calGr],['Protein',avgPro+'g avg',proGr],['Consistency',logDays+'/7 logged',logGr]].map(function(x,i){
+        return '<div style="background:var(--bg2);border-radius:var(--r2);padding:12px;text-align:center;animation:card3dIn .4s cubic-bezier(.23,1,.32,1) '+(i*0.08)+'s both;">'+
+          '<div style="font-size:26px;font-weight:900;color:'+x[2].c+';">'+x[2].g+'</div>'+
+          '<div style="font-size:11px;font-weight:700;color:var(--text);margin-top:2px;">'+x[0]+'</div>'+
+          '<div style="font-size:10px;color:var(--sub);">'+x[1]+'</div>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+    '<div style="margin-bottom:16px;">'+
+      insights.map(function(ins,i){
+        return '<div style="padding:10px 12px;border-radius:var(--r2);background:var(--bg2);margin-bottom:6px;font-size:12px;color:var(--text);animation:slide3dIn .4s cubic-bezier(.23,1,.32,1) '+(i*0.06)+'s both;">'+ins+'</div>';
+      }).join('')+
+    '</div>'+
+    (streak.gym>0?'<div style="text-align:center;padding:10px;background:color-mix(in srgb,var(--accent) 10%,transparent);border-radius:var(--r2);font-size:13px;font-weight:700;color:var(--accent);">🔥 '+streak.gym+' day gym streak — keep it going!</div>':'')+
+    '<button class="btn mt10" onclick="closeReport()">Close</button>';
+  ge('reportOverlay').classList.add('show');
+}
 function renderGymHist(){
   var el=ge('gymHist');if(!el)return;
   var sessions=(D.gym||[]).slice().reverse().slice(0,8);
@@ -2100,11 +2302,7 @@ function finalizeLog(cookMethod) {
     omega3: Math.round((food.omega3||0) * mult * 10) / 10,
     cookAdd: cookCalAdd,
   };
-  var _em = estMicros(pendingFood, food, mult);
-  m.na = _em.na; m.p = _em.p; m.se = _em.se;
-  if (cookMethod && /fried|deep|salt/i.test(cookMethod.label||'')) m.na += Math.round(150 * (num/100));
-  window._animMacros = true;
-
+  
   D.meals = D.meals || [];
   D.meals.push(m);
   svUser();
@@ -2299,13 +2497,18 @@ renderHome = function() {
   renderWeeklySummary();
 };
 // ── STATS ──
+function tcv(v){return(getComputedStyle(document.documentElement).getPropertyValue(v)||'').trim();}
+function tcva(v,a){var c=tcv(v).replace(/\s/g,'');if(c[0]==='#'&&c.length>=7){var r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);return 'rgba('+r+','+g+','+b+','+a+')';}return c;}
+function isDarkTheme(){var t=document.documentElement.getAttribute('data-theme')||'';return !t||t.indexOf('dark')>=0||t==='higgsfield';}
+function mkChartOpts(extra){var dk=isDarkTheme();var tick=tcv('--sub');var grid=dk?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.05)';var base={plugins:{legend:{display:false}},responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{color:tick,font:{size:10}},grid:{display:false}},y:{ticks:{color:tick,font:{size:10}},grid:{color:grid}}}};if(extra)Object.keys(extra).forEach(function(k){base[k]=Object.assign(base[k]||{},extra[k]);});return base;}
 function renderStats(){
+  var dk=isDarkTheme();
   var last7=[];for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var ds2=d.toDateString();var ms=(D.meals||[]).filter(function(m){return new Date(m.date).toDateString()===ds2;});last7.push({lbl:d.toLocaleDateString('en',{weekday:'short'}),cal:ms.reduce(function(s,m){return s+m.cal;},0),pro:ms.reduce(function(s,m){return s+m.pro;},0)});}
-  var opts={plugins:{legend:{display:false}},responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{color:'var(--sub)',font:{size:10}},grid:{display:false}},y:{ticks:{color:'var(--sub)',font:{size:10}},grid:{color:'rgba(128,128,128,0.06)'}}}};
-  var cc=ge('calChart');if(cc){if(charts.cal)charts.cal.destroy();charts.cal=new Chart(cc,{type:'bar',data:{labels:last7.map(function(d){return d.lbl;}),datasets:[{data:last7.map(function(d){return d.cal;}),backgroundColor:'rgba(200,137,58,0.5)',borderColor:'var(--accent)',borderWidth:2,borderRadius:8}]},options:opts});}
-  var pc=ge('proChart');if(pc){if(charts.pro)charts.pro.destroy();charts.pro=new Chart(pc,{type:'line',data:{labels:last7.map(function(d){return d.lbl;}),datasets:[{data:last7.map(function(d){return d.pro;}),borderColor:'var(--blue)',backgroundColor:'rgba(58,123,213,0.08)',tension:0.4,fill:true,pointBackgroundColor:'var(--blue)',pointRadius:4}]},options:opts});}
-  var meals=todayMeals();var tp=meals.reduce(function(s,m){return s+m.pro;},0),tc=meals.reduce(function(s,m){return s+m.carb;},0),tf=meals.reduce(function(s,m){return s+m.fat;},0);
-  var pie=ge('pieChart');if(pie&&(tp||tc||tf)){if(charts.pie)charts.pie.destroy();charts.pie=new Chart(pie,{type:'doughnut',data:{labels:['Protein','Carbs','Fat'],datasets:[{data:[tp,tc,tf],backgroundColor:['rgba(58,123,213,0.7)','rgba(232,168,78,0.7)','rgba(217,79,79,0.7)'],borderWidth:2}]},options:{plugins:{legend:{labels:{color:'var(--sub)',font:{size:11}}}},responsive:true,maintainAspectRatio:false,cutout:'65%'}});}
+  var opts=mkChartOpts();
+  var cc=ge('calChart');if(cc){if(charts.cal)charts.cal.destroy();charts.cal=new Chart(cc,{type:'bar',data:{labels:last7.map(function(d){return d.lbl;}),datasets:[{data:last7.map(function(d){return d.cal;}),backgroundColor:tcva('--accent',dk?.35:.2),borderColor:tcv('--accent'),borderWidth:2,borderRadius:8}]},options:opts});}
+  var pc=ge('proChart');if(pc){if(charts.pro)charts.pro.destroy();charts.pro=new Chart(pc,{type:'line',data:{labels:last7.map(function(d){return d.lbl;}),datasets:[{data:last7.map(function(d){return d.pro;}),borderColor:tcv('--blue'),backgroundColor:tcva('--blue',dk?.15:.08),tension:0.4,fill:true,pointBackgroundColor:tcv('--blue'),pointRadius:4}]},options:opts});}
+  var meals=todayMeals();var tp=meals.reduce(function(s,m){return s+m.pro;},0),tcarb=meals.reduce(function(s,m){return s+m.carb;},0),tf=meals.reduce(function(s,m){return s+m.fat;},0);
+  var pie=ge('pieChart');if(pie&&(tp||tcarb||tf)){if(charts.pie)charts.pie.destroy();charts.pie=new Chart(pie,{type:'doughnut',data:{labels:['Protein','Carbs','Fat'],datasets:[{data:[tp,tcarb,tf],backgroundColor:[tcva('--blue',.75),tcva('--accent',.75),tcva('--red',.75)],borderWidth:0}]},options:{plugins:{legend:{labels:{color:tcv('--text'),font:{size:11,weight:'600'},padding:16}}},responsive:true,maintainAspectRatio:false,cutout:'65%'}});}
   renderExSel();
   var cal=meals.reduce(function(s,m){return s+m.cal;},0),pro=meals.reduce(function(s,m){return s+m.pro;},0);
   var tips=[];
@@ -2324,7 +2527,7 @@ function renderExChart(){
   var name=ge('exSel').value;if(!name)return;
   var pts=[];(D.gym||[]).forEach(function(s){s.exercises.forEach(function(e){if(e.name===name&&e.sets&&e.sets.length){var mx=Math.max.apply(null,e.sets.map(function(st){return parseFloat(st.w)||0;}));if(mx>0)pts.push({d:new Date(s.date).toLocaleDateString('en',{month:'short',day:'numeric'}),w:mx});}});});
   var ctx=ge('exChart');if(!ctx)return;if(charts.ex)charts.ex.destroy();if(!pts.length)return;
-  charts.ex=new Chart(ctx,{type:'line',data:{labels:pts.map(function(p){return p.d;}),datasets:[{data:pts.map(function(p){return p.w;}),borderColor:'var(--purple)',backgroundColor:'rgba(124,92,191,0.08)',tension:0.4,fill:true,pointBackgroundColor:'var(--purple)',pointRadius:5}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'var(--sub)',font:{size:10}},grid:{display:false}},y:{ticks:{color:'var(--sub)',font:{size:10}},grid:{color:'rgba(128,128,128,0.06)'}}},responsive:true,maintainAspectRatio:false}});
+  charts.ex=new Chart(ctx,{type:'line',data:{labels:pts.map(function(p){return p.d;}),datasets:[{data:pts.map(function(p){return p.w;}),borderColor:tcv('--purple'),backgroundColor:tcva('--purple',isDarkTheme()?.15:.08),tension:0.4,fill:true,pointBackgroundColor:tcv('--purple'),pointRadius:5}]},options:mkChartOpts()});
 }
 
 // ── NEWS ──
@@ -2344,39 +2547,13 @@ var NEWS=[
   {tag:'Sleep',c:'var(--blue)',t:'Blue light suppresses melatonin by 50% after 9pm',b:'Blue light from phones delays melatonin onset significantly. Night shift mode only reduces this by 23%. Lower brightness and warm lighting make a real difference.',src:'Harvard Sleep Medicine 2015'},
   {tag:'Hormones',c:'var(--accent)',t:'Zinc and magnesium directly support testosterone production',b:'Both are cofactors in testosterone synthesis. Deficiency is common in athletes due to sweat loss. ZMA supplementation shows measurable testosterone benefits.',src:'Biological Trace Element Research 2020'},
   {tag:'Nutrition',c:'var(--green)',t:'Omega-3 reduces muscle soreness and improves recovery',b:'Daily omega-3 supplementation at 3-4g EPA/DHA significantly reduces exercise-induced inflammation and muscle soreness, improving recovery between sessions.',src:'Clinical Journal of Sport Medicine 2020'},
-  {tag:'Nutrition',c:'var(--green)',t:'Hydration drops of just 2% impair strength and focus',b:'Losing 2% of bodyweight in water reduces strength output by ~10% and noticeably impairs concentration. Drink 35ml per kg bodyweight daily, more when training in heat.',src:'Journal of Athletic Training 2018'},
-  {tag:'Training',c:'var(--red)',t:'Training each muscle 2x per week beats once',b:'Meta-analysis shows hitting a muscle twice weekly produces significantly more growth than once, even at equal weekly volume. Frequency drives the protein-synthesis signal.',src:'Sports Medicine Meta-Analysis 2016'},
-  {tag:'Training',c:'var(--red)',t:'Going to failure isn\'t required for growth',b:'Stopping 1-3 reps short of failure produces similar hypertrophy with far less fatigue, letting you recover and train harder next session. Save true failure for last sets.',src:'Journal of Strength & Conditioning 2021'},
-  {tag:'Nutrition',c:'var(--green)',t:'Spreading protein across 4 meals maximises synthesis',b:'20-40g protein per meal across 3-4 meals stimulates more total daily muscle protein synthesis than the same amount in 1-2 large servings.',src:'Journal of Nutrition 2017'},
-  {tag:'Recovery',c:'var(--purple)',t:'A 10-minute walk lowers post-meal blood sugar sharply',b:'Light walking after meals blunts blood-glucose spikes by up to 30%, improving insulin sensitivity and nutrient partitioning over time.',src:'Sports Medicine 2022'},
-  {tag:'Hormones',c:'var(--accent)',t:'Chronic stress raises cortisol and blocks gains',b:'Sustained high cortisol breaks down muscle and stores fat. Breathing drills, sleep, and managing training volume keep cortisol in a productive range.',src:'Psychoneuroendocrinology 2019'},
-  {tag:'Nutrition',c:'var(--green)',t:'Carbs around training improve performance and recovery',b:'Consuming carbohydrate before and after hard sessions refills muscle glycogen, sustains intensity, and supports the insulin response that drives recovery.',src:'International Journal of Sport Nutrition 2018'},
-  {tag:'Sleep',c:'var(--blue)',t:'Consistent sleep timing matters as much as duration',b:'Irregular bed and wake times disrupt circadian rhythm and hormone release even at 8 hours total. A fixed schedule improves recovery and next-day performance.',src:'Sleep Health Journal 2021'},
-  {tag:'Creatine',c:'var(--green)',t:'Creatine is safe for kidneys in healthy people',b:'Decades of research show no kidney harm from creatine in healthy individuals. Slight water-weight gain in muscle is normal and beneficial, not bloat.',src:'JISSN Safety Review 2021'},
-  {tag:'Training',c:'var(--red)',t:'Full range of motion builds more muscle than partials',b:'Training through a full stretch, especially the lengthened position, produces greater hypertrophy than partial reps. Control the eccentric and feel the stretch.',src:'Journal of Applied Physiology 2023'},
-  {tag:'Nutrition',c:'var(--green)',t:'Fibre intake predicts long-term health better than most metrics',b:'Every extra 8g daily fibre lowers risk of heart disease and type-2 diabetes meaningfully. Aim for 25-35g from whole grains, lentils, vegetables and fruit.',src:'The Lancet 2019'},
-  {tag:'Recovery',c:'var(--purple)',t:'Deload weeks prevent burnout and unlock new PRs',b:'Cutting volume by 40-50% every 4-8 weeks lets accumulated fatigue dissipate so adaptation surfaces. Most lifters under-recover and stall avoidably.',src:'Strength & Conditioning Journal 2020'},
-  {tag:'Hormones',c:'var(--accent)',t:'Healthy fats are essential for testosterone production',b:'Very low-fat diets reduce testosterone. Keep dietary fat above 20% of calories, including mono- and saturated sources, for optimal hormone output.',src:'Journal of Steroid Biochemistry 2021'},
-  {tag:'Vitamin D',c:'var(--accent2)',t:'Vitamin D supports strength, immunity and mood',b:'Beyond bones, adequate vitamin D improves muscle function, immune defence and mood. Most indoor people benefit from 2000-4000 IU daily, especially in winter.',src:'Endocrine Reviews 2022'},
-  {tag:'Training',c:'var(--red)',t:'Tempo control increases time under tension for growth',b:'Slowing the lowering phase to 2-3 seconds increases mechanical tension and muscle damage signalling without adding load. Quality reps beat bouncing.',src:'European Journal of Applied Physiology 2019'},
-  {tag:'Nutrition',c:'var(--green)',t:'Leucine is the key trigger for muscle protein synthesis',b:'Around 2.5-3g leucine per meal flips the muscle-building switch. Whey, eggs, meat, fish and dairy are richest; plant eaters should combine sources.',src:'American Journal of Clinical Nutrition 2016'},
-  {tag:'NoFap',c:'var(--purple)',t:'Reduced novelty-seeking improves focus and drive',b:'Cutting high-dopamine digital stimulation rebalances reward sensitivity, making ordinary tasks more rewarding and improving sustained attention.',src:'Behavioural Brain Research 2020'},
-  {tag:'Recovery',c:'var(--purple)',t:'Sunlight in the morning anchors your sleep cycle',b:'10-20 minutes of morning daylight sets your circadian clock, improving night-time melatonin release and deep sleep quality. Free and powerful.',src:'Nature Communications 2021'},
-  {tag:'Sleep',c:'var(--blue)',t:'Caffeine after 2pm measurably cuts deep sleep',b:'Caffeine\'s half-life is 5-6 hours; an afternoon coffee still circulates at bedtime, reducing deep sleep even if you fall asleep fine.',src:'Journal of Clinical Sleep Medicine 2013'},
-  {tag:'Hormones',c:'var(--accent)',t:'Overtraining suppresses testosterone and thyroid output',b:'Too much volume with too little recovery lowers anabolic hormones and metabolic rate. More is not better — recoverable training is what grows you.',src:'Sports Medicine 2018'},
-  {tag:'Nutrition',c:'var(--green)',t:'Iron deficiency silently tanks endurance and energy',b:'Common in heavy trainers and those eating little red meat. Low iron cuts oxygen delivery and stamina. Pair plant iron with vitamin C to absorb more.',src:'Medicine & Science in Sports 2019'},
-  {tag:'Training',c:'var(--red)',t:'Warming up specifically improves first working set output',b:'Ramp-up sets at increasing load prime the nervous system and joints, raising performance and lowering injury risk versus jumping straight to heavy weight.',src:'Journal of Strength & Conditioning 2017'},
-  {tag:'Recovery',c:'var(--purple)',t:'Active recovery beats complete rest for soreness',b:'Light movement on off days increases blood flow and clears metabolic waste faster than lying still, reducing soreness and speeding readiness.',src:'Journal of Sports Sciences 2018'},
-  {tag:'Nutrition',c:'var(--green)',t:'Sodium isn\'t the enemy for active, sweating athletes',b:'Hard trainers lose significant sodium in sweat. Moderate sodium supports blood volume, pumps and performance — context matters more than blanket restriction.',src:'European Journal of Applied Physiology 2021'},
-  {tag:'Mindset',c:'var(--accent)',t:'Tracking progress is the strongest predictor of adherence',b:'People who log food and training are dramatically more likely to reach their goals. Measurement creates accountability and reveals what actually works for you.',src:'Obesity Journal 2019'},
 ];
 function renderNews(){
   var tags=['All'].concat(NEWS.map(function(n){return n.tag;}).filter(function(t,i,a){return a.indexOf(t)===i;}));
   var fEl=ge('newsFilter');if(fEl){fEl.innerHTML='';tags.forEach(function(t){var c=document.createElement('div');c.className='chip'+(t===newsTag?' on':'');c.textContent=t;c.onclick=(function(tag){return function(){newsTag=tag;renderNews();};})(t);fEl.appendChild(c);});}
   var filtered=newsTag==='All'?NEWS:NEWS.filter(function(n){return n.tag===newsTag;});
   var el=ge('newsContent');if(!el)return;
-  _newsFiltered=filtered;
-  el.innerHTML=filtered.map(function(n,i){return '<div class="card" onclick="openArticle('+i+')" style="margin-bottom:12px;animation:fadeUp .3s ease '+(i*0.04)+'s both;"><div class="news-tag" style="background:color-mix(in srgb,'+n.c+' 15%,transparent);color:'+n.c+';">'+n.tag+'</div><div class="fw7" style="font-size:14px;margin:6px 0;line-height:1.4;">'+n.t+'</div><div class="f12 cs" style="line-height:1.7;">'+n.b+'</div><div style="font-size:10px;color:var(--sub);margin-top:8px;font-style:italic;">📚 '+n.src+' · tap to read</div></div>';}).join('');
+  el.innerHTML=filtered.map(function(n,i){return '<div class="card" style="margin-bottom:12px;animation:fadeUp .3s ease '+(i*0.04)+'s both;"><div class="news-tag" style="background:color-mix(in srgb,'+n.c+' 15%,transparent);color:'+n.c+';">'+n.tag+'</div><div class="fw7" style="font-size:14px;margin:6px 0;line-height:1.4;">'+n.t+'</div><div class="f12 cs" style="line-height:1.7;">'+n.b+'</div><div style="font-size:10px;color:var(--sub);margin-top:8px;font-style:italic;">📚 '+n.src+'</div></div>';}).join('');
 }
 
 // ── SETTINGS ──
@@ -2469,7 +2646,8 @@ initDots();
 applyTheme(M.theme||'light');
 // If already set up or has existing data, go straight to app
 var hasData=(function(){for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('nuraz_')===0)return true;}return false;})();
-if(M.ob||hasData){M.ob=true;svMeta();initApp();}
+var hasSavedSession=(function(){try{return !!localStorage.getItem('_sb');}catch(e){return false;}})();
+if(M.ob||hasData||hasSavedSession){M.ob=true;svMeta();hideOb();initApp();}
 // else onboarding is already visible (shown by default in HTML)
 
 // ── AI CHAT ──────────────────────────────────────────────────────────
@@ -3096,8 +3274,6 @@ function showWelcome(username, isNew) {
 function closeWelcome() {
   var modal = ge('welcomeModal');
   if(modal) modal.classList.add('gone');
-  // tutorial starts here — only ever after signup/signin, only if not done
-  try{if(!localStorage.getItem('_tourDone_v1')&&typeof startTour==='function')setTimeout(startTour,450);}catch(e){}
 }
 
 // Patch doAuth to show welcome after login
@@ -3278,33 +3454,95 @@ function renderPlanMacros(cal,pro,carb,fat){
 }
 
 // ── AI DIET PLAN ──────────────────────────────────────────────────────
+function renderDietPlanCards(plan){
+  var cont=ge('dietPlanContent');var card=ge('dietPlanCard');
+  if(!cont||!card)return;
+  card.style.display='block';
+  if(!plan||!plan.meals){cont.innerHTML='<div class="f13 cs">Could not parse plan. Try again.</div>';return;}
+  var daily=plan.daily||{};
+  var maxCal=2800,maxPro=180,maxCarb=350,maxFat=90;
+  function mealCard(meal,idx){
+    var tot=meal.total||{};
+    var foods=(meal.foods||[]).map(function(f){
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">'+
+        '<div><div style="font-size:13px;font-weight:600;">'+f.item+'</div><div style="font-size:11px;color:var(--sub);">'+f.qty+'</div></div>'+
+        '<div style="text-align:right;font-size:11px;color:var(--sub);">'+f.cal+' kcal · '+f.pro+'g pro</div>'+
+      '</div>';
+    }).join('');
+    var bars=[
+      {l:'Cal',v:tot.cal||0,max:maxCal,c:'var(--accent)',id:'dp'+idx+'c'},
+      {l:'Pro',v:tot.pro||0,max:maxPro,c:'var(--blue)',id:'dp'+idx+'p'},
+      {l:'Carb',v:tot.carb||0,max:maxCarb,c:'var(--accent2)',id:'dp'+idx+'cb'},
+      {l:'Fat',v:tot.fat||0,max:maxFat,c:'var(--red)',id:'dp'+idx+'f'}
+    ];
+    return '<div style="background:var(--bg2);border-radius:var(--r2);padding:14px;margin-bottom:10px;border:1px solid var(--border);animation:card3dIn .45s cubic-bezier(.23,1,.32,1) '+(idx*0.1)+'s both;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'+
+        '<div><div style="font-size:13px;font-weight:800;color:var(--accent);">'+meal.name+'</div>'+
+        '<div style="font-size:10px;color:var(--sub);letter-spacing:1px;">'+meal.time+'</div></div>'+
+        '<div style="font-size:20px;font-weight:900;color:var(--text);">'+(tot.cal||0)+' <span style="font-size:10px;color:var(--sub);font-weight:400;">kcal</span></div>'+
+      '</div>'+
+      foods+
+      '<div style="margin-top:10px;">'+
+        bars.map(function(b){return '<div style="display:flex;align-items:center;margin-bottom:6px;">'+
+          '<span style="font-size:10px;color:var(--sub);width:28px;">'+b.l+'</span>'+
+          '<div style="flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin:0 8px;">'+
+            '<div id="'+b.id+'" style="width:0%;height:100%;border-radius:3px;background:'+b.c+';box-shadow:0 0 6px color-mix(in srgb,'+b.c+' 40%,transparent);transition:width .8s cubic-bezier(.23,1,.32,1) '+(idx*0.1+0.2)+'s;"></div>'+
+          '</div>'+
+          '<span style="font-size:11px;font-weight:700;color:'+b.c+';min-width:32px;text-align:right;">'+b.v+'</span>'+
+        '</div>';}).join('')+
+      '</div>'+
+    '</div>';
+  }
+  var dayTotal=daily.cal?
+    '<div style="background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);border-radius:var(--r2);padding:14px;margin-bottom:14px;animation:card3dIn .3s cubic-bezier(.23,1,.32,1) both;">'+
+      '<div style="font-size:10px;font-weight:700;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Daily Total</div>'+
+      '<div style="display:flex;gap:12px;flex-wrap:wrap;">'+
+        [['Cal',daily.cal,'var(--accent)'],['Pro',daily.pro+'g','var(--blue)'],['Carb',daily.carb+'g','var(--accent2)'],['Fat',daily.fat+'g','var(--red)']].map(function(x){
+          return '<div style="text-align:center;"><div style="font-size:18px;font-weight:900;color:'+x[2]+';">'+x[1]+'</div><div style="font-size:9px;color:var(--sub);letter-spacing:1px;">'+x[0]+'</div></div>';
+        }).join('')+
+      '</div>'+
+    '</div>':'';
+  cont.innerHTML=dayTotal+plan.meals.map(mealCard).join('');
+  setTimeout(function(){
+    plan.meals.forEach(function(meal,idx){
+      var tot=meal.total||{};
+      [['c',tot.cal,maxCal],['p',tot.pro,maxPro],['cb',tot.carb,maxCarb],['f',tot.fat,maxFat]].forEach(function(x){
+        var b=ge('dp'+idx+x[0]);if(b)b.style.width=Math.min((x[1]||0)/x[2]*100,100)+'%';
+      });
+    });
+  },60);
+}
 function generateDietPlan(){
   var btn=ge('dietPlanBtn');if(btn){btn.textContent='Generating...';btn.disabled=true;}
   var prefs=[];document.querySelectorAll('#dietPrefChips .chip.on').forEach(function(c){prefs.push(c.textContent.trim());});
   var ings=[];document.querySelectorAll('#ingredientChips .chip.on').forEach(function(c){ings.push(c.textContent.trim());});
-  var extra=ge('extraIngs')?ge('extraIngs').value.trim():'';
-  if(extra)ings.push(extra);
+  var extra=ge('extraIngs')?ge('extraIngs').value.trim():'';if(extra)ings.push(extra);
   var p=D.profile||{};
-  var prompt='Create a full day meal plan for: '+(p.name||'User')+', goal: '+(p.goal||'bulk')+
-    ', calories: '+(D.calGoal||2500)+' kcal, protein: '+(D.proGoal||130)+'g. '+
-    'Dietary preferences: '+(prefs.join(', ')||'Halal')+'. '+
-    'Ingredients at home: '+(ings.length?ings.join(', '):'basic pantry items')+'. '+
-    'Include breakfast, lunch, dinner, snacks. Show cal/protein/carbs/fat for each meal. '+
-    'Be specific with portions. Make it practical for someone in Bangladesh.';
+  var prompt='Create a full day meal plan for '+( p.name||'User')+', goal: '+(p.goal||'bulk')+
+    ', target: '+(D.calGoal||2500)+' kcal, '+(D.proGoal||130)+'g protein. '+
+    'Prefs: '+(prefs.join(', ')||'Halal')+'. Ingredients: '+(ings.length?ings.join(', '):'basic pantry')+
+    '. Bangladesh context. Return ONLY valid JSON, no markdown, no explanation:\n'+
+    '{"meals":[{"name":"Breakfast","time":"7:00 AM","foods":[{"item":"food name","qty":"200g","cal":300,"pro":25,"carb":30,"fat":8}],"total":{"cal":300,"pro":25,"carb":30,"fat":8}},{"name":"Lunch","time":"1:00 PM","foods":[...],"total":{...}},{"name":"Dinner","time":"7:00 PM","foods":[...],"total":{...}},{"name":"Snacks","time":"Between meals","foods":[...],"total":{...}}],"daily":{"cal":2500,"pro":130,"carb":280,"fat":75}}';
   fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({system:'You are a practical nutrition coach. Give specific actionable meal plans with exact portions and macros.',messages:[{role:'user',content:prompt}]})
+    body:JSON.stringify({system:'You are a nutrition coach. Return ONLY valid JSON meal plans. No markdown formatting, no code blocks, just raw JSON.',messages:[{role:'user',content:prompt}]})
   })
   .then(function(r){return r.json();})
   .then(function(data){
     if(btn){btn.textContent='✨ Generate My Plan';btn.disabled=false;}
-    var text=data.content&&data.content[0]?data.content[0].text:'Could not generate plan.';
-    var card=ge('dietPlanCard');var cont=ge('dietPlanContent');
-    if(card)card.style.display='block';
-    if(cont)cont.innerHTML='<div style="font-size:13px;line-height:1.8;">'+text.split('\n').join('<br>')+'</div>';
+    var text=(data.content&&data.content[0]?data.content[0].text:'').trim();
+    try{
+      var json=text.replace(/```json|```/g,'').trim();
+      var plan=JSON.parse(json);
+      renderDietPlanCards(plan);
+    }catch(e){
+      var card=ge('dietPlanCard');var cont=ge('dietPlanContent');
+      if(card)card.style.display='block';
+      if(cont)cont.innerHTML='<div style="font-size:13px;line-height:1.8;color:var(--text);">'+text.split('\n').map(function(l){return l?'<p style="margin-bottom:6px;">'+l+'</p>':'';}).join('')+'</div>';
+    }
   })
   .catch(function(){
     if(btn){btn.textContent='✨ Generate My Plan';btn.disabled=false;}
-    alert('Error generating plan. Check your connection.');
+    alert('Error generating plan. Check connection.');
   });
 }
 
@@ -3369,6 +3607,27 @@ if(!D.supps||!D.supps.length){
 </script>
 
 <!-- AI CHAT BUTTON -->
+<!-- PR CELEBRATION OVERLAY -->
+<div id="prOverlay" onclick="closePR()">
+  <div id="prBox" onclick="event.stopPropagation()">
+    <div id="prEmoji" style="font-size:56px;margin-bottom:8px;">🏆</div>
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px;">NEW PERSONAL RECORD</div>
+    <div id="prExName" style="font-size:22px;font-weight:900;color:var(--text);margin-bottom:4px;"></div>
+    <div id="prWeight" style="font-size:40px;font-weight:900;color:var(--accent);margin-bottom:4px;"></div>
+    <div id="prPrev" style="font-size:12px;color:var(--sub);margin-bottom:20px;"></div>
+    <button class="btn" onclick="closePR()" style="max-width:200px;margin:0 auto;">Let's go! 💪</button>
+  </div>
+</div>
+<!-- WEEKLY REPORT OVERLAY -->
+<div id="reportOverlay" onclick="closeReport()">
+  <div id="reportBox" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <div style="font-size:18px;font-weight:900;color:var(--accent);">Weekly Report 📊</div>
+      <button onclick="closeReport()" style="background:none;border:none;color:var(--sub);font-size:22px;cursor:pointer;">×</button>
+    </div>
+    <div id="reportContent"></div>
+  </div>
+</div>
 <button id="chatBtn" onclick="toggleChat()" title="Ask AI Coach">🧠</button>
 
 <!-- CHAT WINDOW -->
@@ -3441,278 +3700,5 @@ if(!D.supps||!D.supps.length){
   </div>
 </div>
 
-<script>(function(){function go(){try{var K='_hfApplied_v1';if(!localStorage.getItem(K)){document.documentElement.setAttribute('data-theme','higgsfield');localStorage.setItem(K,'1');if(window.M){window.M.theme='higgsfield';try{svMeta();}catch(e){}}}}catch(e){}}window.addEventListener('load',function(){setTimeout(go,60);});})();</script>
-
-<!-- article zoom modal -->
-<div id="artModal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="am-card">
-    <div class="news-tag" id="amTag" style="display:inline-block;"></div>
-    <div class="am-title" id="amTitle"></div>
-    <div class="am-body" id="amBody"></div>
-    <div class="am-src" id="amSrc"></div>
-    <button class="btn mt10" onclick="ge('artModal').classList.remove('open')">Close</button>
-  </div>
-</div>
-<!-- 3D orbs -->
-<div id="hf-orbs"><span></span><span></span><span></span></div>
-<!-- particle canvas -->
-<canvas id="hf-particles"></canvas>
-<!-- tour tip -->
-<div id="tour-tip">
-  <div id="tour-prog"></div>
-  <h4 id="tour-title"></h4>
-  <p id="tour-body"></p>
-  <div class="tour-btns">
-    <button class="t-skip" onclick="tourEnd()">Skip</button>
-    <button class="t-next" id="tour-next-btn" onclick="tourNext()">Next →</button>
-  </div>
-</div>
-
-<script>
-// ── PARTICLE CANVAS ──
-(function(){
-  var c=document.getElementById('hf-particles');
-  if(!c)return;
-  var ctx=c.getContext('2d'),W,H,pts=[];
-  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  for(var i=0;i<70;i++)pts.push({x:Math.random()*9999,y:Math.random()*9999,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.5+.5,o:Math.random()*.5+.15});
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    pts.forEach(function(p){
-      p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.28);
-      ctx.fillStyle='rgba('+(window._pc||'139,124,255')+','+p.o+')';ctx.fill();
-    });
-    // connect nearby
-    for(var i=0;i<pts.length;i++)for(var j=i+1;j<pts.length;j++){
-      var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
-        ctx.strokeStyle='rgba('+(window._pc||'139,124,255')+','+((.12*(1-d/90)))+')';ctx.lineWidth=.5;ctx.stroke();}
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// ── 3D CARD TILT ──
-// (heavy 3D tilt removed — CSS handles a gentle, smooth hover lift; far lighter)
-
-// ── GUIDED TOUR ──
-function _navTo(pg){try{var b=document.querySelector('[data-pg="'+pg+'"]');if(typeof nav==='function')nav(pg,b);}catch(e){}}
-var _tourSteps=[
-  {page:null,        sel:null,                   title:'Welcome to NURAZ.OS 👋', body:'A quick guided tour of the key areas. Tap Next, or Skip anytime.'},
-  {page:'home',      sel:'[data-pg="home"]',     title:'⚡ Home',      body:'Your daily dashboard — calories, streaks, workouts and today\'s summary at a glance.'},
-  {page:'nutrition', sel:'#foodInp',             title:'🍽️ Nutrition', body:'Search any food — it auto-fills calories, macros AND micronutrients. Watch:', demo:'food'},
-  {page:'training',  sel:'[data-pg="training"]', title:'💪 Training',  body:'Load a routine, log sets · reps · weight, and track your strength over time.'},
-  {page:'scan',      sel:'[data-pg="scan"]',     title:'📷 Scanner',   body:'Snap a photo of your meal — AI identifies it and logs the nutrition automatically.'},
-  {page:null,        sel:'#chatBtn,.chat-fab,[onclick*="toggleChat"]', title:'🤖 AI Coach', body:'Tap the chat bubble anytime for meal plans, workout advice and progress analysis.'},
-  {page:null,        sel:null,                   title:'You\'re all set! 🚀', body:'Explore freely. Replay this tour anytime from ⚙️ Settings.'},
-];
-var _tourIdx=0,_demoTimers=[];
-
-function tourClearHighlight(){
-  document.querySelectorAll('.tour-hl').forEach(function(el){
-    el.classList.remove('tour-hl');el.style.boxShadow='';el.style.borderRadius='';el.style.zIndex='';el.style.position='';
-  });
-}
-function tourPlaceTip(sel){
-  var tip=document.getElementById('tour-tip');
-  var el=sel?document.querySelector(sel):null;
-  if(!el){tip.style.left='50%';tip.style.top='50%';tip.style.transform='translate(-50%,-50%)';return;}
-  el.scrollIntoView({behavior:'smooth',block:'center'});
-  el.classList.add('tour-hl');
-  el.style.position=el.style.position||'relative';
-  el.style.zIndex='99997';
-  el.style.boxShadow='0 0 0 3px rgba(139,124,255,.9),0 0 32px rgba(139,124,255,.5)';
-  el.style.borderRadius='12px';
-  setTimeout(function(){
-    var r=el.getBoundingClientRect();
-    var tw=300,th=tip.offsetHeight||200;
-    var left=r.left+r.width/2-tw/2, top=r.bottom+16;
-    if(top+th>window.innerHeight-10)top=Math.max(10,r.top-th-16);
-    if(left<8)left=8;
-    if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
-    tip.style.left=left+'px';tip.style.top=top+'px';tip.style.transform='';
-  },360);
-}
-function tourShow(){
-  _demoTimers.forEach(clearTimeout);_demoTimers=[];
-  tourClearHighlight();
-  var old=document.getElementById('tour-demo');if(old)old.remove();
-  var tip=document.getElementById('tour-tip');
-  var step=_tourSteps[_tourIdx];
-  if(step.page)_navTo(step.page);
-  var prog=document.getElementById('tour-prog');prog.innerHTML='';
-  _tourSteps.forEach(function(_,i){var s=document.createElement('span');s.className=i<_tourIdx?'done':i===_tourIdx?'cur':'';prog.appendChild(s);});
-  document.getElementById('tour-title').textContent=step.title;
-  document.getElementById('tour-body').textContent=step.body;
-  document.getElementById('tour-next-btn').textContent=_tourIdx===_tourSteps.length-1?'Done ✓':'Next →';
-  tip.style.display='block';
-  setTimeout(function(){tourPlaceTip(step.sel);},step.page?300:0);
-  if(step.demo==='food')_demoTimers.push(setTimeout(playFoodDemo,550));
-}
-function tourNext(){_tourIdx++;if(_tourIdx>=_tourSteps.length){tourEnd();return;}tourShow();}
-function tourEnd(){_demoTimers.forEach(clearTimeout);tourClearHighlight();var d=document.getElementById('tour-demo');if(d)d.remove();document.getElementById('tour-tip').style.display='none';localStorage.setItem('_tourDone_v1','1');}
-
-// ── animated food-logging demo (mini auto-playing clip) ──
-function playFoodDemo(){
-  var body=document.getElementById('tour-body');if(!body)return;
-  var demo=document.createElement('div');demo.id='tour-demo';
-  demo.innerHTML='<div id="td-searchbox">🔍 <span id="td-typed"></span><span class="td-cursor">&nbsp;</span></div>'+
-    '<div id="td-result">Chicken Biryani</div>'+
-    '<div class="td-row" data-m="cal"><span class="td-lbl">Calories</span><div class="td-track"><i style="background:linear-gradient(90deg,#8b7cff,#3dd8e8)"></i></div><span class="td-val" data-to="612">0</span></div>'+
-    '<div class="td-row" data-m="pro"><span class="td-lbl">Protein</span><div class="td-track"><i style="background:#5B9CFF"></i></div><span class="td-val" data-to="34">0</span></div>'+
-    '<div class="td-row" data-m="carb"><span class="td-lbl">Carbs</span><div class="td-track"><i style="background:#3dd8e8"></i></div><span class="td-val" data-to="68">0</span></div>'+
-    '<div class="td-row" data-m="fat"><span class="td-lbl">Fat</span><div class="td-track"><i style="background:#FF6B8A"></i></div><span class="td-val" data-to="22">0</span></div>'+
-    '<div id="td-micros"><span>Iron 18%</span><span>Vit C 12%</span><span>Calcium 9%</span><span>Zinc 22%</span><span>B12 30%</span><span>Folate 15%</span></div>';
-  body.parentNode.insertBefore(demo,body.nextSibling);
-  var word='Chicken Biryani',typed=document.getElementById('td-typed'),i=0;
-  function type(){if(i<=word.length){typed.textContent=word.slice(0,i);i++;_demoTimers.push(setTimeout(type,70));}else{afterType();}}
-  function afterType(){
-    var res=document.getElementById('td-result');
-    _demoTimers.push(setTimeout(function(){res.classList.add('show');},150));
-    _demoTimers.push(setTimeout(function(){res.classList.add('picked');res.textContent='✓ Chicken Biryani';},700));
-    var widths={cal:'82%',pro:'62%',carb:'70%',fat:'48%'};
-    _demoTimers.push(setTimeout(function(){
-      document.querySelectorAll('#tour-demo .td-row').forEach(function(row,idx){
-        _demoTimers.push(setTimeout(function(){
-          row.classList.add('show');
-          row.querySelector('i').style.width=widths[row.dataset.m];
-          var val=row.querySelector('.td-val'),to=+val.dataset.to,t0=Date.now();
-          (function count(){var p=Math.min((Date.now()-t0)/800,1);val.textContent=Math.round(to*p);if(p<1)requestAnimationFrame(count);})();
-        },idx*180));
-      });
-    },900));
-    _demoTimers.push(setTimeout(function(){var m=document.getElementById('td-micros');if(m)m.classList.add('show');},1900));
-    // loop the clip while still on this step
-    _demoTimers.push(setTimeout(function(){
-      if(_tourSteps[_tourIdx]&&_tourSteps[_tourIdx].demo==='food'){var d=document.getElementById('tour-demo');if(d)d.remove();playFoodDemo();}
-    },5400));
-  }
-  type();
-}
-
-// tour no longer auto-starts on load — it triggers from closeWelcome() (i.e. only after signup/signin)
-window.startTour=function(){_tourIdx=0;tourShow();};
-
-// ── LIVE FOOD PREVIEW (demo-style in the real Nutrition tab) ──
-var _fpRDA={fe:[18,'Iron','mg'],vc:[90,'Vit C'],ca:[1000,'Calcium'],zn:[11,'Zinc'],b12:[2.4,'B12'],folate:[400,'Folate'],mg:[400,'Magnesium'],k:[3500,'Potassium'],vd:[15,'Vit D'],omega3:[1.6,'Omega-3']};
-function showFoodPreview(name,qty){
-  var fp=ge('foodPreview');if(!fp)return;
-  var food=name?F[name]:null;
-  if(!food){fp.style.display='none';fp.innerHTML='';return;}
-  var grams=qty?parseFloat(qty):food.base;if(isNaN(grams))grams=food.base;
-  var mult=grams/food.base;
-  var cal=Math.round(food.cal*mult),pro=Math.round(food.pro*mult),carb=Math.round(food.carb*mult),fat=Math.round(food.fat*mult);
-  function rowH(lbl,val,goal,color,unit){
-    var w=Math.min(val/goal*100,100);
-    return '<div class="fp-row" data-w="'+w+'"><span class="fp-lbl">'+lbl+'</span><div class="fp-track"><i style="background:'+color+';"></i></div><span class="fp-val" data-to="'+val+'">0'+(unit||'')+'</span></div>';
-  }
-  var chips=[];
-  Object.keys(_fpRDA).forEach(function(k){
-    var v=(food[k]||0)*mult,pct=Math.round(v/_fpRDA[k][0]*100);
-    if(pct>=3)chips.push('<span>'+_fpRDA[k][1]+' '+pct+'%</span>');
-  });
-  fp.innerHTML='<div class="fp-name">✓ '+foodEmoji(name)+' '+name+' <span style="opacity:.65;font-size:11px;font-weight:500;">'+grams+'g</span></div>'
-    +rowH('Calories',cal,D.calGoal||2500,'linear-gradient(90deg,var(--accent),var(--accent2))')
-    +rowH('Protein',pro,D.proGoal||130,'var(--blue)')
-    +rowH('Carbs',carb,300,'var(--accent2)')
-    +rowH('Fat',fat,80,'var(--red)')
-    +(chips.length?'<div class="fp-chips">'+chips.slice(0,8).join('')+'</div>':'');
-  fp.style.display='block';
-  var rows=fp.querySelectorAll('.fp-row');
-  rows.forEach(function(r,i){
-    setTimeout(function(){
-      r.classList.add('show');
-      r.querySelector('i').style.width=r.dataset.w+'%';
-      countUp(r.querySelector('.fp-val'),+r.querySelector('.fp-val').dataset.to,750);
-    },120+i*140);
-  });
-  var ch=fp.querySelector('.fp-chips');
-  if(ch)setTimeout(function(){ch.classList.add('show');},120+rows.length*140+150);
-}
-var _fpPickFood=pickFood;
-pickFood=function(name){_fpPickFood(name);showFoodPreview(name,null);};
-var _fpPickQty=pickQty;
-pickQty=function(el,qty){_fpPickQty(el,qty);showFoodPreview(window.selFood,qty);};
-var _fpFinalize=finalizeLog;
-finalizeLog=function(cm){_fpFinalize(cm);showFoodPreview(null);};
-var _fpSearch=searchFood;
-searchFood=function(q){_fpSearch(q);if(!window.selFood)showFoodPreview(null);};
-
-// ── TRAINING: demo-style session load animation ──
-var _tsLoadSession=loadSession;
-loadSession=function(){
-  _tsLoadSession();
-  var area=ge('routineArea');if(!area)return;
-  var wrap=area.firstChild;if(!wrap)return;
-  var exCards=wrap.querySelectorAll('.ex-card');if(!exCards.length)return;
-  var sum=document.createElement('div');
-  sum.innerHTML='<div class="fp-name">✓ 💪 '+(ge('sessionSel')?ge('sessionSel').value:'Session')+'</div>'
-    +'<div class="fp-chips" style="margin-bottom:14px;"><span>'+exCards.length+' exercises</span><span>~'+(exCards.length*8)+' min</span><span>'+fmtDate(gymDate)+'</span></div>';
-  wrap.insertBefore(sum,wrap.children[1]||null);
-  setTimeout(function(){var c=sum.querySelector('.fp-chips');if(c)c.classList.add('show');},250);
-  exCards.forEach(function(c,i){
-    c.style.opacity='0';c.style.transform='translateY(16px)';
-    c.style.transition='opacity .5s cubic-bezier(.2,.8,.2,1) '+(i*0.09)+'s,transform .55s cubic-bezier(.34,1.56,.64,1) '+(i*0.09)+'s';
-    requestAnimationFrame(function(){requestAnimationFrame(function(){c.style.opacity='1';c.style.transform='none';});});
-  });
-};
-
-// ── ARTICLE ZOOM ──
-var _newsFiltered=[];
-function openArticle(i){
-  var n=_newsFiltered[i];if(!n)return;
-  var tg=ge('amTag');tg.textContent=n.tag;tg.style.color=n.c;tg.style.background='color-mix(in srgb,'+n.c+' 15%,transparent)';
-  ge('amTitle').textContent=n.t;ge('amBody').textContent=n.b;ge('amSrc').textContent='📚 '+n.src;
-  ge('artModal').classList.add('open');
-}
-
-// ── THEME CUSTOMIZER (Appearance Studio) ──
-var _BG_MODES=['Aurora + Particles','Aurora only','Particles only','Off'];
-function _hex2rgb(h){h=h.replace('#','');return parseInt(h.substr(0,2),16)+','+parseInt(h.substr(2,2),16)+','+parseInt(h.substr(4,2),16);}
-function applyCustomTheme(){
-  var ct=null;try{ct=JSON.parse(localStorage.getItem('_custTheme')||'null');}catch(e){}
-  if(!ct)return;
-  var r=document.documentElement.style;
-  if(ct.p){r.setProperty('--accent',ct.p);window._pc=_hex2rgb(ct.p);}
-  if(ct.s)r.setProperty('--accent2',ct.s);
-  var orbs=ge('hf-orbs'),parts=ge('hf-particles');
-  if(orbs)orbs.style.display=(ct.bg==='Off'||ct.bg==='Particles only')?'none':'';
-  if(parts)parts.style.display=(ct.bg==='Off'||ct.bg==='Aurora only')?'none':'';
-}
-function saveCustomTheme(){
-  var bgChip=document.querySelector('#custBgChips .chip.on');
-  var ct={p:ge('custPrimary').value,s:ge('custSecondary').value,bg:bgChip?bgChip.textContent:'Aurora + Particles'};
-  localStorage.setItem('_custTheme',JSON.stringify(ct));
-  applyCustomTheme();
-  if(typeof showSync==='function')showSync('✨ Your theme is live',2200);
-}
-function resetCustomTheme(){
-  localStorage.removeItem('_custTheme');
-  var r=document.documentElement.style;r.removeProperty('--accent');r.removeProperty('--accent2');
-  window._pc=null;
-  var o=ge('hf-orbs');if(o)o.style.display='';
-  var p=ge('hf-particles');if(p)p.style.display='';
-  initCustChips();
-  if(typeof showSync==='function')showSync('Theme reset',2000);
-}
-function initCustChips(){
-  var wrap=ge('custBgChips');if(!wrap)return;wrap.innerHTML='';
-  var ct=null;try{ct=JSON.parse(localStorage.getItem('_custTheme')||'null');}catch(e){}
-  _BG_MODES.forEach(function(m){
-    var c=document.createElement('div');
-    c.className='chip'+(((ct&&ct.bg===m))||(!ct&&m==='Aurora + Particles')?' on':'');
-    c.textContent=m;
-    c.onclick=function(){wrap.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');};
-    wrap.appendChild(c);
-  });
-  if(ct){if(ct.p&&ge('custPrimary'))ge('custPrimary').value=ct.p;if(ct.s&&ge('custSecondary'))ge('custSecondary').value=ct.s;}
-}
-var _csRenderSettings=renderSettings;
-renderSettings=function(){_csRenderSettings();initCustChips();};
-window.addEventListener('load',function(){setTimeout(function(){applyCustomTheme();initCustChips();},200);});
-</script>
-</body>
+<script>(function(){function go(){try{var K='_hfApplied_v1';if(!localStorage.getItem(K)){document.documentElement.setAttribute('data-theme','higgsfield');localStorage.setItem(K,'1');if(window.M){window.M.theme='higgsfield';try{svMeta();}catch(e){}}}}catch(e){}}window.addEventListener('load',function(){setTimeout(go,60);});})();</script></body>
 </html>
