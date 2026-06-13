@@ -354,6 +354,21 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 2px rgba(124,92,255,.45
 #td-micros{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;opacity:0;transition:opacity .5s;}
 #td-micros.show{opacity:1;}
 #td-micros span{font-size:9px;padding:3px 7px;border-radius:20px;background:rgba(61,216,232,.12);border:1px solid rgba(61,216,232,.25);color:#9fe8f2;}
+/* ── BOUNCE / ALIVE UI ── */
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes popSel{0%{transform:scale(1)}55%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.mbf{transform-origin:left;animation:growX .7s cubic-bezier(.2,.8,.2,1);}
+.chip,.utab,.pill,.si,.sb-btn,.btn{transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s,filter .2s,background .2s;}
+.chip:hover,.utab:hover,.pill:hover,.si:hover{transform:scale(1.07);}
+.chip:active,.utab:active,.pill:active{transform:scale(.93);}
+.chip.on,.utab.on{animation:popSel .35s cubic-bezier(.34,1.56,.64,1);}
+.btn:hover{transform:translateY(-2px) scale(1.02);}
+.btn:active{transform:scale(.95);}
+.page.on .card{animation:fadeUp .5s cubic-bezier(.2,.8,.2,1) both;}
+.page.on .card:nth-child(2){animation-delay:.05s}.page.on .card:nth-child(3){animation-delay:.1s}.page.on .card:nth-child(4){animation-delay:.15s}.page.on .card:nth-child(5){animation-delay:.2s}.page.on .card:nth-child(6){animation-delay:.25s}
+.si{border-radius:8px;cursor:pointer;}
+#qtyArea{animation:fadeUp .35s cubic-bezier(.34,1.56,.64,1);}
 </style></head>
 <body>
 <div class="stars" id="stars"></div>
@@ -1686,7 +1701,7 @@ function searchFood(q){
   var hits=FN.filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>=0;}).slice(0,10);
   if(!hits.length){drop.style.display='none';return;}
   drop.style.display='block';drop.innerHTML='';
-  hits.forEach(function(n){var d=document.createElement('div');d.className='si';d.textContent=n;d.onclick=function(){pickFood(n);};drop.appendChild(d);});
+  hits.forEach(function(n){var d=document.createElement('div');d.className='si';d.textContent=foodEmoji(n)+'  '+n;d.onclick=function(){pickFood(n);};drop.appendChild(d);});
 }
 function pickFood(name){
   selFood=name;selQty=null;ge('foodInp').value=name;ge('searchDrop').style.display='none';
@@ -1708,6 +1723,8 @@ function logMeal(){
     ve:Math.round((food.ve||0)*mult*10)/10,vk:Math.round((food.vk||0)*mult*10)/10,zn:Math.round((food.zn||0)*mult*10)/10,
     mg:Math.round((food.mg||0)*mult),k:Math.round((food.k||0)*mult),b12:Math.round((food.b12||0)*mult*10)/10,
     b6:Math.round((food.b6||0)*mult*100)/100,folate:Math.round((food.folate||0)*mult),omega3:Math.round((food.omega3||0)*mult*10)/10};
+  var _em=estMicros(selFood,food,mult);m.na=_em.na;m.p=_em.p;m.se=_em.se;
+  window._animMacros=true;
   D.meals=D.meals||[];D.meals.push(m);svUser();
   ge('foodInp').value='';ge('qtyArea').style.display='none';selFood=null;selQty=null;
   renderMacros();renderMeals();renderCM();
@@ -1727,18 +1744,19 @@ function renderCM(){
   var counts={};(D.meals||[]).forEach(function(m){counts[m.name]=(counts[m.name]||0)+1;});
   var top=Object.entries(counts).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
   el.innerHTML='';
-  top.forEach(function(e){var c=document.createElement('div');c.className='chip';c.textContent=e[0];c.onclick=function(){pickFood(e[0]);};el.appendChild(c);});
+  top.forEach(function(e){var c=document.createElement('div');c.className='chip';c.textContent=foodEmoji(e[0])+' '+e[0];c.onclick=function(){pickFood(e[0]);};el.appendChild(c);});
 }
 function renderMacros(){
   var meals=todayMeals();
   var cal=meals.reduce(function(s,m){return s+m.cal;},0),pro=meals.reduce(function(s,m){return s+m.pro;},0),carb=meals.reduce(function(s,m){return s+m.carb;},0),fat=meals.reduce(function(s,m){return s+m.fat;},0);
   var el=ge('macroDisplay');if(!el)return;
   function bar(v,g,c){return '<div class="mbb"><div class="mbf" style="width:'+Math.min(v/g*100,100)+'%;background:'+c+';"></div></div>';}
-  el.innerHTML='<div style="font-size:32px;font-weight:900;color:var(--accent);margin-bottom:12px;">'+cal+' <span style="font-size:13px;color:var(--sub);font-weight:400;">/ '+(D.calGoal||2500)+' kcal</span></div>'+
+  el.innerHTML='<div style="font-size:32px;font-weight:900;color:var(--accent);margin-bottom:12px;"><span id="macroCalNum">'+cal+'</span> <span style="font-size:13px;color:var(--sub);font-weight:400;">/ '+(D.calGoal||2500)+' kcal</span></div>'+
     '<div class="mbr"><span class="mbn cb">Protein</span>'+bar(pro,D.proGoal||130,'var(--blue)')+'<span class="mbv cb">'+pro+'g</span></div>'+
     '<div class="mbr"><span class="mbn" style="color:var(--accent2);">Carbs</span>'+bar(carb,300,'var(--accent2)')+'<span class="mbv" style="color:var(--accent2);">'+carb+'g</span></div>'+
     '<div class="mbr"><span class="mbn cr">Fat</span>'+bar(fat,80,'var(--red)')+'<span class="mbv cr">'+fat+'g</span></div>';
   renderMicro(meals);
+  if(window._animMacros){window._animMacros=false;countUp(ge('macroCalNum'),cal,650);}
 }
 function toggleMicro(){microOn=!microOn;ge('microDisplay').style.display=microOn?'block':'none';ge('microBtn').textContent=microOn?'Hide':'Show';}
 function renderMicro(meals){
@@ -1748,7 +1766,7 @@ function renderMicro(meals){
   function r(k){return Math.round(t(k)*10)/10;}
   function bar(v,g,c){var p=Math.min(v/g*100,100);var bg=p>=100?'var(--green)':p>=70?c:'var(--red)';return '<div class="mbb"><div class="mbf" style="width:'+p+'%;background:'+bg+';"></div></div>';}
   function row(lbl,val,u,g,c){var p=Math.round(val/g*100);return '<div class="mbr"><span class="mbn cs" style="font-size:10px;width:85px;">'+lbl+'</span>'+bar(val,g,c)+'<span class="mbv" style="color:'+c+';font-size:11px;">'+val+u+' <span style="color:var(--sub);font-size:9px;">'+p+'%</span></span></div>';}
-  el.innerHTML=row('Vit A',r('va'),'mcg',900,'#FF9500')+row('Vit C',r('vc'),'mg',90,'var(--green)')+row('Vit D',r('vd'),'mcg',15,'var(--accent2)')+row('Vit E',r('ve'),'mg',15,'var(--accent)')+row('Vit K',r('vk'),'mcg',120,'var(--blue)')+row('B6',r('b6'),'mg',1.3,'var(--purple)')+row('B12',r('b12'),'mcg',2.4,'var(--red)')+row('Folate',r('folate'),'mcg',400,'var(--green)')+row('Calcium',r('ca'),'mg',1000,'var(--blue)')+row('Iron',r('fe'),'mg',18,'var(--red)')+row('Magnesium',r('mg'),'mg',400,'var(--green)')+row('Zinc',r('zn'),'mg',11,'var(--accent)')+row('Potassium',r('k'),'mg',3500,'var(--purple)')+row('Omega-3',r('omega3'),'g',1.6,'var(--blue)')+row('Fiber',r('fiber'),'g',25,'var(--green)');
+  el.innerHTML=row('Vit A',r('va'),'mcg',900,'#FF9500')+row('Vit C',r('vc'),'mg',90,'var(--green)')+row('Vit D',r('vd'),'mcg',15,'var(--accent2)')+row('Vit E',r('ve'),'mg',15,'var(--accent)')+row('Vit K',r('vk'),'mcg',120,'var(--blue)')+row('B6',r('b6'),'mg',1.3,'var(--purple)')+row('B12',r('b12'),'mcg',2.4,'var(--red)')+row('Folate',r('folate'),'mcg',400,'var(--green)')+row('Calcium',r('ca'),'mg',1000,'var(--blue)')+row('Iron',r('fe'),'mg',18,'var(--red)')+row('Magnesium',r('mg'),'mg',400,'var(--green)')+row('Zinc',r('zn'),'mg',11,'var(--accent)')+row('Sodium',r('na'),'mg',2300,'#FF9F45')+row('Potassium',r('k'),'mg',3500,'var(--purple)')+row('Phosphorus',r('p'),'mg',700,'var(--blue)')+row('Selenium',r('se'),'mcg',55,'var(--purple)')+row('Omega-3',r('omega3'),'g',1.6,'var(--blue)')+row('Fiber',r('fiber'),'g',25,'var(--green)');
 }
 function renderMeals(){
   var meals=todayMeals();var el=ge('mealLog');if(!el)return;
@@ -1757,7 +1775,7 @@ function renderMeals(){
   meals.forEach(function(m,i){
     var qs=mealScore(m);
     var div=document.createElement('div');div.className='mr';div.style.animationDelay=(i*0.04)+'s';
-    div.innerHTML='<div class="mr-row"><div><div class="mn">'+m.name+' <span class="f11 cs">'+m.qty+'</span></div><div class="mm">'+m.cal+' kcal · '+m.pro+'g pro · '+m.carb+'g carb · '+m.fat+'g fat</div></div><button class="del" onclick="delMeal('+m.id+')">x</button></div>'+
+    div.innerHTML='<div class="mr-row"><div><div class="mn">'+foodEmoji(m.name)+' '+m.name+' <span class="f11 cs">'+m.qty+'</span></div><div class="mm">'+m.cal+' kcal · '+m.pro+'g pro · '+m.carb+'g carb · '+m.fat+'g fat</div></div><button class="del" onclick="delMeal('+m.id+')">x</button></div>'+
       '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;"><button onclick="toggleMD('+m.id+')" style="background:none;border:none;font-size:10px;color:var(--accent);cursor:pointer;font-family:var(--font);font-weight:700;letter-spacing:1px;padding:0;">DETAILS ▼</button><span class="meal-score" style="background:color-mix(in srgb,'+qs.color+' 15%,transparent);color:'+qs.color+';">'+qs.label+' '+qs.score+'/100</span></div>'+
       '<div id="md'+m.id+'" class="meal-detail">'+
       '<strong>📊 Macros:</strong> '+m.cal+' kcal · '+m.pro+'g protein · '+m.carb+'g carbs · '+m.fat+'g fat · '+m.fiber+'g fiber<br>'+
@@ -2020,7 +2038,11 @@ function finalizeLog(cookMethod) {
     omega3: Math.round((food.omega3||0) * mult * 10) / 10,
     cookAdd: cookCalAdd,
   };
-  
+  var _em = estMicros(pendingFood, food, mult);
+  m.na = _em.na; m.p = _em.p; m.se = _em.se;
+  if (cookMethod && /fried|deep|salt/i.test(cookMethod.label||'')) m.na += Math.round(150 * (num/100));
+  window._animMacros = true;
+
   D.meals = D.meals || [];
   D.meals.push(m);
   svUser();
@@ -2260,6 +2282,31 @@ var NEWS=[
   {tag:'Sleep',c:'var(--blue)',t:'Blue light suppresses melatonin by 50% after 9pm',b:'Blue light from phones delays melatonin onset significantly. Night shift mode only reduces this by 23%. Lower brightness and warm lighting make a real difference.',src:'Harvard Sleep Medicine 2015'},
   {tag:'Hormones',c:'var(--accent)',t:'Zinc and magnesium directly support testosterone production',b:'Both are cofactors in testosterone synthesis. Deficiency is common in athletes due to sweat loss. ZMA supplementation shows measurable testosterone benefits.',src:'Biological Trace Element Research 2020'},
   {tag:'Nutrition',c:'var(--green)',t:'Omega-3 reduces muscle soreness and improves recovery',b:'Daily omega-3 supplementation at 3-4g EPA/DHA significantly reduces exercise-induced inflammation and muscle soreness, improving recovery between sessions.',src:'Clinical Journal of Sport Medicine 2020'},
+  {tag:'Nutrition',c:'var(--green)',t:'Hydration drops of just 2% impair strength and focus',b:'Losing 2% of bodyweight in water reduces strength output by ~10% and noticeably impairs concentration. Drink 35ml per kg bodyweight daily, more when training in heat.',src:'Journal of Athletic Training 2018'},
+  {tag:'Training',c:'var(--red)',t:'Training each muscle 2x per week beats once',b:'Meta-analysis shows hitting a muscle twice weekly produces significantly more growth than once, even at equal weekly volume. Frequency drives the protein-synthesis signal.',src:'Sports Medicine Meta-Analysis 2016'},
+  {tag:'Training',c:'var(--red)',t:'Going to failure isn\'t required for growth',b:'Stopping 1-3 reps short of failure produces similar hypertrophy with far less fatigue, letting you recover and train harder next session. Save true failure for last sets.',src:'Journal of Strength & Conditioning 2021'},
+  {tag:'Nutrition',c:'var(--green)',t:'Spreading protein across 4 meals maximises synthesis',b:'20-40g protein per meal across 3-4 meals stimulates more total daily muscle protein synthesis than the same amount in 1-2 large servings.',src:'Journal of Nutrition 2017'},
+  {tag:'Recovery',c:'var(--purple)',t:'A 10-minute walk lowers post-meal blood sugar sharply',b:'Light walking after meals blunts blood-glucose spikes by up to 30%, improving insulin sensitivity and nutrient partitioning over time.',src:'Sports Medicine 2022'},
+  {tag:'Hormones',c:'var(--accent)',t:'Chronic stress raises cortisol and blocks gains',b:'Sustained high cortisol breaks down muscle and stores fat. Breathing drills, sleep, and managing training volume keep cortisol in a productive range.',src:'Psychoneuroendocrinology 2019'},
+  {tag:'Nutrition',c:'var(--green)',t:'Carbs around training improve performance and recovery',b:'Consuming carbohydrate before and after hard sessions refills muscle glycogen, sustains intensity, and supports the insulin response that drives recovery.',src:'International Journal of Sport Nutrition 2018'},
+  {tag:'Sleep',c:'var(--blue)',t:'Consistent sleep timing matters as much as duration',b:'Irregular bed and wake times disrupt circadian rhythm and hormone release even at 8 hours total. A fixed schedule improves recovery and next-day performance.',src:'Sleep Health Journal 2021'},
+  {tag:'Creatine',c:'var(--green)',t:'Creatine is safe for kidneys in healthy people',b:'Decades of research show no kidney harm from creatine in healthy individuals. Slight water-weight gain in muscle is normal and beneficial, not bloat.',src:'JISSN Safety Review 2021'},
+  {tag:'Training',c:'var(--red)',t:'Full range of motion builds more muscle than partials',b:'Training through a full stretch, especially the lengthened position, produces greater hypertrophy than partial reps. Control the eccentric and feel the stretch.',src:'Journal of Applied Physiology 2023'},
+  {tag:'Nutrition',c:'var(--green)',t:'Fibre intake predicts long-term health better than most metrics',b:'Every extra 8g daily fibre lowers risk of heart disease and type-2 diabetes meaningfully. Aim for 25-35g from whole grains, lentils, vegetables and fruit.',src:'The Lancet 2019'},
+  {tag:'Recovery',c:'var(--purple)',t:'Deload weeks prevent burnout and unlock new PRs',b:'Cutting volume by 40-50% every 4-8 weeks lets accumulated fatigue dissipate so adaptation surfaces. Most lifters under-recover and stall avoidably.',src:'Strength & Conditioning Journal 2020'},
+  {tag:'Hormones',c:'var(--accent)',t:'Healthy fats are essential for testosterone production',b:'Very low-fat diets reduce testosterone. Keep dietary fat above 20% of calories, including mono- and saturated sources, for optimal hormone output.',src:'Journal of Steroid Biochemistry 2021'},
+  {tag:'Vitamin D',c:'var(--accent2)',t:'Vitamin D supports strength, immunity and mood',b:'Beyond bones, adequate vitamin D improves muscle function, immune defence and mood. Most indoor people benefit from 2000-4000 IU daily, especially in winter.',src:'Endocrine Reviews 2022'},
+  {tag:'Training',c:'var(--red)',t:'Tempo control increases time under tension for growth',b:'Slowing the lowering phase to 2-3 seconds increases mechanical tension and muscle damage signalling without adding load. Quality reps beat bouncing.',src:'European Journal of Applied Physiology 2019'},
+  {tag:'Nutrition',c:'var(--green)',t:'Leucine is the key trigger for muscle protein synthesis',b:'Around 2.5-3g leucine per meal flips the muscle-building switch. Whey, eggs, meat, fish and dairy are richest; plant eaters should combine sources.',src:'American Journal of Clinical Nutrition 2016'},
+  {tag:'NoFap',c:'var(--purple)',t:'Reduced novelty-seeking improves focus and drive',b:'Cutting high-dopamine digital stimulation rebalances reward sensitivity, making ordinary tasks more rewarding and improving sustained attention.',src:'Behavioural Brain Research 2020'},
+  {tag:'Recovery',c:'var(--purple)',t:'Sunlight in the morning anchors your sleep cycle',b:'10-20 minutes of morning daylight sets your circadian clock, improving night-time melatonin release and deep sleep quality. Free and powerful.',src:'Nature Communications 2021'},
+  {tag:'Sleep',c:'var(--blue)',t:'Caffeine after 2pm measurably cuts deep sleep',b:'Caffeine\'s half-life is 5-6 hours; an afternoon coffee still circulates at bedtime, reducing deep sleep even if you fall asleep fine.',src:'Journal of Clinical Sleep Medicine 2013'},
+  {tag:'Hormones',c:'var(--accent)',t:'Overtraining suppresses testosterone and thyroid output',b:'Too much volume with too little recovery lowers anabolic hormones and metabolic rate. More is not better — recoverable training is what grows you.',src:'Sports Medicine 2018'},
+  {tag:'Nutrition',c:'var(--green)',t:'Iron deficiency silently tanks endurance and energy',b:'Common in heavy trainers and those eating little red meat. Low iron cuts oxygen delivery and stamina. Pair plant iron with vitamin C to absorb more.',src:'Medicine & Science in Sports 2019'},
+  {tag:'Training',c:'var(--red)',t:'Warming up specifically improves first working set output',b:'Ramp-up sets at increasing load prime the nervous system and joints, raising performance and lowering injury risk versus jumping straight to heavy weight.',src:'Journal of Strength & Conditioning 2017'},
+  {tag:'Recovery',c:'var(--purple)',t:'Active recovery beats complete rest for soreness',b:'Light movement on off days increases blood flow and clears metabolic waste faster than lying still, reducing soreness and speeding readiness.',src:'Journal of Sports Sciences 2018'},
+  {tag:'Nutrition',c:'var(--green)',t:'Sodium isn\'t the enemy for active, sweating athletes',b:'Hard trainers lose significant sodium in sweat. Moderate sodium supports blood volume, pumps and performance — context matters more than blanket restriction.',src:'European Journal of Applied Physiology 2021'},
+  {tag:'Mindset',c:'var(--accent)',t:'Tracking progress is the strongest predictor of adherence',b:'People who log food and training are dramatically more likely to reach their goals. Measurement creates accountability and reveals what actually works for you.',src:'Obesity Journal 2019'},
 ];
 function renderNews(){
   var tags=['All'].concat(NEWS.map(function(n){return n.tag;}).filter(function(t,i,a){return a.indexOf(t)===i;}));
@@ -2986,6 +3033,8 @@ function showWelcome(username, isNew) {
 function closeWelcome() {
   var modal = ge('welcomeModal');
   if(modal) modal.classList.add('gone');
+  // tutorial starts here — only ever after signup/signin, only if not done
+  try{if(!localStorage.getItem('_tourDone_v1')&&typeof startTour==='function')setTimeout(startTour,450);}catch(e){}
 }
 
 // Patch doAuth to show welcome after login
@@ -3347,6 +3396,24 @@ if(!D.supps||!D.supps.length){
 </div>
 
 <script>
+// ── FOOD EMOJI MAP (render-time, no data bloat) ──
+function foodEmoji(n){n=(n||'').toLowerCase();
+  var map=[['biryani|tehari|pulao|polao|khichuri|fried rice|risotto','🍛'],['rice|bhat|vat','🍚'],['chicken|murgi|murog','🍗'],['beef|gorur|steak|mutton|lamb|khasi|goat|meat','🥩'],['hilsa|ilish|rui|katla|pangash|fish|salmon|tuna|maach|mach|tilapia','🐟'],['shrimp|prawn|chingri|lobster','🦐'],['egg|dim|omelet','🥚'],['dal|daal|lentil|moong|mosur','🍲'],['roti|ruti|naan|paratha|porota|luchi|chapati|bread|toast|bun','🫓'],['milk|dudh|yogurt|doi|lassi|borhani','🥛'],['banana|kola','🍌'],['mango|aam','🥭'],['apple|apel','🍎'],['orange|malta|kamala','🍊'],['grape|angur','🍇'],['watermelon|tarmuj','🍉'],['guava|peyara','🫒'],['potato|aloo|alu','🥔'],['spinach|lau|begun|kumra|shak|vegetable|sabzi|bhaji|torkari|okra|dhundul','🥬'],['samosa|singara|piyaju|pakora|chop|beguni|fry|cutlet','🧆'],['mishti|rasgulla|rosgolla|jilapi|jalebi|halwa|payesh|sandesh|sweet|dessert|cake|kheer','🍰'],['tea|cha|coffee','☕'],['oil|ghee|butter|makhon','🧈'],['cheese|paneer','🧀'],['almond|cashew|peanut|badam|nut|walnut|kaju','🥜'],['soup|shorba','🍜'],['korma|bhuna|masala|curry|jhol|kalia','🍛'],['salad|salat','🥗'],['chocolate','🍫'],['ice cream','🍦'],['burger','🍔'],['pizza','🍕'],['kebab|kabab|tikka|seekh|shami','🍢'],['noodle|chowmein|chow|pasta','🍝'],['honey|modhu','🍯'],['date|khejur','🫐'],['coconut|narikel|dab','🥥'],['carrot|gajor','🥕'],['tomato|tomato','🍅'],['onion|peyaj','🧅'],['biscuit|cookie|cracker','🍪'],['juice|sharbat|drink|cola|soda','🥤']];
+  for(var i=0;i<map.length;i++){if(new RegExp(map[i][0]).test(n))return map[i][1];}
+  return '🍽️';
+}
+// ── animated number count-up ──
+function countUp(el,to,dur){if(!el)return;var t0=Date.now();to=+to||0;dur=dur||650;(function s(){var p=Math.min((Date.now()-t0)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(s);})();}
+// ── estimated extra micros (sodium/phosphorus/selenium) from food type ──
+function estMicros(name,food,mult){
+  var n=(name||'').toLowerCase(),na=40;
+  if(/pickle|achar|sauce|soy|chips|crisp|sausage|salami|canned|instant|noodle|ramen|processed|salt|papad|namkeen|cured|bacon|ham|stock/.test(n))na=650;
+  else if(/bread|cheese|biryani|tehari|fried|curry|restaurant|burger|pizza|kebab|kabab|roll|samosa|singara|chop|fast|sandwich|masala/.test(n))na=320;
+  else if(/fish|hilsa|ilish|shrimp|prawn|egg|meat|beef|mutton|chicken|dal|lentil/.test(n))na=90;
+  var p=(food&&food.pro||0)*11,se=(food&&food.pro||0)*0.5;
+  return {na:Math.round(na*mult),p:Math.round(p*mult),se:Math.round(se*mult*10)/10};
+}
+
 // ── PARTICLE CANVAS ──
 (function(){
   var c=document.getElementById('hf-particles');
@@ -3471,14 +3538,7 @@ function playFoodDemo(){
   type();
 }
 
-// auto-start for users who finished onboarding but haven't seen the tour
-window.addEventListener('load',function(){
-  setTimeout(function(){
-    var done=localStorage.getItem('_tourDone_v1');
-    var hasData=(function(){for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('nuraz_')===0)return true;}return false;})();
-    if(!done&&hasData){_tourIdx=0;tourShow();}
-  },1600);
-});
+// tour no longer auto-starts on load — it triggers from closeWelcome() (i.e. only after signup/signin)
 window.startTour=function(){_tourIdx=0;tourShow();};
 </script>
 </body>
