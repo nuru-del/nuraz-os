@@ -427,6 +427,32 @@ select.inp option{background:var(--card);color:var(--text);}
 .welcome-features{text-align:left;background:var(--bg2);border-radius:var(--r2);padding:14px;margin-bottom:20px;}
 .welcome-feature{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;}
 .welcome-feature-icon{font-size:18px;width:24px;text-align:center;}
+
+/* ── APP TOUR ── */
+#tourOverlay{position:fixed;inset:0;z-index:10000;pointer-events:none;}
+#tourOverlay.active{pointer-events:all;}
+.tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(2px);}
+.tour-card{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--card);border:1px solid var(--accent);border-radius:var(--r);
+  padding:22px 24px 18px;width:92%;max-width:380px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.04),0 24px 64px rgba(0,0,0,0.6);
+  animation:tourIn .35s cubic-bezier(0.16,1,0.3,1);
+  pointer-events:all;
+}
+@keyframes tourIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.tour-step-num{font-size:9px;letter-spacing:2px;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.tour-emoji{font-size:36px;margin-bottom:10px;display:block;}
+.tour-title{font-size:18px;font-weight:900;margin-bottom:6px;}
+.tour-desc{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:18px;}
+.tour-dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px;}
+.tour-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .2s;}
+.tour-dot.on{background:var(--accent);width:18px;border-radius:3px;}
+.tour-actions{display:flex;gap:8px;}
+.tour-skip{flex:1;padding:9px;background:transparent;border:1px solid var(--border);border-radius:var(--r2);color:var(--sub);font-size:12px;cursor:pointer;font-family:inherit;}
+.tour-skip:hover{color:var(--text);}
+.tour-next{flex:2;padding:9px;background:var(--accent);border:none;border-radius:var(--r2);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .15s;}
+.tour-next:hover{opacity:.88;}
 </style>
 <style id="hf-enhance">
 @keyframes hfShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
@@ -3538,6 +3564,7 @@ function showWelcome(username, isNew) {
   var name = username || 'there';
 
   if(isNew) {
+    _isNewUser = true;
     if(emoji) emoji.textContent = themeEmoji + ' 🎉';
     if(title) title.textContent = 'Welcome, ' + name + '!';
     if(sub) sub.textContent = "You're all set up. Your data syncs across every device you sign in on. Here's what NURAZ.OS can do for you:";
@@ -3550,9 +3577,67 @@ function showWelcome(username, isNew) {
   modal.classList.remove('gone');
 }
 
+var _isNewUser = false;
 function closeWelcome() {
   var modal = ge('welcomeModal');
   if(modal) modal.classList.add('gone');
+  if(_isNewUser){ _isNewUser=false; setTimeout(showTutorial, 400); }
+}
+
+// ── APP TOUR ──────────────────────────────────────────────────────────
+var _tourStep = 0;
+var TOUR_STEPS = [
+  { emoji:'👋', title:'Welcome to NURAZ.OS!', desc:"You're all set up. Let's take a 30-second tour so you know exactly where everything is." },
+  { emoji:'🍽️', title:'Log Your Food', desc:'Tap the <b>Food</b> tab at the bottom. Search 227+ foods, pick portions, and your macros update instantly with animated bars.' },
+  { emoji:'💪', title:'Track Workouts', desc:'The <b>Train</b> tab lets you log gym sessions with sets, reps, and weight. JARVIS detects PRs and celebrates them.' },
+  { emoji:'🧠', title:'AI Meal Planner', desc:'Under <b>Plan</b>, generate a full day\'s AI meal plan tailored to your calorie and macro goals — one tap.' },
+  { emoji:'📷', title:'Scan Food Photos', desc:'Hit <b>More → Scanner</b> to photograph any meal and instantly get a macro estimate. Works with barcodes too.' },
+  { emoji:'📊', title:'Your Dashboard', desc:'The <b>Home</b> tab shows your Daily Readiness Score, plateau detection, recovery mode, and muscle heatmap.' },
+  { emoji:'🚀', title:"You're ready!", desc:"That's the core. Explore the rest — themes, battles, body stats, and more await. Let's get to work, Nuraz 💪" },
+];
+
+function showTutorial() {
+  if(M.tourDone) return;
+  _tourStep = 0;
+  renderTourStep();
+}
+
+function renderTourStep() {
+  var ov = ge('tourOverlay'); if(!ov) return;
+  var s = TOUR_STEPS[_tourStep];
+  var total = TOUR_STEPS.length;
+  var dots = TOUR_STEPS.map(function(_,i){
+    return '<div class="tour-dot'+(i===_tourStep?' on':'')+'"></div>';
+  }).join('');
+  var isLast = _tourStep === total-1;
+
+  ov.innerHTML =
+    '<div class="tour-backdrop" onclick="skipTour()"></div>'+
+    '<div class="tour-card">'+
+      '<div class="tour-step-num">Step '+(_tourStep+1)+' of '+total+'</div>'+
+      '<span class="tour-emoji">'+s.emoji+'</span>'+
+      '<div class="tour-title">'+s.title+'</div>'+
+      '<div class="tour-desc">'+s.desc+'</div>'+
+      '<div class="tour-dots">'+dots+'</div>'+
+      '<div class="tour-actions">'+
+        '<button class="tour-skip" onclick="skipTour()">Skip tour</button>'+
+        '<button class="tour-next" onclick="tourNext()">'+
+          (isLast ? "Let's go! 🚀" : 'Next →')+
+        '</button>'+
+      '</div>'+
+    '</div>';
+  ov.classList.add('active');
+}
+
+function tourNext() {
+  _tourStep++;
+  if(_tourStep >= TOUR_STEPS.length){ skipTour(); return; }
+  renderTourStep();
+}
+
+function skipTour() {
+  var ov = ge('tourOverlay'); if(ov){ ov.innerHTML=''; ov.classList.remove('active'); }
+  M.tourDone = true; svMeta();
 }
 
 // Patch doAuth to show welcome after login
@@ -4539,6 +4624,8 @@ if(!D.supps||!D.supps.length){
   </div>
 </div>
 
+
+<div id="tourOverlay"></div>
 
 <div id="welcomeModal" class="gone">
   <div class="welcome-box">
